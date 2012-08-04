@@ -2,7 +2,7 @@ var nested = nested || {};
 
 (function() {
 	
-	function longRunningFunction(divId, callback)
+	function longRunningFunction(divId, numberOfTicks, callback)
 	{
 		var tickCtr = 0;
 		
@@ -11,7 +11,7 @@ var nested = nested || {};
 			tickCtr++;
 			$('#'+divId).append("<div>Tick "+tickCtr+"</div>");
 			
-			if (tickCtr == 10)
+			if (tickCtr == numberOfTicks)
 			{
 				callback();
 			}
@@ -37,7 +37,7 @@ $(document).ready(function() {
 		callCtr++;
 		var resultsId = "resultsFor"+callCtr;
 		$('#results').append('<div class="results" id='+resultsId+'></div>');
-		nested.longRunningFunction(resultsId, function() { $('#'+resultsId).append('<div>Done '+resultsId+'</div>');});
+		nested.longRunningFunction(resultsId, 5+callCtr, function() { $('#'+resultsId).append('<div>Done '+resultsId+'</div>');});
 	}
 	
 	$('button').each(function(index, element) {
