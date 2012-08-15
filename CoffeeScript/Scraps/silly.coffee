@@ -9,16 +9,15 @@ elvis = 0
 if elvis? 
   console.log('2 he survived after all')
   
-fred = {
+fred =
   name: 'Fred'
   address:
     street: '1 main street'
     city: 'Smalltown'
     zip: 21122
-}
 
 
-console.log("fred is called #{fred.name}")
+console.log "fred is called #{fred.name}. He lives at #{fred.address.street}, #{fred.address.city}"
 
 if fred.job?.title?
   console.log("fred is a #{fred.job.title}")
