@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  div(ng-app, ng-controller='ChatterCtrl')
+    label Name:
+    input(type="text", ng-model="chatter.name", placeholder="Enter a name here")
+    h1 Hello {{chatter.name}}!
+    h1 {{chatter.ctr}}
