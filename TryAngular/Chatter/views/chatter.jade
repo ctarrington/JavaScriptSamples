@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1= title
+  div(ng-app, ng-controller='ChatterCtrl')
+    label Name:
+    input(type="text", ng-model="chatter.name", placeholder="Enter your name")
+    select(ng-model='chatter.currentGreeting')
+        option(ng-repeat='greeting in chatter.greetings') {{greeting}}
+
+    h1 {{chatter.currentGreeting}} {{chatter.name}}!
+    h1 {{chatter.ctr}}
+
+    input(type='text', ng-model='newGreeting', placeholder='New Greeting')
+    button(ng:click='addGreeting()') Add
+
+    hr
+    span Debug: chatter = {{chatter}}
+  script(src='javascripts/chatter.js')

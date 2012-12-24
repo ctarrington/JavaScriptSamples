@@ -1,9 +1,9 @@
 function ChatterCtrl($scope, $timeout) {
 
     $scope.chatter = {name: null,
-                      ctr: 0,
-                      greetings: ['Yo', 'Hello', 'Hey', 'Hi'],
-                      currentGreeting: 'Yo'};
+        ctr: 0,
+        greetings: ['Yo', 'Hello', 'Hey', 'Hi'],
+        currentGreeting: 'Yo'};
 
     $scope.addGreeting = function() {
         $scope.chatter.greetings.push($scope.newGreeting);
