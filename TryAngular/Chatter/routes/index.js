@@ -10,3 +10,8 @@ exports.personDirective = function(req, res){
     res.render('personDirective', { title: 'Person Directive' });
 };
 
+exports.loadIt = function(req, res){
+    res.render('loadIt', { title: 'Load It Up' });
+};
+
+
