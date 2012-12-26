@@ -29,7 +29,7 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/chatter', routes.chatter);
+app.get('/bindings', routes.bindings);
 app.get('/personDirective', routes.personDirective);
 app.get('/loadIt', routes.loadIt);
 

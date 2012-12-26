@@ -2,8 +2,8 @@ exports.index = function(req, res){
     res.render('index', { title: 'Stuff' });
 };
 
-exports.chatter = function(req, res){
-    res.render('chatter', { title: 'Chatter' });
+exports.bindings = function(req, res){
+    res.render('bindings', { title: 'Bindings' });
 };
 
 exports.personDirective = function(req, res){
