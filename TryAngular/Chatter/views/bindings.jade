@@ -2,18 +2,18 @@ extends layout
 
 block content
   h1= title
-  div(ng-app, ng-controller='ChatterCtrl')
+  div(ng-app, ng-controller='BindingsCtrl')
     label Name:
-    input(type="text", ng-model="chatter.name", placeholder="Enter your name")
-    select(ng-model='chatter.currentGreeting')
-        option(ng-repeat='greeting in chatter.greetings') {{greeting}}
+    input(type="text", ng-model="bindings.name", placeholder="Enter your name")
+    select(ng-model='bindings.currentGreeting')
+        option(ng-repeat='greeting in bindings.greetings') {{greeting}}
 
-    h1 {{chatter.currentGreeting}} {{chatter.name}}!
-    h1 {{chatter.ctr}}
+    h1 {{bindings.currentGreeting}} {{bindings.name}}!
+    h1 {{bindings.ctr}}
 
     input(type='text', ng-model='newGreeting', placeholder='New Greeting')
     button(ng:click='addGreeting()') Add
 
     hr
-    span Debug: chatter = {{chatter}}
+    span Debug: bindings = {{bindings}}
   script(src='javascripts/bindings.js')

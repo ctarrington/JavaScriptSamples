@@ -1,17 +1,17 @@
-function ChatterCtrl($scope, $timeout) {
+function BindingsCtrl($scope, $timeout) {
 
-    $scope.chatter = {name: null,
+    $scope.bindings = {name: null,
         ctr: 0,
         greetings: ['Yo', 'Hello', 'Hey', 'Hi'],
         currentGreeting: 'Yo'};
 
     $scope.addGreeting = function() {
-        $scope.chatter.greetings.push($scope.newGreeting);
+        $scope.bindings.greetings.push($scope.newGreeting);
     };
 
-    $scope.$watch('chatter.ctr', function(){
+    $scope.$watch('bindings.ctr', function(){
         $timeout(function(){
-            $scope.chatter.ctr++;
+            $scope.bindings.ctr++;
         },1000);
     });
 }

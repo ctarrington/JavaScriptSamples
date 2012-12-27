@@ -30,6 +30,7 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/bindings', routes.bindings);
+app.get('/chatter', routes.chatter);
 app.get('/personDirective', routes.personDirective);
 app.get('/loadIt', routes.loadIt);
 

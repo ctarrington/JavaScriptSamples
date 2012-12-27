@@ -20,10 +20,37 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.jade" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <file leaf-file-name="chatter.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/chatter.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="6" selection-start="53" selection-end="53" vertical-scroll-proportion="0.14680484">
+            <state line="7" column="41" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bindings.jade" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/bindings.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="39" selection-start="586" selection-end="586" vertical-scroll-proportion="0.5474061">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bindings.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/bindings.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="11" selection-start="180" selection-end="187" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chatter.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/chatter.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="1" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -39,9 +66,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/views/directives.jade" />
-        <option value="$PROJECT_DIR$/routes/sampleRoutes.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/chatter.js" />
         <option value="$PROJECT_DIR$/routes/chatter.js" />
         <option value="$PROJECT_DIR$/public/javascripts/crazyThings.js" />
         <option value="$PROJECT_DIR$/views/crazyThings.jade" />
@@ -50,19 +74,22 @@
         <option value="$PROJECT_DIR$/public/images/loadIt.js" />
         <option value="$PROJECT_DIR$/public/javascripts/loadIt.js" />
         <option value="$PROJECT_DIR$/views/loadIt.jade" />
-        <option value="$PROJECT_DIR$/views/chatter.jade" />
+        <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
-        <option value="$PROJECT_DIR$/views/layout.jade" />
+        <option value="$PROJECT_DIR$/public/javascripts/bindings.js" />
+        <option value="$PROJECT_DIR$/views/bindings.jade" />
+        <option value="$PROJECT_DIR$/public/javascripts/chatter.js" />
+        <option value="$PROJECT_DIR$/views/chatter.jade" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-9" />
     <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1064" />
+    <option name="width" value="1698" />
+    <option name="height" value="1034" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -90,6 +117,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -168,21 +196,34 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chatter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chatter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../BitKeeper/vss/SportsStatsExpress" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\CT\Documents\GitHub\JavaScriptSamples\TryAngular\Chatter\public\javascripts" />
       <recent name="C:\Users\CT\Documents\GitHub\JavaScriptSamples\TryAngular\Chatter\views" />
+      <recent name="C:\Users\CT\Documents\GitHub\JavaScriptSamples\TryAngular\Chatter\public\javascripts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\CT\Documents\GitHub\JavaScriptSamples\TryAngular\Chatter\public\javascripts" />
@@ -213,18 +254,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1064" extended-state="6" />
+    <frame x="-9" y="-9" width="1698" height="1034" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32996634" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329849" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17659463" sideWeight="0.39730638" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17659463" sideWeight="0.68013465" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17622209" sideWeight="0.6806039" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39730638" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17659463" sideWeight="0.40291807" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.50813514" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31986532" sideWeight="0.48310387" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31939605" sideWeight="0.48310387" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -289,16 +330,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="36" selection-start="774" selection-end="774" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="176" selection-end="176" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/bindings.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="0" selection-start="69" selection-end="69" vertical-scroll-proportion="0.0" />
@@ -328,9 +359,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/loadIt.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="46" selection-start="976" selection-end="976" vertical-scroll-proportion="0.43287036">
-          <folding />
-        </state>
+        <state line="22" column="46" selection-start="976" selection-end="976" vertical-scroll-proportion="0.43287036" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/personDirective.js">
@@ -340,49 +369,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/personDirective.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="56" selection-start="75" selection-end="101" vertical-scroll-proportion="0.09837963">
-          <folding />
-        </state>
+        <state line="5" column="56" selection-start="75" selection-end="101" vertical-scroll-proportion="0.09837963" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/layout.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="13" selection-start="199" selection-end="199" vertical-scroll-proportion="0.20552677">
-          <folding />
-        </state>
+        <state line="7" column="13" selection-start="199" selection-end="199" vertical-scroll-proportion="0.20552677" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="36" selection-start="331" selection-end="331" vertical-scroll-proportion="0.3523316">
+        <state line="18" column="2" selection-start="476" selection-end="476" vertical-scroll-proportion="0.36690646">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="36" selection-start="774" selection-end="774" vertical-scroll-proportion="0.91019">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/bindings.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="34" selection-start="572" selection-end="572" vertical-scroll-proportion="0.5284974">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/bindings.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="1" selection-start="413" selection-end="413" vertical-scroll-proportion="0.46977547">
+        <state line="30" column="27" selection-start="737" selection-end="737" vertical-scroll-proportion="0.6115108">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="6" selection-start="53" selection-end="53" vertical-scroll-proportion="0.14680484">
+        <state line="12" column="48" selection-start="223" selection-end="223" vertical-scroll-proportion="0.24460432">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/chatter.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="41" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/bindings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="11" selection-start="180" selection-end="187" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/chatter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="1" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/bindings.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="39" selection-start="586" selection-end="586" vertical-scroll-proportion="0.5474061">
           <folding />
         </state>
       </provider>
