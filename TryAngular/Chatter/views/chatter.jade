@@ -2,12 +2,16 @@ extends layout
 
 block content
   h1= title
-  div(ng-app, ng-controller='ChatterCtrl')
+  div(ng-app='ChatterApp', ng-controller='ChatterCtrl')
     label Name:
     input(type="text", ng-model="chatter.name", placeholder="Enter your name")
     input(type='text', ng-model='chatter.newMessage', placeholder='New Message')
     button(ng:click='addMessage()') Send
 
+    div(ng-repeat='msg in chatter.messages') {{msg.text}}
+
     hr
     span Debug: chatter = {{chatter}}
+
+  script(src='/socket.io/socket.io.js')
   script(src='javascripts/chatter.js')
