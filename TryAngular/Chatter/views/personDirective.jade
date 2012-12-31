@@ -4,17 +4,32 @@ block content
     h1= title
 
     div(ng-app='appOfThings', ng-controller='PeopleCtrl')
+
         div
             input(type='text', ng-model='newName', placeholder='Enter the name')
             input(type='text', ng-model='newAge', placeholder='Enter the age')
             button(ng:click='addPerson()') Add
 
+        div
         ul
             li(ng-repeat='person in people')
                 span {{person.name}}
                 span {{person.age}}
 
+        div A directive can be populated from a model list
         ul
             person-thing(ng-repeat='person in people')
+
+        div directives can be written in the html or jade
+        dog(breed='Rat Terrier', name='Kipper') WOOF
+        dog(breed='Black Lab', name='Mango') Ruff Ruff
+        dog(breed='Mutt', name='Dog X') {{barkSound}}
+
+        div
+            h1 Source Files
+            a(href="https://raw.github.com/ctarrington/JavaScriptSamples/master/TryAngular/Chatter/public/javascripts/personDirective.js", target="_blank") chatter.js
+            br
+            a(href="https://raw.github.com/ctarrington/JavaScriptSamples/master/TryAngular/Chatter/views/personDirective.jade", target="_blank") chatter.jade
+            br
 
     script(src='javascripts/personDirective.js')
