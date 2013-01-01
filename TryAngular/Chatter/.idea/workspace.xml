@@ -20,19 +20,10 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="personDirective.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="personDirective.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/personDirective.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="32" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="personDirective.jade" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/personDirective.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="48" selection-start="1257" selection-end="1257" vertical-scroll-proportion="1.0547445">
+            <state line="53" column="42" selection-start="1734" selection-end="1734" vertical-scroll-proportion="0.80851066">
               <folding />
             </state>
           </provider>
@@ -42,6 +33,15 @@
         <entry file="file://$PROJECT_DIR$/views/chatter.jade">
           <provider selected="true" editor-type-id="text-editor">
             <state line="20" column="10" selection-start="425" selection-end="775" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="personDirective.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/personDirective.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="10" selection-start="1028" selection-end="1028" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -71,8 +71,8 @@
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/public/javascripts/chatter.js" />
         <option value="$PROJECT_DIR$/views/chatter.jade" />
-        <option value="$PROJECT_DIR$/public/javascripts/personDirective.js" />
         <option value="$PROJECT_DIR$/views/personDirective.jade" />
+        <option value="$PROJECT_DIR$/public/javascripts/personDirective.js" />
       </list>
     </option>
   </component>
@@ -94,7 +94,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+    <navigator proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -105,49 +105,13 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chatter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chatter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chatter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chatter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chatter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../BitKeeper/aisandboxes/D3_Planner_Express" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -183,7 +147,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1046" extended-state="0" />
+    <frame x="0" y="0" width="960" height="1046" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -324,13 +288,6 @@
         <state line="20" column="0" selection-start="501" selection-end="501" vertical-scroll-proportion="0.3935185" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/personDirective.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="32" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/chatter.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="10" selection-start="425" selection-end="775" vertical-scroll-proportion="0.0">
@@ -340,7 +297,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/personDirective.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="48" selection-start="1257" selection-end="1257" vertical-scroll-proportion="1.0547445">
+        <state line="33" column="10" selection-start="1028" selection-end="1028" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/personDirective.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="42" selection-start="1734" selection-end="1734" vertical-scroll-proportion="0.80851066">
           <folding />
         </state>
       </provider>

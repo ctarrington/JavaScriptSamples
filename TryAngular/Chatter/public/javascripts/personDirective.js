@@ -38,4 +38,21 @@ angular.module('appOfThings', []).
                     } );
             }
         }
+    }).
+    directive('person', function($document) {
+        return {
+            restrict: 'E',
+            replace: true,
+            transclude: true,
+            scope: {name: '@name'
+            },
+            template: '<div ng-transclude>Person: {{name}}</div>',
+            link: function($scope, element, attrs) {
+                var currentElement = angular.element(element);
+
+                currentElement.bind('click', function() {
+                    alert('Hi from '+$scope.name);
+                } );
+            }
+        }
     });
