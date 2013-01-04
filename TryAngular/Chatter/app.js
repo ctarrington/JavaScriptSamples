@@ -34,6 +34,7 @@ app.get('/bindings', routes.bindings);
 app.get('/chatter', routes.chatter);
 app.get('/personDirective', routes.personDirective);
 app.get('/loadIt', routes.loadIt);
+app.get('/treePeople', routes.treePeople);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

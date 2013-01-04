@@ -17,3 +17,7 @@ exports.personDirective = function(req, res){
 exports.loadIt = function(req, res){
     res.render('loadIt', { title: 'Load It Up' });
 };
+
+exports.treePeople = function(req, res){
+    res.render('treePeople', { title: 'Tree People' });
+};
