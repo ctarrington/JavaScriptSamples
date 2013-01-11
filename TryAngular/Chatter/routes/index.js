@@ -21,3 +21,7 @@ exports.loadIt = function(req, res){
 exports.treePeople = function(req, res){
     res.render('treePeople', { title: 'Tree People' });
 };
+
+exports.cars = function(req, res){
+    res.render('cars', { title: 'Cars' });
+};

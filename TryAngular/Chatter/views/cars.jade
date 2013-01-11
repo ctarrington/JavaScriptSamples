@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1= title
+    div(ng-app, ng-controller='CarsCtrl')
+        input(type="text", ng-model="newCar.make", placeholder="Enter the make")
+        input(type="text", ng-model="newCar.model", placeholder="Enter the model")
+        button(ng:click='addCar()') Add
+
+        hr
+        span Debug: bindings = {{cars}}
+
+    script(src='javascripts/cars.js')
