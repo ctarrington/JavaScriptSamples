@@ -3,11 +3,11 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+var express = require('express'),
+    routes = require('./routes'),
+    http = require('http'),
+    path = require('path'),
+    sio = require('socket.io');
 
 var app = express();
 
@@ -30,8 +30,30 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/bindings', routes.bindings);
+app.get('/chatter', routes.chatter);
+app.get('/personDirective', routes.personDirective);
+app.get('/loadIt', routes.loadIt);
+app.get('/treePeople', routes.treePeople);
+app.get('/cars', routes.cars);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
+});
+
+var currentData = {
+    messages: []
+};
+
+var io = sio.listen(server);
+io.sockets.on('connection', function(socket) {
+    for (var ctr=0; ctr < currentData.messages.length; ctr++)
+    {
+        socket.emit('update', currentData.messages[ctr]);
+    }
+
+    socket.on('send', function(data) {
+        currentData.messages.push(data);
+        socket.broadcast.emit('update', data);
+    });
 });

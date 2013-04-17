@@ -1,17 +1,37 @@
-function ChatterCtrl($scope, $timeout) {
+angular.module('chatter.service', []).
+    value('messageService', {
+        socket: io.connect(),
+        addMessage: function(msg) {
+            this.socket.emit('send', msg);
+        },
+        onUpdate: function(callback) {
+            this.socket.on('update', callback);
+        }
+    });
 
-    $scope.chatter = {name: null,
-                      ctr: 0,
-                      greetings: ['Yo', 'Hello', 'Hey', 'Hi'],
-                      currentGreeting: 'Yo'};
+angular.module('ChatterApp', ['chatter.service']);
 
-    $scope.addGreeting = function() {
-        $scope.chatter.greetings.push($scope.newGreeting);
+function ChatterCtrl($rootScope, $scope, messageService) {
+
+    $scope.chatter = {
+        name:null,
+        newMessage:null,
+        messages:[]
     };
 
-    $scope.$watch('chatter.ctr', function(){
-        $timeout(function(){
-            $scope.chatter.ctr++;
-        },1000);
+    $scope.addMessage = function () {
+        var msg = {
+          name: $scope.chatter.name,
+          text: $scope.chatter.newMessage
+        };
+        messageService.addMessage(msg);
+        $scope.chatter.messages.push(msg);
+    };
+
+    messageService.onUpdate(function (msg) {
+        $rootScope.$apply(function() {
+            $scope.chatter.messages.push(msg);
+        });
     });
+
 }

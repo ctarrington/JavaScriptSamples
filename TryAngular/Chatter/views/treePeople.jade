@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    h1= title
+
+    div(ng-app='treePeopleApp', ng-controller='TreePeopleCtrl')
+        div
+        person Fred
+            tree Maple
+            tree Elm
+        person Tony
+            tree Oak
+            tree Apple
+            tree Pine
+
+
+    script(src='javascripts/treePeople.js')
