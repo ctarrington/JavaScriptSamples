@@ -8,16 +8,16 @@ storyjs_jsonp_data = {
     {
         "startDate":"1969,11,07",
         "headline":"Born",
-        "text":'<p>Born two months early at GBMC. A bit over 3 lbs.</p><a id="pop1">Pop1</a>'
+        "text":'<p>Born two months early at GBMC. A bit over 3 lbs.</p><button class="popUpToPdf" id="pop1">Pop1</button>'
     },
     {
         "startDate":"1987,06,22",
-        "headline":"Graduated from Glenelg",
+        "headline":"Graduated from Glenelg blah blah blah",
         "text":'<p>Yee ha</p>'+
                 '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
                 '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
                 '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
-                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'
+                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p><button class="popUpToPdf" id="pop2">Pop2</button>'
     },
     {
             "startDate":"1991,12,20",
