@@ -1,41 +1,30 @@
 storyjs_jsonp_data = {
 "timeline":
 {
-    "headline":"The Main Timeline Headline Goes here",
+    "headline":"Chores are Boring",
     "type":"default",
-    "text":"<p>Intro body text goes here, some HTML is ok</p>",
+    "text":"<p>Blah blah blah</p>",
     "asset": {
-    "media":"http://yourdomain_or_socialmedialink_goes_here.jpg",
-    "credit":"Credit Name Goes Here",
-    "caption":"Caption text goes here"
+    "media":"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/49019_1635726353_1216402802_q.jpg",
+    "credit":"CT Arrington",
 },
 "date": [
     {
         "startDate":"2011,12,10",
-        "endDate":"2011,12,11",
-        "headline":"Headline Goes Here",
-        "text":"<p>Body text goes here, some HTML is OK</p>",
-        "tag":"This is Optional",
-        "asset": {
-            "media":"http://twitter.com/ArjunaSoriano/status/164181156147900416",
-            "thumbnail":"optional-32x32px.jpg",
-            "credit":"Credit Name Goes Here",
-            "caption":"Caption text goes here"
-        }
+        "endDate":"2011,12,10",
+        "headline":"Chores One",
+        "text":'<p>Not much fun. No no no.</p><p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p><a href="./timelines/chores1.html">Chores1</a>'
     },
     {
-        "startDate":"2012,6,10",
-        "endDate":"2012,6,11",
-        "headline":"OtherHeadline Goes Here",
-        "text":"<p>Body text goes here, some HTML is OK</p>",
-        "tag":"This is Optional",
-        "asset": {
-            "media":"http://twitter.com/ArjunaSoriano/status/164181156147900416",
-            "thumbnail":"optional-32x32px.jpg",
-            "credit":"Credit Name Goes Here",
-            "caption":"Caption text goes here"
+        "startDate":"2011,12,12",
+        "endDate":"2011,12,12",
+        "headline":"Chores Two",
+        "text":'<p>Not much fun. No no no.</p>'+
+                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p><a href="./timelines/chores2.html">Chores2</a>'
         }
-    }
 ]
 
 }
