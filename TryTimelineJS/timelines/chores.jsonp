@@ -1,30 +1,63 @@
 storyjs_jsonp_data = {
 "timeline":
 {
-    "headline":"Chores are Boring",
+    "headline":"Things I've Done",
     "type":"default",
-    "text":"<p>Blah blah blah</p>",
-    "asset": {
-    "media":"https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/49019_1635726353_1216402802_q.jpg",
-    "credit":"CT Arrington",
-},
-"date": [
+    "text":"<p>Here are a few highlights</p>",
+    "date": [
     {
-        "startDate":"2011,12,10",
-        "endDate":"2011,12,10",
-        "headline":"Chores One",
-        "text":'<p>Not much fun. No no no.</p><p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p><a href="./timelines/chores1.html">Chores1</a>'
+        "startDate":"1969,11,07",
+        "headline":"Born",
+        "text":'<p>Born two months early at GBMC. A bit over 3 lbs.</p><button class="popUpToPdf" id="pop1">Pop1</button>'
     },
     {
-        "startDate":"2011,12,12",
-        "endDate":"2011,12,12",
-        "headline":"Chores Two",
-        "text":'<p>Not much fun. No no no.</p>'+
+        "startDate":"1987,06,22",
+        "headline":"Graduated from Glenelg blah blah blah",
+        "text":'<p>Yee ha</p>'+
                 '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
                 '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
                 '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
-                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p><a href="./timelines/chores2.html">Chores2</a>'
-        }
+                '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p><button class="popUpToPdf" id="pop2">Pop2</button>'
+    },
+    {
+            "startDate":"1991,12,20",
+            "headline":"Graduated from UMBC and kept working at NIH",
+            "text":'<p>Yee ha</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'
+    },
+    {
+            "startDate":"1992,07,15",
+            "headline":"Started at CSC contracting at GSFC!!",
+            "text":'<p>Yee ha</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'
+    },
+    {
+            "startDate":"1996,11,29",
+            "headline":"Got Married",
+            "text":'<p>Yee ha</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'+
+            '<p>ipso facto demarco smarto qwe dfrte gddr sdsfee yuttt er df dg dg d g dfg d  fdg df g fdg df gdfg</p>'
+    },
+    {
+            "startDate":"2003,06,13",
+            "headline":"Wrote 2nd Edition",
+            "text":'<p>Yee ha</p>',
+            "asset":
+            {
+            "media": 'http://www.amazon.com/Enterprise-Java-UML-Second-Arrington/dp/0471267783/ref=la_B001KE1FEU_1_1?ie=UTF8&qid=1366292211&sr=1-1',
+            "credit":"",
+            "caption":""
+            }
+    }
+
 ]
 
 }
