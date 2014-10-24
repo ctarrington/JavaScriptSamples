@@ -1,2 +1,6 @@
+.idea/
 bower_components/
 node_modules/
+
+mongoose-3.0.exe
+/nodeconf2014/
