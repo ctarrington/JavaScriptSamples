@@ -37,6 +37,6 @@ core-toolbar {
     }
 }
 
-thing-one {
-    margin-bottom: 35px;
+span.appearance {
+    color: red;
 }

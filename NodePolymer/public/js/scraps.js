@@ -1,5 +1,2 @@
-var tabs = document.querySelector('paper-tabs');
 
-tabs.addEventListener('core-select', function() {
-
-});
+var thingList = document.querySelector('thing-list');

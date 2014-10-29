@@ -1,14 +1,39 @@
 <link rel="import" href="/PolymerComponents/polymer/polymer.html">
 
-<polymer-element name="thing-one" attributes="hairColor">
+<polymer-element name="thing-one">
     <template>
-        <div>Thing One</div>
-        <div>Has {{hairColor}} hair.</div>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                background-color: white;
+                padding: 20px;
+                width: 100%;
+                font-size: 1.2rem;
+                font-weight: 300;
+            }
+
+            span.appearance {
+                font-weight: bold;
+            }
+        </style>
+
+        <div class="row">
+            Thing One has <span class="appearance">{{appearance.hairColor}}</span> hair and <span class="appearance">{{appearance.toothSize}}</span> teeth.
+        </div>
+        <div class="row">
+            <input type="text" value="{{appearance.hairColor}}" >
+        </div>
+
+
     </template>
 
     <script>
         Polymer({
-            hairColor: 'red'
+            publish: {
+                appearance: { reflect: true }
+            },
+            editing: false
         });
     </script>
 

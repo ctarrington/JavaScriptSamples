@@ -1,0 +1,33 @@
+<link rel="import" href="/PolymerComponents/polymer/polymer.html">
+<link rel="import" href="/components/thing-one.html">
+
+<polymer-element name="thing-list" attributes="show">
+    <template>
+        <style>
+            :host {
+                display: block;
+                width: 100%;
+            }
+           thing-one {
+                margin-bottom: 30px;
+            }
+        </style>
+
+        <template repeat="{{thing in things}}">
+            <thing-one appearance="{{thing.appearance}}">
+            </thing-one>
+        </template>
+
+
+    </template>
+
+    <script>
+        Polymer({
+            things: [{appearance: {hairColor: 'orange', toothSize: 'huge'}},
+                     {appearance: {hairColor: 'blue', toothSize: 'tiny'}},
+                     {appearance: {hairColor: 'green', toothSize: 'normal'}},
+                     {appearance: {hairColor: 'purple', toothSize: 'large'}}]
+        });
+    </script>
+
+</polymer-element>
