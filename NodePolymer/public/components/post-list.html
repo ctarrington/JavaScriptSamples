@@ -19,6 +19,7 @@
 
     <div layout vertical center>
 
+
       <template repeat="{{post in posts}}">
         <post-card favorite="{{post.favorite}}" on-favorite-tap="{{handleFavorite}}" hidden?="{{show == 'favorites' && !post.favorite}}">
           <img src="{{post.avatar}}" width="70" height="70">
