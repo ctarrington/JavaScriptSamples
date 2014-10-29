@@ -2,7 +2,11 @@ var express = require('express');
 
 var routes = {};
 routes.index = function(req, res) {
-    res.render('./index', { title: 'Node Polymer' });
+    res.render('./index');
+};
+
+routes.scraps = function(req, res) {
+    res.render('./scraps');
 };
 
 var path = require('path');
@@ -33,6 +37,7 @@ app.use(multer());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', routes.index);
+app.get('/scraps', routes.scraps);
 
 // error handling middleware should be loaded after the loading the routes
 if ('development' == app.get('env')) {
