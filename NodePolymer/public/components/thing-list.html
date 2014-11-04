@@ -1,5 +1,7 @@
 <link rel="import" href="/PolymerComponents/polymer/polymer.html">
-<link rel="import" href="/components/thing-one.html">
+<link rel="import" href="/components/thing-editor.html">
+<link rel="import" href="/components/json-view.html">
+
 
 <polymer-element name="thing-list" attributes="show">
     <template>
@@ -14,10 +16,12 @@
         </style>
 
         <template repeat="{{thing in things}}">
-            <thing-one appearance="{{thing.appearance}}">
-            </thing-one>
+            <thing-editor appearance="{{thing.appearance}}">
+            </thing-editor>
         </template>
 
+
+        <json-view model="{{things}}"></json-view>
 
     </template>
 
