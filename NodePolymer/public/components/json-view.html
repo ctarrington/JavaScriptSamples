@@ -1,16 +1,17 @@
 <link rel="import" href="/PolymerComponents/polymer/polymer.html">
 
-<polymer-element name="json-view" attributes="model">
+<polymer-element name="json-view"  attributes="model">
     <template>
-        <div>{{formattedModel}}</div>
+        <pre>{{formattedModel}}</pre>
+        <button on-click="{{refresh}}">Refresh</button>
     </template>
 
     <script>
         Polymer({
             ready: function() {
-                this.formattedModel = JSON.stringify(this.model);
+                this.refresh();
             },
-            modelChanged: function() {
+            refresh: function() {
                 this.formattedModel = JSON.stringify(this.model);
             }
         });

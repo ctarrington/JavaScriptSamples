@@ -3,7 +3,7 @@
 <link rel="import" href="/components/json-view.html">
 
 
-<polymer-element name="thing-list" attributes="show">
+<polymer-element name="thing-list" attributes="show things">
     <template>
         <style>
             :host {
@@ -20,8 +20,12 @@
             </thing-editor>
         </template>
 
-
         <json-view model="{{things}}"></json-view>
+
+        <template repeat="{{thing in things}}">
+            <thing-editor appearance="{{thing.appearance}}">
+            </thing-editor>
+        </template>
 
     </template>
 
