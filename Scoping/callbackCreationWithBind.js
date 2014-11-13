@@ -1,19 +1,16 @@
-
-
 $(document).ready(function() {
 
-	function handler() 
+	function handler()
 	{
-			$('#results').html("handlerId = " +this.handlerId+ ", ctr = "+this.ctr);
-			this.ctr++;
+		$('#results').html("handlerId = " +this.id+ ", value = "+this.ctr);
+		this.ctr++;
 	}
-	
-	$('button').each(function(index, element) {
 
-		var scope = {handlerId: index, ctr:0};
-		$(element).click(handler.bind(scope));
-	});
-	
-	
+	for (var index=1; index<=2;index++)
+	{
+		var scope = {id: 'fred'+index, ctr:0 };
+		$('#button'+index).click( handler.bind(scope) );
+	}
+
+
 });
-

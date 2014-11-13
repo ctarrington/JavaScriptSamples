@@ -1,37 +1,25 @@
-
-
-var nested = nested || {};
-
-(function() {
-
-	var handlerCtr = 0;
-	
-	function createHandler()
-	{
-		handlerCtr++;
-		
-		var	ctr = 0;
-		var handlerId = handlerCtr;
-				
-		var handler = function() {
-			$('#results').html("handlerId = " +handlerId+ ", ctr = "+ctr);
-			ctr++;
-		};
-		
-		return handler;
-	}	
-	
-		
-	nested.createHandler = createHandler;
-})();
-
-
 $(document).ready(function() {
-	
-	$('button').each(function(index, element) {
-		$(element).click(nested.createHandler());
-	});
-	
-	
-});
 
+	var ctrs = [];
+
+	function createHandler(id)
+	{
+		var handler = function() {
+			if (!ctrs[id]) { ctrs[id] = 0; }
+
+			$('#results').html("handlerId = " +id+ ", value = "+ctrs[id]);
+
+			ctrs[id]++;
+		};
+
+		return handler;
+	}
+
+	for (var index=1; index<=2;index++)
+	{
+		var handler = createHandler(index);
+		$('#button'+index).click(handler);
+	}
+
+
+});
