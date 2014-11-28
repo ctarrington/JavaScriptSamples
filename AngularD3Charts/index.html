@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>D3 Angular Charts</title>
+    <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="lib/d3.v3.min.js"></script>
+    <script type="text/javascript" src="lib/angular.min.js"></script>
+    <script type="text/javascript" src='js/simpleCharts.js'></script>
+    <script type="text/javascript" src='js/main.js'></script>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body ng-app="main">
+    <h1>D3 Angular Charts</h1>
+    <div ng-controller="MainController">
+        <div>{{ chartData|json}}</div>
+        <div simple-line-chart data="chartData" class="smallPlot"></div>
+
+        <div simple-line-chart data="chartData" class="largePlot"></div>
+    </div>
+
+</body>
+</html>
