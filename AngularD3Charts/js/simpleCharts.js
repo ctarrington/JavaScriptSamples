@@ -45,28 +45,34 @@
                 .call(axis);
         }
 
-        function render(parentSvg, data)
+        function render(element, data, width, height)
         {
-            parentSvg.selectAll('*').remove();
+            var elementSelector = d3.select(element.context);
+            var children = elementSelector.selectAll('*');
+            children.remove();
+
+            var parentSvg = d3.select(element[0])
+                .append('svg')
+                .attr('width', ''+width)
+                .attr('height', ''+height);
+
             renderNumericXAxis(parentSvg, data, 'hour');
         }
 
         return {
             restrict: 'A',
             scope: {
-                data: '='
+                data: '=',
+                width: '=',
+                height: '='
             },
             link: function(scope, element, attrs) {
-                
-                var width = element.context.clientWidth;
-                var height= element.context.clientHeight;
 
-                var parentSvg = d3.select(element[0])
-                    .append('svg')
-                    .style('width', ''+width)
-                    .style('height', ''+height);
+                scope.$watch('width', function() {
+                    render(element, scope.data, scope.width, scope.height);
+                });
 
-                render(parentSvg, scope.data);
+                render(element, scope.data, scope.width, scope.height);
             }
 
           };

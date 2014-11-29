@@ -14,9 +14,9 @@
     <h1>D3 Angular Charts</h1>
     <div ng-controller="MainController">
         <div>{{ chartData|json}}</div>
-        <div simple-line-chart data="chartData" class="smallPlot"></div>
-
-        <div simple-line-chart data="chartData" class="largePlot"></div>
+        <div>{{ chartWidth|json}}</div>
+        <button ng-click="toggleDimensions()">Toggle</button>
+        <div simple-line-chart data="chartData" width="chartWidth" height="chartHeight"></div>
     </div>
 
 </body>
