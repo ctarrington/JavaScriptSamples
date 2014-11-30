@@ -2,47 +2,92 @@
 (function () {
     'use strict';
 
-
-
-
     angular.module('simpleCharts', []);
 
     angular.module('simpleCharts').directive('simpleLineChart', function () {
 
-        function renderNumericXAxis(parentSvg, data, xParameter)
+        function findMinValue(data, parameterName)
         {
-            var margin = 25;
-            var width = parentSvg[0][0].clientWidth;
-            var height= parentSvg[0][0].clientHeight;
-            var axisWidth = width - 2*margin;
+            var minimums = [];
+            data.forEach(function (list, i) {
+                var minValue = d3.min(list, function (d) {
+                    return d[parameterName];
+                });
+                minimums.push(minValue);
+            });
 
-            var maxXValue = d3.max(data, function(d) {
-                return d[xParameter];
-            })
+            var overallMinValue = d3.min(minimums);
+            return overallMinValue;
+        }
 
-            var xAxisSvg = parentSvg.append("svg")
-                .attr("class", "axis")
-                .attr("width", width)
-                .attr("height", height);
+        function findMaxValue(data, parameterName)
+        {
+            var maximums = [];
+            data.forEach(function (list, i) {
+                var maxValue = d3.max(list, function (d) {
+                    return d[parameterName];
+                });
+                maximums.push(maxValue);
+            });
+
+            var overallMaxValue = d3.max(maximums);
+            return overallMaxValue;
+        }
+
+        function renderNumericXAxis(parentG, data, parameterName, margin, width, height) {
+            var axisWidth = width - 2 * margin;
+
+            var minValue = findMinValue(data, parameterName);
+            var maxValue = findMaxValue(data, parameterName);
 
             var scale = d3.scale.linear()
-                .domain([0, maxXValue])
+                .domain([minValue, maxValue])
                 .range([0, axisWidth]);
 
             var axis = d3.svg.axis()
                 .scale(scale)
-                .ticks(5)
-                .tickSubdivide(5) // <-A
-                .tickPadding(10) // <-B
-                .tickFormat(function(v){ // <-C
-                    return v;
-                });
+                .orient("bottom");
 
-            xAxisSvg.append("g")
-                .attr("transform", function(){
-                    return "translate(" + margin + "," + (height-2*margin) + ")";
-                })
+            parentG.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + margin + "," + (height-margin) + ")")
                 .call(axis);
+
+            d3.selectAll("g.x g.tick")
+                .append("line")
+                .classed("grid-line", true)
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", 0)
+                .attr("y2", -(height-2*margin));
+        }
+
+        function renderNumericYAxis(parentG, data, parameterName, margin, width, height) {
+            var axisHeight = height - 2 * margin;
+
+            var minValue = findMinValue(data, parameterName);
+            var maxValue = findMaxValue(data, parameterName)
+
+            var scale = d3.scale.linear()
+                .domain([maxValue, minValue])
+                .range([0, axisHeight]);
+
+            var axis = d3.svg.axis()
+                .scale(scale)
+                .orient("left");
+
+            parentG.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" +margin+ "," +margin+ ")")
+                .call(axis);
+
+            d3.selectAll("g.y g.tick")
+                .append("line")
+                .classed("grid-line", true)
+                .attr("x1", 0)
+                .attr("y1", 0)
+                .attr("x2", width-2*margin)
+                .attr("y2", 0);
         }
 
         function render(element, data, width, height)
@@ -56,7 +101,11 @@
                 .attr('width', ''+width)
                 .attr('height', ''+height);
 
-            renderNumericXAxis(parentSvg, data, 'hour');
+            var axesG = parentSvg.append("g")
+                .attr("class", "axes");
+
+            renderNumericXAxis(axesG, data, 'hour', 30, width, height);
+            renderNumericYAxis(axesG, data, 'sales', 30, width, height);
         }
 
         return {
