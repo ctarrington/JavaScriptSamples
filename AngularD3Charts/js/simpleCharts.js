@@ -34,15 +34,34 @@
             return overallMaxValue;
         }
 
-        function renderNumericXAxis(parentG, data, parameterName, margin, width, height) {
-            var axisWidth = width - 2 * margin;
-
+        function buildXScale(data, parameterName, axisWidth)
+        {
             var minValue = findMinValue(data, parameterName);
             var maxValue = findMaxValue(data, parameterName);
 
             var scale = d3.scale.linear()
                 .domain([minValue, maxValue])
                 .range([0, axisWidth]);
+
+            return scale;
+        }
+
+        function buildYScale(data, parameterName, axisHeight)
+        {
+            var minValue = findMinValue(data, parameterName);
+            var maxValue = findMaxValue(data, parameterName)
+
+            var scale = d3.scale.linear()
+                .domain([maxValue, minValue])
+                .range([0, axisHeight]);
+
+            return scale;
+        }
+
+        function renderNumericXAxis(parentG, data, parameterName, margin, width, height) {
+            var axisWidth = width - 2 * margin;
+
+            var scale = buildXScale(data, parameterName, axisWidth);
 
             var axis = d3.svg.axis()
                 .scale(scale)
@@ -65,12 +84,7 @@
         function renderNumericYAxis(parentG, data, parameterName, margin, width, height) {
             var axisHeight = height - 2 * margin;
 
-            var minValue = findMinValue(data, parameterName);
-            var maxValue = findMaxValue(data, parameterName)
-
-            var scale = d3.scale.linear()
-                .domain([maxValue, minValue])
-                .range([0, axisHeight]);
+            var scale = buildYScale(data, parameterName, axisHeight);
 
             var axis = d3.svg.axis()
                 .scale(scale)
@@ -90,7 +104,34 @@
                 .attr("y2", 0);
         }
 
-        function render(element, data, width, height)
+        function renderPoints(parentG, data, xParameterName, yParameterName, margin, width, height)
+        {
+            var colors = d3.scale.category10();
+
+            var yScale = buildYScale(data, yParameterName, height - 2 * margin);
+            var xScale = buildXScale(data, xParameterName, width - 2 * margin);
+
+
+            data.forEach(function (list, i) {
+                parentG.selectAll("circle._" + i)
+                    .data(list)
+                    .enter()
+                    .append("circle")
+                    .attr("class", "dot _" + i);
+
+                parentG.selectAll("circle._" + i)
+                    .data(list)
+                    .style("stroke", function (d) {
+                        return colors(i);
+                    })
+                    .transition()
+                    .attr("cx", function (d) { return xScale(d[xParameterName]); })
+                    .attr("cy", function (d) { return yScale(d[yParameterName]); })
+                    .attr("r", 4.5);
+            });
+        }
+
+        function render(element, data, width, height, margin)
         {
             var elementSelector = d3.select(element.context);
             var children = elementSelector.selectAll('*');
@@ -104,8 +145,14 @@
             var axesG = parentSvg.append("g")
                 .attr("class", "axes");
 
-            renderNumericXAxis(axesG, data, 'hour', 30, width, height);
-            renderNumericYAxis(axesG, data, 'sales', 30, width, height);
+            renderNumericXAxis(axesG, data, 'hour', margin, width, height);
+            renderNumericYAxis(axesG, data, 'sales', margin, width, height);
+
+            var bodyG = parentSvg.append("g")
+                .attr("class", "body")
+                .attr("transform", "translate(" +margin+ "," +margin+ ")" );
+
+            renderPoints(bodyG, data, 'hour', 'sales', margin, width, height);
         }
 
         return {
@@ -113,15 +160,16 @@
             scope: {
                 data: '=',
                 width: '=',
-                height: '='
+                height: '=',
+                margin: '='
             },
             link: function(scope, element, attrs) {
 
                 scope.$watch('width', function() {
-                    render(element, scope.data, scope.width, scope.height);
+                    render(element, scope.data, scope.width, scope.height, scope.margin);
                 });
 
-                render(element, scope.data, scope.width, scope.height);
+                render(element, scope.data, scope.width, scope.height, scope.margin);
             }
 
           };
