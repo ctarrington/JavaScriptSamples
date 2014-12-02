@@ -131,6 +131,32 @@
             });
         }
 
+        function renderLines(parentG, data, xParameterName, yParameterName, margin, width, height) {
+
+            var colors = d3.scale.category10();
+
+            var yScale = buildYScale(data, yParameterName, height - 2 * margin);
+            var xScale = buildXScale(data, xParameterName, width - 2 * margin);
+
+            var line = d3.svg.line()
+                .x(function (d) { return xScale(d[xParameterName]); })
+                .y(function (d) { return yScale(d[yParameterName]); });
+
+            parentG.selectAll("path.line")
+                .data(data)
+                .enter()
+                .append("path")
+                .style("stroke", function (d, i) {
+                    return colors(i);
+                })
+                .attr("class", "line");
+
+            parentG.selectAll("path.line")
+                .data(data)
+                .transition()
+                .attr("d", function (d) { return line(d); });
+        }
+
         function render(element, data, width, height, margin)
         {
             var elementSelector = d3.select(element.context);
@@ -152,7 +178,9 @@
                 .attr("class", "body")
                 .attr("transform", "translate(" +margin+ "," +margin+ ")" );
 
+            renderLines(bodyG, data, 'hour', 'sales', margin, width, height);
             renderPoints(bodyG, data, 'hour', 'sales', margin, width, height);
+            
         }
 
         return {
