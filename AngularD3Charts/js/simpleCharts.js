@@ -193,7 +193,7 @@
             },
             link: function(scope, element, attrs) {
 
-                scope.$watch('width', function() {
+                scope.$watchGroup(['width', 'height'], function() {
                     render(element, scope.data, scope.width, scope.height, scope.margin);
                 });
 

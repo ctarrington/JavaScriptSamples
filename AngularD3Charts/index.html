@@ -15,8 +15,11 @@
     <div ng-controller="MainController">
         <div>{{ chartData|json}}</div>
         <div>{{ chartWidth|json}}</div>
-        <button ng-click="toggleDimensions()">Toggle</button>
-        <div simple-line-chart data="chartData" width="chartWidth" height="chartHeight" margin="30"></div>
+        <div ng-class="{chartContainer: true, popup: isPopup()}">
+            <button ng-click="toggleDimensions()">Toggle</button>
+            <div simple-line-chart data="chartData" width="chartWidth" height="chartHeight" margin="30"></div>
+        </div>
+
     </div>
 
 </body>
