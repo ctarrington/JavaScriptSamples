@@ -2,7 +2,39 @@
 (function () {
     'use strict';
 
+    var smallDimensions = {width: 500, height: 250};
+    var largeDimensions = {width: 1000, height: 500};
+
     angular.module('simpleCharts', []);
+
+    angular.module('simpleCharts').controller('ChartController', ['$scope', function ($scope) {
+        $scope.model = {
+            dimensions: smallDimensions,
+            popup: false
+        };
+    }]);
+
+    angular.module('simpleCharts').directive('chartContainer', function () {
+
+
+        return {
+            restrict: 'E',
+            replace: true,
+            transclude: true,
+            template: '<div ng-class="{chartContainer: true, popup: isPopup()}"><button ng-click="toggle()">Toggle</button><ng-transclude></ng-transclude></div>',
+            link: function(scope, element, attrs) {
+                scope.isPopup = function () {
+                    return scope.model.popup;
+                };
+
+                scope.toggle = function () {
+                    scope.model.popup = !scope.model.popup;
+                    scope.model.dimensions = (scope.model.popup) ? largeDimensions : smallDimensions;
+                };
+            }
+        };
+
+    });
 
     angular.module('simpleCharts').directive('simpleLineChart', function () {
 
@@ -159,6 +191,8 @@
 
         function render(element, data, width, height, margin)
         {
+            if (!width || !height) { return; }
+
             var elementSelector = d3.select(element.context);
             var children = elementSelector.selectAll('*');
             children.remove();

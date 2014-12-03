@@ -4,25 +4,6 @@
 angular.module('main', ['simpleCharts']);
 
 angular.module('main').controller('MainController', ['$scope', function($scope) {
-    
-    $scope.toggleDimensions = function() {
-        currentDimension++;
-        if (currentDimension >= dimensions.length) { currentDimension = 0; }
-        $scope.chartWidth = dimensions[currentDimension].width;
-        $scope.chartHeight = dimensions[currentDimension].height;
-    };
-
-    $scope.isPopup = function() {
-      return dimensions[currentDimension].popup;
-    };
-    
-    var smallDimensions = {width: 500, height: 250, popup: false};
-    var bigDimensions = {width: 1000, height: 500, popup: false};
-    var squareDimensions = {width: 1000, height: 1000, popup: true};
-
-    var dimensions = [smallDimensions, bigDimensions, squareDimensions];
-    var currentDimension = dimensions.length;
-    $scope.toggleDimensions();
 
     var before = [
         {hour: 1,sales: 54},
@@ -43,7 +24,28 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
         {hour: 7.5,sales: 30}
     ];
 
-    $scope.chartData = [before, after];
+    $scope.beforeAndAfterData = [before, after];
+
+    var left = [
+        {hour: 1,sales: 154},
+        {hour: 2,sales: 177},
+        {hour: 3,sales: 170},
+        {hour: 4,sales: 163},
+        {hour: 6,sales: 147},
+        {hour: 7,sales: 127}
+    ];
+
+    var right = [
+        {hour: 1.5,sales: 169},
+        {hour: 2.5,sales: 179},
+        {hour: 3.5,sales: 173},
+        {hour: 4.5,sales: 151},
+        {hour: 5.5,sales: 149},
+        {hour: 6.5,sales: 162},
+        {hour: 7.5,sales: 130}
+    ];
+
+    $scope.leftAndRightData = [left, right];
 
 }]);
 
