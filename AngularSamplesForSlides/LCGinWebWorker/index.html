@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="lcg">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>AngularJS Plunker</title>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <link rel="stylesheet" href="style.css" />
+    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.2.25/angular.js" data-semver="1.2.25"></script>
+    <script data-require="lazy.js@*" data-semver="0.3.2" src="https://dl.dropboxusercontent.com/u/3977272/cdn/lazy.js"></script>
+    <script src="app.js"></script>
+  </head>
+
+  <body ng-controller="MainCtrl">
+    <label for="raw">Raw Text</label>
+    <input type="text" ng-model="model.raw" name="raw"/>
+    <div>{{model.raw|uppercase}}</div>
+    <div>Type some text after hitting 'GO' so you can believe that it is still responsive! Increase the count to make it take longer. </div>
+    <p>
+  
+    <label for="seed">Seed</label>
+    <input type="text" ng-model="model.seed" name="seed"/>
+    
+    <label for="size">Count</label>
+    <input type="text" ng-model="model.size" name="size"/>
+    <p>
+    
+    <button type="button" ng-click="go()">GO</button>
+    
+    <div>Min: {{model.min}}</div>
+    <div>Max: {{model.max}}</div>
+    <div>Average: {{model.average}}</div>
+  </body>
+
+</html>
