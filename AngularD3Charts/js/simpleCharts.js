@@ -149,7 +149,9 @@
                     .data(list)
                     .enter()
                     .append("circle")
-                    .attr("class", "dot _" + i);
+                    .attr("class", "dot _" + i)
+                    .append("title")
+                    .text(function(d) { return '(' +d[xParameterName]+ ', '+d[yParameterName] +')'; });
 
                 parentG.selectAll("circle._" + i)
                     .data(list)
