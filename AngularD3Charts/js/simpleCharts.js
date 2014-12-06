@@ -41,29 +41,27 @@
         function findMinValue(data, parameterName)
         {
             var minimums = [];
-            data.forEach(function (list, i) {
+            data.forEach(function (list) {
                 var minValue = d3.min(list, function (d) {
                     return d[parameterName];
                 });
                 minimums.push(minValue);
             });
 
-            var overallMinValue = d3.min(minimums);
-            return overallMinValue;
+            return d3.min(minimums);
         }
 
         function findMaxValue(data, parameterName)
         {
             var maximums = [];
-            data.forEach(function (list, i) {
+            data.forEach(function (list) {
                 var maxValue = d3.max(list, function (d) {
                     return d[parameterName];
                 });
                 maximums.push(maxValue);
             });
 
-            var overallMaxValue = d3.max(maximums);
-            return overallMaxValue;
+            return d3.max(maximums);
         }
 
         function buildXScale(data, parameterName, axisWidth)
@@ -81,10 +79,16 @@
         function buildYScale(data, parameterName, axisHeight)
         {
             var minValue = findMinValue(data, parameterName);
-            var maxValue = findMaxValue(data, parameterName)
+            var maxValue = findMaxValue(data, parameterName);
+
+            var delta = maxValue - minValue;
+            var adjustedMinValue = minValue-delta*.2;
+            adjustedMinValue = Math.min(adjustedMinValue, 0);
+
+            var adjustedMaxValue = maxValue+delta*.2;
 
             var scale = d3.scale.linear()
-                .domain([maxValue, minValue])
+                .domain([adjustedMaxValue, adjustedMinValue])
                 .range([0, axisHeight]);
 
             return scale;
