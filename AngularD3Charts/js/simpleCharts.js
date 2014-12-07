@@ -38,36 +38,40 @@
 
     angular.module('simpleCharts').directive('simpleLineChart', function () {
 
-        function findMinValue(data, parameterName)
+        var colors = d3.scale.category10();
+
+        function findMinValue(data, index)
         {
             var minimums = [];
-            data.forEach(function (list) {
-                var minValue = d3.min(list, function (d) {
-                    return d[parameterName];
+            for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
+            {
+                var minValue = d3.min(data.seriesList[seriesCtr], function (d) {
+                    return d[index];
                 });
                 minimums.push(minValue);
-            });
+            }
 
             return d3.min(minimums);
         }
 
-        function findMaxValue(data, parameterName)
+        function findMaxValue(data, index)
         {
             var maximums = [];
-            data.forEach(function (list) {
-                var maxValue = d3.max(list, function (d) {
-                    return d[parameterName];
+            for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
+            {
+                var maxValue = d3.max(data.seriesList[seriesCtr], function (d) {
+                    return d[index];
                 });
                 maximums.push(maxValue);
-            });
+            }
 
             return d3.max(maximums);
         }
 
-        function buildXScale(data, parameterName, axisWidth)
+        function buildXScale(data, axisWidth)
         {
-            var minValue = findMinValue(data, parameterName);
-            var maxValue = findMaxValue(data, parameterName);
+            var minValue = findMinValue(data, 0);
+            var maxValue = findMaxValue(data, 0);
 
             var scale = d3.scale.linear()
                 .domain([minValue, maxValue])
@@ -76,10 +80,10 @@
             return scale;
         }
 
-        function buildYScale(data, parameterName, axisHeight)
+        function buildYScale(data, axisHeight)
         {
-            var minValue = findMinValue(data, parameterName);
-            var maxValue = findMaxValue(data, parameterName);
+            var minValue = findMinValue(data, 1);
+            var maxValue = findMaxValue(data, 1);
 
             var delta = maxValue - minValue;
             var adjustedMinValue = minValue-delta*.2;
@@ -94,10 +98,10 @@
             return scale;
         }
 
-        function renderNumericXAxis(parentG, data, parameterName, margin, width, height) {
+        function renderNumericXAxis(parentG, data, margin, width, height) {
             var axisWidth = width - 2 * margin;
 
-            var scale = buildXScale(data, parameterName, axisWidth);
+            var scale = buildXScale(data, axisWidth);
 
             var axis = d3.svg.axis()
                 .scale(scale)
@@ -117,10 +121,10 @@
                 .attr("y2", -(height-2*margin));
         }
 
-        function renderNumericYAxis(parentG, data, parameterName, margin, width, height) {
+        function renderNumericYAxis(parentG, data, margin, width, height) {
             var axisHeight = height - 2 * margin;
 
-            var scale = buildYScale(data, parameterName, axisHeight);
+            var scale = buildYScale(data, axisHeight);
 
             var axis = d3.svg.axis()
                 .scale(scale)
@@ -140,48 +144,53 @@
                 .attr("y2", 0);
         }
 
-        function renderPoints(parentG, data, xParameterName, yParameterName, margin, width, height)
+        function createLineColorGetter(seriesIndex)
         {
-            var colors = d3.scale.category10();
-
-            var yScale = buildYScale(data, yParameterName, height - 2 * margin);
-            var xScale = buildXScale(data, xParameterName, width - 2 * margin);
-
-
-            data.forEach(function (list, i) {
-                parentG.selectAll("circle._" + i)
-                    .data(list)
-                    .enter()
-                    .append("circle")
-                    .attr("class", "dot _" + i)
-                    .append("title")
-                    .text(function(d) { return '(' +d[xParameterName]+ ', '+d[yParameterName] +')'; });
-
-                parentG.selectAll("circle._" + i)
-                    .data(list)
-                    .style("stroke", function (d) {
-                        return colors(i);
-                    })
-                    .transition()
-                    .attr("cx", function (d) { return xScale(d[xParameterName]); })
-                    .attr("cy", function (d) { return yScale(d[yParameterName]); })
-                    .attr("r", 4.5);
-            });
+            return function () { return colors(seriesIndex); }
         }
 
-        function renderLines(parentG, data, xParameterName, yParameterName, margin, width, height) {
+        function renderPoints(parentG, data, margin, width, height)
+        {
+            var yScale = buildYScale(data, height - 2 * margin);
+            var xScale = buildXScale(data, width - 2 * margin);
+
+
+
+            for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
+            {
+                parentG.selectAll("circle._" + seriesCtr)
+                    .data(data.seriesList[seriesCtr])
+                    .enter()
+                    .append("circle")
+                    .attr("class", "dot _" + seriesCtr)
+                    .append("title")
+                    .text(function(d) { return '(' +d[0]+ ', '+d[1] +')'; });
+
+                parentG.selectAll("circle._" + seriesCtr)
+                    .data(data.seriesList[seriesCtr])
+                    .style("stroke", createLineColorGetter(seriesCtr))
+                    .transition()
+                    .attr("cx", function (d) { return xScale(d[0]); })
+                    .attr("cy", function (d) { return yScale(d[1]); })
+                    .attr("r", 4.5);
+            }
+        }
+
+        function renderLines(parentG, data, margin, width, height)
+        {
 
             var colors = d3.scale.category10();
 
-            var yScale = buildYScale(data, yParameterName, height - 2 * margin);
-            var xScale = buildXScale(data, xParameterName, width - 2 * margin);
+            var yScale = buildYScale(data, height - 2 * margin);
+            var xScale = buildXScale(data, width - 2 * margin);
 
             var line = d3.svg.line()
-                .x(function (d) { return xScale(d[xParameterName]); })
-                .y(function (d) { return yScale(d[yParameterName]); });
+                .x(function (d) { return xScale(d[0]); })
+                .y(function (d) { return yScale(d[1]); });
+
 
             parentG.selectAll("path.line")
-                .data(data)
+                .data(data.seriesList)
                 .enter()
                 .append("path")
                 .style("stroke", function (d, i) {
@@ -190,9 +199,12 @@
                 .attr("class", "line");
 
             parentG.selectAll("path.line")
-                .data(data)
+                .data(data.seriesList)
                 .transition()
-                .attr("d", function (d) { return line(d); });
+                .attr("d", function (d) {
+                    return line(d);
+                });
+
         }
 
         function render(element, data, width, height, margin)
@@ -211,15 +223,15 @@
             var axesG = parentSvg.append("g")
                 .attr("class", "axes");
 
-            renderNumericXAxis(axesG, data, 'hour', margin, width, height);
-            renderNumericYAxis(axesG, data, 'sales', margin, width, height);
+            renderNumericXAxis(axesG, data, margin, width, height);
+            renderNumericYAxis(axesG, data, margin, width, height);
 
             var bodyG = parentSvg.append("g")
                 .attr("class", "body")
                 .attr("transform", "translate(" +margin+ "," +margin+ ")" );
 
-            renderLines(bodyG, data, 'hour', 'sales', margin, width, height);
-            renderPoints(bodyG, data, 'hour', 'sales', margin, width, height);
+            renderLines(bodyG, data, margin, width, height);
+            renderPoints(bodyG, data, margin, width, height);
             
         }
 

@@ -5,46 +5,21 @@ angular.module('main', ['simpleCharts']);
 
 angular.module('main').controller('MainController', ['$scope', function($scope) {
 
-    var before = [
-        {hour: 1,sales: 54},
-        {hour: 2,sales: 77},
-        {hour: 3,sales: 70},
-        {hour: 4,sales: 63},
-        {hour: 6,sales: 47},
-        {hour: 7,sales: 27}
-    ];
+    var salesVariables = {
+        x: {name: 'Time', units: 'Hours'},
+        y: {name: 'Sales', units: 'Dollars'}
+    };
 
-    var after = [
-        {hour: 1.5,sales: 69},
-        {hour: 2.5,sales: 79},
-        {hour: 3.5,sales: 73},
-        {hour: 4.5,sales: 51},
-        {hour: 5.5,sales: 49},
-        {hour: 6.5,sales: 62},
-        {hour: 7.5,sales: 30}
-    ];
+    var beforeSeries = [[1, 54], [2, 77], [3, 70], [4, 63], [6, 47], [7, 27]];
+    var afterSeries = [[1, 69], [2, 77], [3, 72], [4, 50], [6, 55], [7, 30]];
 
-    $scope.beforeAndAfterData = [before, after];
 
-    var left = [
-        {hour: 1,sales: 154},
-        {hour: 1.5,sales: 177},
-        {hour: 2,sales: 170},
-        {hour: 2.5,sales: 163},
-        {hour: 3,sales: 147},
-        {hour: 3.5,sales: 127}
-    ];
+    $scope.beforeAndAfterData = { variables: salesVariables, seriesList: [beforeSeries, afterSeries] };
 
-    var right = [
-        {hour: 3.5,sales: 169},
-        {hour: 4.0,sales: 179},
-        {hour: 4.5,sales: 173},
-        {hour: 5.5,sales: 149},
-        {hour: 6.5,sales: 162},
-        {hour: 7.5,sales: 130}
-    ];
+    var leftSeries = [[1, 154], [2, 177], [3, 170]];
+    var rightSeries = [[4, 150], [6, 155], [7, 130]];
 
-    $scope.leftAndRightData = [left, right];
+    $scope.leftAndRightData = { variables: salesVariables, seriesList: [leftSeries, rightSeries] };
 
 }]);
 
