@@ -21,6 +21,26 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
 
     $scope.leftAndRightData = { variables: salesVariables, seriesList: [leftSeries, rightSeries] };
 
+
+    var fuzzyUpSeries = [];
+    var slope = 2;
+    var y0 = 10;
+    var fuzzyness = 8;
+    var numPoints = 20;
+
+    for (var ctr=0; ctr<numPoints; ctr++ )
+    {
+        var noise = Math.random()*fuzzyness*2 - fuzzyness;
+        var y = slope*ctr +y0 +noise;
+        var point = [];
+        point.push(ctr);
+        point.push(y);
+
+        fuzzyUpSeries.push(point);
+    }
+
+    $scope.fuzzyUpData = { variables: salesVariables, seriesList: [fuzzyUpSeries] };
+
 }]);
 
 })();
