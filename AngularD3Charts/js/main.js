@@ -22,24 +22,10 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
     $scope.leftAndRightData = { variables: salesVariables, seriesList: [leftSeries, rightSeries] };
 
 
-    var fuzzyUpSeries = [];
-    var slope = 2;
-    var y0 = 10;
-    var fuzzyness = 8;
-    var numPoints = 20;
+    var straightLine = createFuzzyLine(0, 10, 0);
+    var veryFuzzyLine = createFuzzyLine(0, 10, 20);
 
-    for (var ctr=0; ctr<numPoints; ctr++ )
-    {
-        var noise = Math.random()*fuzzyness*2 - fuzzyness;
-        var y = slope*ctr +y0 +noise;
-        var point = [];
-        point.push(ctr);
-        point.push(y);
-
-        fuzzyUpSeries.push(point);
-    }
-
-    $scope.fuzzyUpData = { variables: salesVariables, seriesList: [fuzzyUpSeries] };
+    $scope.fuzzyUpData = { variables: salesVariables, seriesList: [straightLine.getPoints(0, 1, 10), veryFuzzyLine.getPoints(0, 0.5, 20)] };
 
 }]);
 
