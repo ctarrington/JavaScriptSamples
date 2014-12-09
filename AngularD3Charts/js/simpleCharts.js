@@ -68,22 +68,20 @@
             return d3.max(maximums);
         }
 
-        function buildXScale(data, axisWidth)
+        function buildXScale()
         {
-            var minValue = findMinValue(data, 0);
-            var maxValue = findMaxValue(data, 0);
+            var minValue = findMinValue(this.data, 0);
+            var maxValue = findMaxValue(this.data, 0);
 
-            var scale = d3.scale.linear()
+            return d3.scale.linear()
                 .domain([minValue, maxValue])
-                .range([0, axisWidth]);
-
-            return scale;
+                .range([0, this.axisWidth]);
         }
 
-        function buildYScale(data, axisHeight)
+        function buildYScale()
         {
-            var minValue = findMinValue(data, 1);
-            var maxValue = findMaxValue(data, 1);
+            var minValue = findMinValue(this.data, 1);
+            var maxValue = findMaxValue(this.data, 1);
 
             var delta = maxValue - minValue;
             var adjustedMinValue = minValue-delta*.2;
@@ -91,25 +89,20 @@
 
             var adjustedMaxValue = maxValue+delta*.2;
 
-            var scale = d3.scale.linear()
+            return d3.scale.linear()
                 .domain([adjustedMaxValue, adjustedMinValue])
-                .range([0, axisHeight]);
-
-            return scale;
+                .range([0, this.axisHeight]);
         }
 
-        function renderNumericXAxis(parentG, data, margin, width, height) {
-            var axisWidth = width - 2 * margin;
-
-            var scale = buildXScale(data, axisWidth);
+        function renderNumericXAxis() {
 
             var axis = d3.svg.axis()
-                .scale(scale)
+                .scale(this.xScale)
                 .orient("bottom");
 
-            parentG.append("g")
+            this.axesG.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(" + margin + "," + (height-margin) + ")")
+                .attr("transform", "translate(" + this.margin + "," + (this.height-this.margin) + ")")
                 .call(axis);
 
             d3.selectAll("g.x g.tick")
@@ -118,21 +111,18 @@
                 .attr("x1", 0)
                 .attr("y1", 0)
                 .attr("x2", 0)
-                .attr("y2", -(height-2*margin));
+                .attr("y2", -(this.height-2*this.margin));
         }
 
-        function renderNumericYAxis(parentG, data, margin, width, height) {
-            var axisHeight = height - 2 * margin;
-
-            var scale = buildYScale(data, axisHeight);
+        function renderNumericYAxis() {
 
             var axis = d3.svg.axis()
-                .scale(scale)
+                .scale(this.yScale)
                 .orient("left");
 
-            parentG.append("g")
+            this.axesG.append("g")
                 .attr("class", "y axis")
-                .attr("transform", "translate(" +margin+ "," +margin+ ")")
+                .attr("transform", "translate(" +this.margin+ "," +this.margin+ ")")
                 .call(axis);
 
             d3.selectAll("g.y g.tick")
@@ -140,7 +130,7 @@
                 .classed("grid-line", true)
                 .attr("x1", 0)
                 .attr("y1", 0)
-                .attr("x2", width-2*margin)
+                .attr("x2", this.width-2*this.margin)
                 .attr("y2", 0);
         }
 
@@ -149,48 +139,44 @@
             return function () { return colors(seriesIndex); }
         }
 
-        function renderPoints(parentG, data, margin, width, height)
+        function renderPoints()
         {
-            var yScale = buildYScale(data, height - 2 * margin);
-            var xScale = buildXScale(data, width - 2 * margin);
+            var that = this;
 
-
-
-            for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
+            for (var seriesCtr = 0; seriesCtr < this.data.seriesList.length; seriesCtr++)
             {
-                parentG.selectAll("circle._" + seriesCtr)
-                    .data(data.seriesList[seriesCtr])
+                this.bodyG.selectAll("circle._" + seriesCtr)
+                    .data(this.data.seriesList[seriesCtr])
                     .enter()
                     .append("circle")
                     .attr("class", "dot _" + seriesCtr)
                     .append("title")
                     .text(function(d) { return '(' +d[0]+ ', '+d[1] +')'; });
 
-                parentG.selectAll("circle._" + seriesCtr)
-                    .data(data.seriesList[seriesCtr])
+                this.bodyG.selectAll("circle._" + seriesCtr)
+                    .data(this.data.seriesList[seriesCtr])
                     .style("stroke", createLineColorGetter(seriesCtr))
                     .transition()
-                    .attr("cx", function (d) { return xScale(d[0]); })
-                    .attr("cy", function (d) { return yScale(d[1]); })
+                    .attr("cx", function (d) { return that.xScale(d[0]); })
+                    .attr("cy", function (d) { return that.yScale(d[1]); })
                     .attr("r", 4.5);
             }
         }
 
-        function renderLines(parentG, data, margin, width, height)
+        function renderLines()
         {
 
             var colors = d3.scale.category10();
 
-            var yScale = buildYScale(data, height - 2 * margin);
-            var xScale = buildXScale(data, width - 2 * margin);
+            var that = this;
 
             var line = d3.svg.line()
-                .x(function (d) { return xScale(d[0]); })
-                .y(function (d) { return yScale(d[1]); });
+                .x(function (d) { return that.xScale(d[0]); })
+                .y(function (d) { return that.yScale(d[1]); });
 
 
-            parentG.selectAll("path.line")
-                .data(data.seriesList)
+            this.bodyG.selectAll("path.line")
+                .data(this.data.seriesList)
                 .enter()
                 .append("path")
                 .style("stroke", function (d, i) {
@@ -198,13 +184,57 @@
                 })
                 .attr("class", "line");
 
-            parentG.selectAll("path.line")
-                .data(data.seriesList)
+            this.bodyG.selectAll("path.line")
+                .data(this.data.seriesList)
                 .transition()
                 .attr("d", function (d) {
                     return line(d);
                 });
 
+        }
+
+        function createPlot(element, data, width, height, margin)
+        {
+            var plot = {
+                element: element,
+                data: data,
+                width: width,
+                height: height,
+                margin: margin,
+                buildXScale: buildXScale,
+                buildYScale: buildYScale,
+                renderNumericXAxis: renderNumericXAxis,
+                renderNumericYAxis: renderNumericYAxis,
+                renderLines: renderLines,
+                renderPoints: renderPoints,
+                render: function() {
+                    this.parentSvg = d3.select(element[0])
+                        .append('svg')
+                        .attr('width', ''+width)
+                        .attr('height', ''+height);
+
+                    this.axesG = this.parentSvg.append("g")
+                        .attr("class", "axes");
+
+                    this.bodyG = this.parentSvg.append("g")
+                        .attr("class", "body")
+                        .attr("transform", "translate(" +margin+ "," +margin+ ")" );
+
+                    this.axisWidth = this.width - 2 * this.margin;
+                    this.xScale = this.buildXScale();
+
+                    this.axisHeight = this.height - 2 * this.margin;
+                    this.yScale = this.buildYScale();
+
+                    this.renderNumericXAxis();
+                    this.renderNumericYAxis();
+
+                    this.renderLines();
+                    this.renderPoints();
+                }
+            };
+
+            return plot;
         }
 
         function render(element, data, width, height, margin)
@@ -215,24 +245,8 @@
             var children = elementSelector.selectAll('*');
             children.remove();
 
-            var parentSvg = d3.select(element[0])
-                .append('svg')
-                .attr('width', ''+width)
-                .attr('height', ''+height);
-
-            var axesG = parentSvg.append("g")
-                .attr("class", "axes");
-
-            renderNumericXAxis(axesG, data, margin, width, height);
-            renderNumericYAxis(axesG, data, margin, width, height);
-
-            var bodyG = parentSvg.append("g")
-                .attr("class", "body")
-                .attr("transform", "translate(" +margin+ "," +margin+ ")" );
-
-            renderLines(bodyG, data, margin, width, height);
-            renderPoints(bodyG, data, margin, width, height);
-            
+            var plot = createPlot(element, data, width, height, margin);
+            plot.render();
         }
 
         return {
