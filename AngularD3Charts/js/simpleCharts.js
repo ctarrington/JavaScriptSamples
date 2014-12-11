@@ -68,37 +68,56 @@
             return d3.max(maximums);
         }
 
+        function padIntervalAndEnsureZero(low, high)
+        {
+            var delta = high - low;
+            var padScale = 0.08;
+
+            var adjustedLow = Math.min(low, 0);
+            if (adjustedLow !== 0) {adjustedLow = adjustedLow - delta*padScale; }
+
+            var adjustedHigh = high + delta*padScale;
+
+            return {min: adjustedLow, max:adjustedHigh};
+        }
+
         function buildXScale()
         {
             var minValue = findMinValue(this.data, 0);
             var maxValue = findMaxValue(this.data, 0);
+            var paddedValues = padIntervalAndEnsureZero(minValue, maxValue);
 
-            return d3.scale.linear()
-                .domain([minValue, maxValue])
+            var scale = d3.scale.linear()
+                .domain([paddedValues.min, paddedValues.max])
                 .range([0, this.axisWidth]);
+
+            scale.ticks(10);
+            scale.nice(10);
+
+            return scale;
         }
 
         function buildYScale()
         {
             var minValue = findMinValue(this.data, 1);
             var maxValue = findMaxValue(this.data, 1);
+            var paddedValues = padIntervalAndEnsureZero(minValue, maxValue, 0.1);
 
-            var delta = maxValue - minValue;
-            var adjustedMinValue = minValue-delta*.2;
-            adjustedMinValue = Math.min(adjustedMinValue, 0);
-
-            var adjustedMaxValue = maxValue+delta*.2;
-
-            return d3.scale.linear()
-                .domain([adjustedMaxValue, adjustedMinValue])
+            var scale = d3.scale.linear()
+                .domain([paddedValues.max, paddedValues.min])
                 .range([0, this.axisHeight]);
+            scale.ticks(10);
+            scale.nice(10);
+
+            return scale;
         }
 
         function renderNumericXAxis() {
 
             var axis = d3.svg.axis()
                 .scale(this.xScale)
-                .orient("bottom");
+                .orient("bottom")
+                .tickSize(6, 0);
 
             this.axesG.append("g")
                 .attr("class", "x axis")
@@ -118,7 +137,8 @@
 
             var axis = d3.svg.axis()
                 .scale(this.yScale)
-                .orient("left");
+                .orient("left")
+                .tickSize(6, 0);
 
             this.axesG.append("g")
                 .attr("class", "y axis")
