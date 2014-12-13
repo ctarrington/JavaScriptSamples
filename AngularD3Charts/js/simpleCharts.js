@@ -124,7 +124,7 @@
                 .attr("transform", "translate(" + this.margin + "," + (this.height-this.margin) + ")")
                 .call(axis);
 
-            d3.selectAll("g.x g.tick")
+            this.axesG.selectAll("g.x g.tick")
                 .append("line")
                 .classed("grid-line", true)
                 .attr("x1", 0)
@@ -145,7 +145,7 @@
                 .attr("transform", "translate(" +this.margin+ "," +this.margin+ ")")
                 .call(axis);
 
-            d3.selectAll("g.y g.tick")
+            this.axesG.selectAll("g.y g.tick")
                 .append("line")
                 .classed("grid-line", true)
                 .attr("x1", 0)
