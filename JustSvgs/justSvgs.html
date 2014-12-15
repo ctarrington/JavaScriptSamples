@@ -2,23 +2,27 @@
 <html>
 <head>
     <title>Just SVGs</title>
-    <script type="text/javascript" src="../AngularD3Charts/lib/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="../AngularD3Charts/lib/angular.min.js"></script>
-    <script type="text/javascript" src='../AngularD3Charts/js/dataGenerator.js'></script>
-    <script type="text/javascript" src='js/justSvgs.js'></script>
+
+    <script type="text/javascript" src="./lib/lazy.js"
+    <script type="text/javascript" src="./lib/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="./lib/angular.min.js"></script>
+    <script type="text/javascript" src='./js/dataGenerator.js'></script>
+    <script type="text/javascript" src='./js/justSvgs.js'></script>
     <link rel="stylesheet" type="text/css" href="justSvgs.css">
 </head>
 
-<body ng-app="main">
+<body ng-app="jsvgs">
 <h1>Just SVGs</h1>
 <div ng-controller="MainController">
     <svg width="500" height="250">
         <g class="stuff">
-            <line x1="0" y1="0" x2="30" y2="30"></line>
+            <line ng-repeat="y in data" x1="0" ng-attr-y1="{{y}}" x2="500" ng-attr-y2="{{y}}"></line>
         </g>
     </svg>
 
+    <pre>{{data|json}}</pre>
 </div>
+
 
 </body>
 </html>
