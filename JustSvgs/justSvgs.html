@@ -15,8 +15,11 @@
 <h1>Just SVGs</h1>
 <div ng-controller="MainController">
     <svg width="500" height="250">
-        <g class="stuff">
-            <line ng-repeat="y in data" x1="0" ng-attr-y1="{{y}}" x2="500" ng-attr-y2="{{y}}"></line>
+        <g class="horizontals">
+            <line ng-repeat="y in data.yvalues" x1="0" ng-attr-y1="{{y}}" x2="500" ng-attr-y2="{{y}}"></line>
+        </g>
+        <g class="verticals">
+            <line ng-repeat="x in data.xvalues" ng-attr-x1="{{x}}" y1="0" ng-attr-x2="{{x}}" y2="250"></line>
         </g>
     </svg>
 
