@@ -6,45 +6,20 @@
     <script type="text/javascript" src="lib/d3.v3.min.js"></script>
     <script type="text/javascript" src="lib/angular.min.js"></script>
     <script type="text/javascript" src='js/dataGenerator.js'></script>
-    <script type="text/javascript" src='js/simpleCharts.js'></script>
+    <script type="text/javascript" src='js/zoomableSimpleCharts.js'></script>
     <script type="text/javascript" src='js/main.js'></script>
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
 <body ng-app="main">
     <h1>D3 Angular Charts</h1>
-    <div ng-controller="MainController">
-        <div>{{ chartData|json}}</div>
+    <div ng-controller="MainController">        
 
-        <div ng-controller="ChartController">
-            <chart-container>
-                <div simple-line-chart data="beforeAndAfterData" width="model.dimensions.width" height="model.dimensions.height" margin="30"></div>
-            </chart-container>
-        </div>
-
-        <div ng-controller="ChartController">
-            <chart-container>
-                <div simple-line-chart data="leftAndRightData" width="model.dimensions.width" height="model.dimensions.height" margin="30"></div>
-            </chart-container>
-        </div>
-
-        <div ng-controller="ChartController">
-            <chart-container>
-                <div simple-line-chart data="fuzzyUpData" width="model.dimensions.width" height="model.dimensions.height" margin="30"></div>
-            </chart-container>
-        </div>
-
-        <div ng-controller="ChartController">
-            <chart-container>
-                <div simple-line-chart data="smallFuzzyUpData" width="model.dimensions.width" height="model.dimensions.height" margin="50"></div>
-            </chart-container>
-        </div>
-
-        <div ng-controller="ChartController">
-            <chart-container>
-                <div simple-line-chart data="longData" width="model.dimensions.width" height="model.dimensions.height" margin="30"></div>
-            </chart-container>
-        </div>
+        <div simple-line-chart data="beforeAndAfterData" width="500" height="300" margin="30"></div>
+        <div simple-line-chart data="leftAndRightData" width="500" height="300" margin="30"></div>
+        <div simple-line-chart data="fuzzyUpData"width="500" height="300" margin="30"></div>
+        <div simple-line-chart data="smallFuzzyUpData" width="800" height="500" margin="50"></div>
+        <div simple-line-chart data="longData" width="500" height="300" margin="30"></div>
 
     </div>
 
