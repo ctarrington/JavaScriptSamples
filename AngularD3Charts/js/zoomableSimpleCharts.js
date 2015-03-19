@@ -47,10 +47,18 @@
         return padding;
     }
 
-    function findFriendlyInterval(data, index)
+    function findFriendlyInterval(data, index, params)
     {
+        params = params || {};
+
         var min = findMinValue(data, index);            
         var max = findMaxValue(data, index);
+
+        if (params.alwaysShowZero)
+        {
+            min = Math.min(0, min);
+        }
+
         var padding = findIntervalPadding(min, max);            
         min -= padding;
         max += padding;
@@ -100,7 +108,7 @@
             var clipId = 'clip'+Math.ceil(Math.random()*10000);
 
             var xInterval = findFriendlyInterval(data, 0);
-            var yInterval = findFriendlyInterval(data, 1);        
+            var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: true} );        
 
             var margin = {top: _margin, right: _margin, bottom: _margin+10, left: _margin+20},
                 width = _width - margin.left - margin.right,
