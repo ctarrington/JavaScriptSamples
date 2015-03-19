@@ -12,6 +12,52 @@
         return function () { return colors(seriesIndex); }
     }
 
+    function findMinValue(data, index)
+    {
+        var minimums = [];
+        for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
+        {
+            var minValue = d3.min(data.seriesList[seriesCtr], function (d) {
+                return d[index];
+            });
+            minimums.push(minValue);
+        }
+
+        return d3.min(minimums);
+    }
+
+    function findMaxValue(data, index)
+    {
+        var maximums = [];
+        for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
+        {
+            var maxValue = d3.max(data.seriesList[seriesCtr], function (d) {
+                return d[index];
+            });
+            maximums.push(maxValue);
+        }
+
+        return d3.max(maximums);
+    }
+
+    function findIntervalPadding(min, max)
+    {
+        var width = max-min;
+        var padding = 0.1*width;
+        return padding;
+    }
+
+    function findFriendlyInterval(data, index)
+    {
+        var min = findMinValue(data, index);            
+        var max = findMaxValue(data, index);
+        var padding = findIntervalPadding(min, max);            
+        min -= padding;
+        max += padding;
+
+        return { min: min, max: max} ;
+    }
+
     angular.module('simpleCharts', []);
 
     
@@ -19,7 +65,6 @@
                 
         function createPlot(element, data, _width, _height, _margin)
         {
-            var clipId = 'clip'+Math.ceil(Math.random()*10000);
 
             function zoomed() 
             {
@@ -52,16 +97,21 @@
                 }
             }
 
+            var clipId = 'clip'+Math.ceil(Math.random()*10000);
+
+            var xInterval = findFriendlyInterval(data, 0);
+            var yInterval = findFriendlyInterval(data, 1);        
+
             var margin = {top: _margin, right: _margin, bottom: _margin+10, left: _margin+20},
                 width = _width - margin.left - margin.right,
                 height = _height - margin.top - margin.bottom;
 
             var x = d3.scale.linear()
-                .domain([-width / 2, width / 2])
+                .domain([xInterval.min, xInterval.max])
                 .range([0, width]);
 
             var y = d3.scale.linear()
-                .domain([-height / 2, height / 2])
+                .domain([yInterval.min, yInterval.max])
                 .range([height, 0]);
 
             var xAxis = d3.svg.axis()
@@ -78,7 +128,6 @@
             var zoom = d3.behavior.zoom()
                 .x(x)
                 .y(y)
-                .scaleExtent([1, 32])
                 .on("zoom", zoomed);
 
             var svg = d3.select("body").append("svg")
@@ -96,6 +145,7 @@
                 .attr("fill", "blue");
 
             var chartRect = svg.append("rect")
+                .attr("class", "chartBackground")
                 .attr("width", width)
                 .attr("height", height);
 
