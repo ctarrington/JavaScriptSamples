@@ -19,6 +19,7 @@
                 
         function createPlot(element, data, _width, _height, _margin)
         {
+            var clipId = 'clip'+Math.ceil(Math.random()*10000);
 
             function zoomed() 
             {
@@ -33,15 +34,15 @@
 
                 for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
                 {
-                    svg.selectAll("circle._" + seriesCtr)
+                    chartRect.selectAll("circle._" + seriesCtr)
                         .data(data.seriesList[seriesCtr])
                         .enter()
                         .append("circle")
-                        .attr("class", "dot _" + seriesCtr)
+                        .attr("class", "dot _" + seriesCtr)                        
                         .append("title")
                         .text(function(d) { return '(' +d[0]+ ', '+d[1] +')'; });
 
-                    svg.selectAll("circle._" + seriesCtr)
+                    chartRect.selectAll("circle._" + seriesCtr)
                         .data(data.seriesList[seriesCtr])
                         .style("stroke", createLineColorGetter(seriesCtr))
                         .attr("cx", function (d) { return x(d[0]); })
@@ -86,9 +87,17 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .call(zoom);
 
-            svg.append("rect")
+            svg.append("clipPath")
+                .append("rect")
+                .attr("id", clipId)
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", "blue");
+
+            var chartRect = svg.append("rect")
                 .attr("width", width)
                 .attr("height", height);
+                //.attr("clip-path", "url(#"+clipId+")");
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -97,7 +106,7 @@
 
             svg.append("g")
                 .attr("class", "y axis")
-                .call(yAxis);  
+                .call(yAxis);          
 
             renderPoints();          
         }
