@@ -34,15 +34,16 @@
 
                 for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
                 {
-                    chartRect.selectAll("circle._" + seriesCtr)
+                    svg.selectAll("circle._" + seriesCtr)
                         .data(data.seriesList[seriesCtr])
                         .enter()
                         .append("circle")
-                        .attr("class", "dot _" + seriesCtr)                        
+                        .attr("class", "dot _" + seriesCtr)
+                        .attr("clip-path", "url(#"+clipId+")")                        
                         .append("title")
                         .text(function(d) { return '(' +d[0]+ ', '+d[1] +')'; });
 
-                    chartRect.selectAll("circle._" + seriesCtr)
+                    svg.selectAll("circle._" + seriesCtr)
                         .data(data.seriesList[seriesCtr])
                         .style("stroke", createLineColorGetter(seriesCtr))
                         .attr("cx", function (d) { return x(d[0]); })
@@ -88,8 +89,8 @@
                 .call(zoom);
 
             svg.append("clipPath")
-                .append("rect")
                 .attr("id", clipId)
+                .append("rect")                
                 .attr("width", width)
                 .attr("height", height)
                 .attr("fill", "blue");
@@ -97,7 +98,6 @@
             var chartRect = svg.append("rect")
                 .attr("width", width)
                 .attr("height", height);
-                //.attr("clip-path", "url(#"+clipId+")");
 
             svg.append("g")
                 .attr("class", "x axis")
