@@ -155,6 +155,7 @@
             var zoom = d3.behavior.zoom()
                 .x(x)
                 .y(y)
+                .scaleExtent([0.7,35])
                 .on("zoom", zoomed);
 
             var svg = d3.select("body").append("svg")
