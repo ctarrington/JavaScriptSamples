@@ -9,7 +9,9 @@ function createFuzzyLine(y0, slope, fuzzyness)
             var points = [];
             for (var ctr = 0; ctr < numPoints; ctr++)
             {
-                var noise = Math.random()*this.fuzzyness*2 - this.fuzzyness;
+                var noise = Math.random()*this.fuzzyness*2 - this.fuzzyness;  
+                noise = Number(noise.toPrecision(4));
+
                 var x = x0+deltaX*ctr;
                 var y = this.slope*x +this.y0+noise;
 

@@ -28,6 +28,7 @@
 
     function findIntervalPadding(min, max)
     {
+        if (min === max) { return 1; }
         var width = max-min;
         var padding = 0.1*width;
         return padding;

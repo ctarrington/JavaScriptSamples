@@ -38,6 +38,12 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
     }
     $scope.longData = { variables: salesVariables, seriesList: longLines };
 
+    var zeros = [[0,0],[1,0],[2,0],[3,0]];
+    $scope.allZeros = { variables: salesVariables, seriesList: [zeros] };
+
+    var straightUp = [[0,0],[0,1],[0,2],[0,3]];
+    $scope.allUp = { variables: salesVariables, seriesList: [straightUp] };
+
 }]);
 
 })();
