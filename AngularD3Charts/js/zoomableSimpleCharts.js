@@ -12,32 +12,18 @@
         return function () { return colors(seriesIndex); }
     }
 
-    function findMinValue(data, index)
+    function findExtremeValue(data, index, extremeFunction)
     {
-        var minimums = [];
+        var extremes = [];
         for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
         {
-            var minValue = d3.min(data.seriesList[seriesCtr], function (d) {
+            var extreme = extremeFunction(data.seriesList[seriesCtr], function (d) {
                 return d[index];
             });
-            minimums.push(minValue);
+            extremes.push(extreme);
         }
 
-        return d3.min(minimums);
-    }
-
-    function findMaxValue(data, index)
-    {
-        var maximums = [];
-        for (var seriesCtr = 0; seriesCtr < data.seriesList.length; seriesCtr++)
-        {
-            var maxValue = d3.max(data.seriesList[seriesCtr], function (d) {
-                return d[index];
-            });
-            maximums.push(maxValue);
-        }
-
-        return d3.max(maximums);
+        return extremeFunction(extremes);   
     }
 
     function findIntervalPadding(min, max)
@@ -51,8 +37,8 @@
     {
         params = params || {};
 
-        var min = findMinValue(data, index);            
-        var max = findMaxValue(data, index);
+        var min = findExtremeValue(data, index, d3.min);            
+        var max = findExtremeValue(data, index, d3.max);
 
         if (params.alwaysShowZero)
         {
@@ -78,7 +64,7 @@
             {
               svg.select(".x.axis").call(xAxis);
               svg.select(".y.axis").call(yAxis);
-              renderPoints();
+              renderPlotElements();
             }
 
             
@@ -99,10 +85,43 @@
                     svg.selectAll("circle._" + seriesCtr)
                         .data(data.seriesList[seriesCtr])
                         .style("stroke", createLineColorGetter(seriesCtr))
+                        .style("fill", createLineColorGetter(seriesCtr))
                         .attr("cx", function (d) { return x(d[0]); })
                         .attr("cy", function (d) { return y(d[1]); })
                         .attr("r", 4.5);
                 }
+            }
+
+            function renderLines()
+            {            
+
+                var line = d3.svg.line()
+                    .x(function (d) { return x(d[0]); })
+                    .y(function (d) { return y(d[1]); });
+
+
+                svg.selectAll("path.line")
+                    .data(data.seriesList)
+                    .enter()
+                    .append("path")
+                    .attr("clip-path", "url(#"+clipId+")")
+                    .style("stroke", function (d, i) {
+                        return colors(i);
+                    })
+                    .attr("class", "line");
+
+                svg.selectAll("path.line")
+                    .data(data.seriesList)
+                    .attr("d", function (d) {
+                        return line(d);
+                    });
+
+            }
+
+            function renderPlotElements()
+            {
+                renderPoints();    
+                renderLines();  
             }
 
             var clipId = 'clip'+Math.ceil(Math.random()*10000);
@@ -164,9 +183,9 @@
 
             svg.append("g")
                 .attr("class", "y axis")
-                .call(yAxis);          
+                .call(yAxis);    
 
-            renderPoints();          
+            renderPlotElements();          
         }
 
         function render(element, data, width, height, margin)
