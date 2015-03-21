@@ -168,8 +168,7 @@
                 .attr("id", clipId)
                 .append("rect")                
                 .attr("width", width)
-                .attr("height", height)
-                .attr("fill", "blue");
+                .attr("height", height);
 
             var chartRect = svg.append("rect")
                 .attr("class", "chartBackground")
