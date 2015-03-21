@@ -33,10 +33,16 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
     for (var ctr=0; ctr<10; ctr++)
     {
         var fl = createFuzzyLine(ctr*3+2, 0.5, 0.5);
-        var points = fl.getPoints(1, 0.25, 40);
+        var points = fl.getPoints(1, 0.25, 300);
         longLines.push(points);
     }
     $scope.longData = { variables: salesVariables, seriesList: longLines };
+
+    var zeros = [[0,0],[1,0],[2,0],[3,0]];
+    $scope.allZeros = { variables: salesVariables, seriesList: [zeros] };
+
+    var straightUp = [[0,0],[0,1],[0,2],[0,3]];
+    $scope.allUp = { variables: salesVariables, seriesList: [straightUp] };
 
 }]);
 

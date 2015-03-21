@@ -28,6 +28,7 @@
 
     function findIntervalPadding(min, max)
     {
+        if (min === max) { return 1; }
         var width = max-min;
         var padding = 0.1*width;
         return padding;
@@ -155,6 +156,7 @@
             var zoom = d3.behavior.zoom()
                 .x(x)
                 .y(y)
+                .scaleExtent([0.7,35])
                 .on("zoom", zoomed);
 
             var svg = d3.select("body").append("svg")
