@@ -8,8 +8,8 @@ rect.chartBackground {
     shape-rendering: crispEdges;
 }
 
-.axis text {
-    font: 10px sans-serif;
+text.axis {
+    font: 14px sans-serif;
 }
 
 .axis .grid-line{
@@ -17,6 +17,8 @@ rect.chartBackground {
     shape-rendering: crispEdges;
     stroke-opacity: .2;
 }
+
+
 
 .line{
     fill: none;

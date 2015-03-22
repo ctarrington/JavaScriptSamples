@@ -7,9 +7,13 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
 
     var salesVariables = {
         x: {name: 'Time', units: 'Hours'},
-        y: {name: 'Sales', units: 'Dollars'}
+        y: {name: 'Sales Data', units: 'Dollars'}
     };
 
+    var longSalesVariables = {
+        x: {name: 'Time', units: 'Hours'},
+        y: {name: 'Sales Data from 2014 and Q1 2015', units: 'Dollars'}
+    };
     var beforeSeries = [[1.5, 54], [2, 77], [3, 70], [4, 63], [6, 47], [7, 27]];
     var afterSeries = [[1.5, 69], [2, 77], [3, 72], [4, 50], [6, 55], [7, 30]];
 
@@ -36,13 +40,13 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
         var points = fl.getPoints(1, 0.25, 300);
         longLines.push(points);
     }
-    $scope.longData = { variables: salesVariables, seriesList: longLines };
+    $scope.longData = { variables: longSalesVariables, seriesList: longLines };
 
     var zeros = [[0,0],[1,0],[2,0],[3,0]];
-    $scope.allZeros = { variables: salesVariables, seriesList: [zeros] };
+    $scope.allZeros = { variables: longSalesVariables, seriesList: [zeros] };
 
     var straightUp = [[0,0],[0,1],[0,2],[0,3]];
-    $scope.allUp = { variables: salesVariables, seriesList: [straightUp] };
+    $scope.allUp = { variables: longSalesVariables, seriesList: [straightUp] };
 
 }]);
 

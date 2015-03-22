@@ -58,7 +58,7 @@
     
     angular.module('simpleCharts').directive('simpleLineChart', function () {
                 
-        function createPlot(element, data, _width, _height, _margin)
+        function createPlot(element, data, _width, _height, _margins)
         {
 
             function zoomed() 
@@ -128,11 +128,24 @@
             var clipId = 'clip'+Math.ceil(Math.random()*10000);
 
             var xInterval = findFriendlyInterval(data, 0);
-            var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: true} );        
+            var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: true} );   
 
-            var margin = {top: _margin, right: _margin, bottom: _margin+10, left: _margin+20},
-                width = _width - margin.left - margin.right,
-                height = _height - margin.top - margin.bottom;
+            var margin = null;
+            if (_margins.length == 1)
+            {
+                margin = {top: _margins[0], right: _margins[0], bottom: _margins[0]+10, left: _margins[0]};
+            }
+            else if (_margins.length == 2)
+            {
+                margin = {top: _margins[0], right: _margins[1], bottom: _margins[0]+10, left: _margins[1]};
+            }
+            else
+            {
+                margin = {top: _margins[0], right: _margins[1], bottom: _margins[2]+10, left: _margins[3]};
+            }
+            
+            var width = _width - margin.left - margin.right;
+            var height = _height - margin.top - margin.bottom;
 
             var x = d3.scale.linear()
                 .domain([xInterval.min, xInterval.max])
@@ -142,9 +155,12 @@
                 .domain([yInterval.min, yInterval.max])
                 .range([height, 0]);
 
+            var dbg = y.ticks(5);
+
             var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient("bottom")
+                .ticks(5)
                 .tickSize(-height);
 
             var yAxis = d3.svg.axis()
@@ -184,32 +200,57 @@
 
             svg.append("g")
                 .attr("class", "y axis")
-                .call(yAxis);    
+                .call(yAxis);
+
+            var xLabelHeight = height+margin.top+4;
+
+            // x axis label
+            svg.append("g")
+                .attr("transform", "translate("+width/2+","+xLabelHeight+")")
+                .append("text")                
+                .attr("text-anchor", "middle")                
+                .text(data.variables.x.name+" ("+data.variables.x.units+")")
+                .attr("class", "x axis label");
+
+            // y axis label
+            svg.append("g")
+                .attr("transform", "translate(-"+2*margin.left/3+", "+height/2+"), rotate(-90)")
+                .append("text")                
+                .attr("text-anchor", "middle")                
+                .text(data.variables.y.name+" ("+data.variables.y.units+")")
+                .attr("class", "y axis label");
 
             renderPlotElements();          
         }
 
         function render(element, data, width, height, margin)
         {
-            if (!width || !height) { return; }
+            width = width || 500;
+            height = height || 500;
+            margin = margin || "30";
+            margin = ""+margin;
+
+            var margins = margin.split(' ');
+            for (var ctr=0; ctr<margins.length;ctr++)
+            {
+                margins[ctr] = Number(margins[ctr]);
+            }
+
 
             var elementSelector = d3.select(element.context);
             var children = elementSelector.selectAll('*');
             children.remove();
 
-            var plot = createPlot(element, data, width, height, margin);
+            var plot = createPlot(element, data, width, height, margins);
         }
 
         return {
             restrict: 'A',
             scope: {
-                data: '=',
-                width: '=',
-                height: '=',
-                margin: '='
+                data: '='
             },
             link: function(scope, element, attrs) {            
-                render(element, scope.data, scope.width, scope.height, scope.margin);
+                render(element, scope.data, attrs.width, attrs.height, attrs.margin);
             }
 
           };
