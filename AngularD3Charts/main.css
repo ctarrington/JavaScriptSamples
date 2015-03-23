@@ -12,6 +12,10 @@ text.axis {
     font: 14px sans-serif;
 }
 
+text.title {
+    font: 18px sans-serif;
+}
+
 .axis .grid-line{
     stroke: black;
     shape-rendering: crispEdges;
@@ -47,4 +51,8 @@ div.chartContainer.popup {
     left: 5px;
     background-color: #808080;
     z-index: 1000;
+}
+
+svg {
+    margin: 20px;
 }

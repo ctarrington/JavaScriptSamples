@@ -58,7 +58,7 @@
     
     angular.module('simpleCharts').directive('simpleLineChart', function () {
                 
-        function createPlot(element, data, _width, _height, _margins)
+        function createPlot(element, data, title, _width, _height, _margins)
         {
 
             function zoomed() 
@@ -182,6 +182,14 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .call(zoom);
 
+            // title
+            svg.append("g")
+                .attr("transform", "translate("+width/2+",-"+margin.top/2+")")
+                .append("text")                
+                .attr("text-anchor", "middle")                
+                .text(title)
+                .attr("class", "title");
+
             svg.append("clipPath")
                 .attr("id", clipId)
                 .append("rect")                
@@ -223,7 +231,7 @@
             renderPlotElements();          
         }
 
-        function render(element, data, width, height, margin)
+        function render(element, data, title, width, height, margin)
         {
             width = width || 500;
             height = height || 500;
@@ -241,7 +249,7 @@
             var children = elementSelector.selectAll('*');
             children.remove();
 
-            var plot = createPlot(element, data, width, height, margins);
+            var plot = createPlot(element, data, title, width, height, margins);
         }
 
         return {
@@ -250,7 +258,7 @@
                 data: '='
             },
             link: function(scope, element, attrs) {            
-                render(element, scope.data, attrs.width, attrs.height, attrs.margin);
+                render(element, scope.data, attrs.title, attrs.width, attrs.height, attrs.margin);
             }
 
           };
