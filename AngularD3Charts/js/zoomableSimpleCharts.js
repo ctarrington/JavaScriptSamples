@@ -175,16 +175,17 @@
                 .scaleExtent([0.7,35])
                 .on("zoom", zoomed);
 
-            var svg = d3.select("body").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-              .append("g")
+            var outerSvg = d3.select("body").append("svg")
+                .attr("width", _width)
+                .attr("height", _height);
+
+            var svg = outerSvg.append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .call(zoom);
 
             // title
-            svg.append("g")
-                .attr("transform", "translate("+width/2+",-"+margin.top/2+")")
+            outerSvg.append("g")
+                .attr("transform", "translate("+(margin.left+width/2)+", 15)")
                 .append("text")                
                 .attr("text-anchor", "middle")                
                 .text(title)
@@ -213,16 +214,16 @@
             var xLabelHeight = height+margin.top+4;
 
             // x axis label
-            svg.append("g")
-                .attr("transform", "translate("+width/2+","+xLabelHeight+")")
+            outerSvg.append("g")
+                .attr("transform", "translate("+(_width/2)+","+(_height-3)+")")
                 .append("text")                
                 .attr("text-anchor", "middle")                
                 .text(data.variables.x.name+" ("+data.variables.x.units+")")
                 .attr("class", "x axis label");
 
             // y axis label
-            svg.append("g")
-                .attr("transform", "translate(-"+2*margin.left/3+", "+height/2+"), rotate(-90)")
+            outerSvg.append("g")
+                .attr("transform", "translate(12, "+_height/2+"), rotate(-90)")
                 .append("text")                
                 .attr("text-anchor", "middle")                
                 .text(data.variables.y.name+" ("+data.variables.y.units+")")
@@ -235,7 +236,7 @@
         {
             width = width || 500;
             height = height || 500;
-            margin = margin || "30";
+            margin = margin || "30 10 30 50";
             margin = ""+margin;
 
             var margins = margin.split(' ');

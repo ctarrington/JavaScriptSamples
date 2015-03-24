@@ -54,5 +54,6 @@ div.chartContainer.popup {
 }
 
 svg {
-    margin: 20px;
+    margin: 10px;
+    //outline: solid black;
 }
