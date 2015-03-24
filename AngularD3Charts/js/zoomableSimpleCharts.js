@@ -51,7 +51,7 @@
         max += padding;
 
         return { min: min, max: max} ;
-    }
+    }    
 
     angular.module('simpleCharts', []);
 
@@ -61,6 +61,74 @@
         function createPlot(element, data, title, _width, _height, _margins)
         {
 
+            function createScalesAndAxes()
+            {
+                var xInterval = findFriendlyInterval(data, 0);
+                xScale = d3.scale.linear()
+                    .domain([xInterval.min, xInterval.max])
+                    .range([0, width]);
+                xAxis = d3.svg.axis()
+                    .scale(xScale)
+                    .orient("bottom")
+                    .ticks(5)
+                    .tickSize(-height);
+
+
+                var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: true} );
+                yScale = d3.scale.linear()
+                    .domain([yInterval.min, yInterval.max])
+                    .range([height, 0]);        
+                yAxis = d3.svg.axis()
+                    .scale(yScale)
+                    .orient("left")
+                    .ticks(5)
+                    .tickSize(-width);
+            }
+
+            function createZoomablePlot()
+            {
+                var zoom = d3.behavior.zoom()
+                    .x(xScale)
+                    .y(yScale)
+                    .scaleExtent([0.7,35])
+                    .on("zoom", zoomed);
+
+                outerSvg = d3.select("body").append("svg")
+                    .attr("width", _width)
+                    .attr("height", _height);
+
+                svg = outerSvg.append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                    .call(zoom);
+            }
+            
+            function renderTitleAndLabels()
+            {
+                // title
+                outerSvg.append("g")
+                    .attr("transform", "translate("+(margin.left+width/2)+", 15)")
+                    .append("text")                
+                    .attr("text-anchor", "middle")                
+                    .text(title)
+                    .attr("class", "title");
+
+                // x axis label
+                outerSvg.append("g")
+                    .attr("transform", "translate("+(_width/2)+","+(_height-3)+")")
+                    .append("text")                
+                    .attr("text-anchor", "middle")                
+                    .text(data.variables.x.name+" ("+data.variables.x.units+")")
+                    .attr("class", "x axis label");
+
+                // y axis label
+                outerSvg.append("g")
+                    .attr("transform", "translate(12, "+_height/2+"), rotate(-90)")
+                    .append("text")                
+                    .attr("text-anchor", "middle")                
+                    .text(data.variables.y.name+" ("+data.variables.y.units+")")
+                    .attr("class", "y axis label");
+            }
+
             function zoomed() 
             {
               svg.select(".x.axis").call(xAxis);
@@ -68,6 +136,19 @@
               renderPlotElements();
             }
 
+            function renderPlotBackground()
+            {
+                svg.append("rect")
+                    .style("fill", "lightgrey")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                svg.append("clipPath")
+                    .attr("id", clipId)
+                    .append("rect")                
+                    .attr("width", width)
+                    .attr("height", height);
+            }
             
             function renderPoints()
             {                
@@ -87,8 +168,8 @@
                         .data(data.seriesList[seriesCtr])
                         .style("stroke", createLineColorGetter(seriesCtr))
                         .style("fill", createLineColorGetter(seriesCtr))
-                        .attr("cx", function (d) { return x(d[0]); })
-                        .attr("cy", function (d) { return y(d[1]); })
+                        .attr("cx", function (d) { return xScale(d[0]); })
+                        .attr("cy", function (d) { return yScale(d[1]); })
                         .attr("r", 4.5);
                 }
             }
@@ -97,8 +178,8 @@
             {            
 
                 var line = d3.svg.line()
-                    .x(function (d) { return x(d[0]); })
-                    .y(function (d) { return y(d[1]); });
+                    .x(function (d) { return xScale(d[0]); })
+                    .y(function (d) { return yScale(d[1]); });
 
 
                 svg.selectAll("path.line")
@@ -125,82 +206,33 @@
                 renderLines();  
             }
 
-            var clipId = 'clip'+Math.ceil(Math.random()*10000);
-
-            var xInterval = findFriendlyInterval(data, 0);
-            var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: true} );   
+            var clipId = 'clip'+Math.ceil(Math.random()*10000);               
 
             var margin = null;
             if (_margins.length == 1)
             {
-                margin = {top: _margins[0], right: _margins[0], bottom: _margins[0]+10, left: _margins[0]};
+                margin = {top: _margins[0], right: _margins[0], bottom: _margins[0], left: _margins[0]};
             }
             else if (_margins.length == 2)
             {
-                margin = {top: _margins[0], right: _margins[1], bottom: _margins[0]+10, left: _margins[1]};
+                margin = {top: _margins[0], right: _margins[1], bottom: _margins[0], left: _margins[1]};
             }
             else
             {
-                margin = {top: _margins[0], right: _margins[1], bottom: _margins[2]+10, left: _margins[3]};
+                margin = {top: _margins[0], right: _margins[1], bottom: _margins[2], left: _margins[3]};
             }
             
             var width = _width - margin.left - margin.right;
-            var height = _height - margin.top - margin.bottom;
+            var height = _height - margin.top - margin.bottom;    
 
-            var x = d3.scale.linear()
-                .domain([xInterval.min, xInterval.max])
-                .range([0, width]);
+            var xScale, xAxis, yScale, yAxis;
+            createScalesAndAxes();            
 
-            var y = d3.scale.linear()
-                .domain([yInterval.min, yInterval.max])
-                .range([height, 0]);
+            var outerSvg, svg;
+            createZoomablePlot();            
 
-            var dbg = y.ticks(5);
-
-            var xAxis = d3.svg.axis()
-                .scale(x)
-                .orient("bottom")
-                .ticks(5)
-                .tickSize(-height);
-
-            var yAxis = d3.svg.axis()
-                .scale(y)
-                .orient("left")
-                .ticks(5)
-                .tickSize(-width);
-
-            var zoom = d3.behavior.zoom()
-                .x(x)
-                .y(y)
-                .scaleExtent([0.7,35])
-                .on("zoom", zoomed);
-
-            var outerSvg = d3.select("body").append("svg")
-                .attr("width", _width)
-                .attr("height", _height);
-
-            var svg = outerSvg.append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                .call(zoom);
-
-            // title
-            outerSvg.append("g")
-                .attr("transform", "translate("+(margin.left+width/2)+", 15)")
-                .append("text")                
-                .attr("text-anchor", "middle")                
-                .text(title)
-                .attr("class", "title");
-
-            svg.append("clipPath")
-                .attr("id", clipId)
-                .append("rect")                
-                .attr("width", width)
-                .attr("height", height);
-
-            var chartRect = svg.append("rect")
-                .attr("class", "chartBackground")
-                .attr("width", width)
-                .attr("height", height);
+            renderTitleAndLabels();
+            renderPlotBackground();            
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -209,25 +241,7 @@
 
             svg.append("g")
                 .attr("class", "y axis")
-                .call(yAxis);
-
-            var xLabelHeight = height+margin.top+4;
-
-            // x axis label
-            outerSvg.append("g")
-                .attr("transform", "translate("+(_width/2)+","+(_height-3)+")")
-                .append("text")                
-                .attr("text-anchor", "middle")                
-                .text(data.variables.x.name+" ("+data.variables.x.units+")")
-                .attr("class", "x axis label");
-
-            // y axis label
-            outerSvg.append("g")
-                .attr("transform", "translate(12, "+_height/2+"), rotate(-90)")
-                .append("text")                
-                .attr("text-anchor", "middle")                
-                .text(data.variables.y.name+" ("+data.variables.y.units+")")
-                .attr("class", "y axis label");
+                .call(yAxis);            
 
             renderPlotElements();          
         }
@@ -236,7 +250,7 @@
         {
             width = width || 500;
             height = height || 500;
-            margin = margin || "30 10 30 50";
+            margin = margin || "30 10 40 50";
             margin = ""+margin;
 
             var margins = margin.split(' ');
