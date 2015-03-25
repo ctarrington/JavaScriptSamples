@@ -2,9 +2,6 @@
 (function () {
     'use strict';
 
-    var smallDimensions = {width: 500, height: 250};
-    var largeDimensions = {width: 1000, height: 500};
-
     var colors = d3.scale.category10();
 
     function createLineColorGetter(seriesIndex)
@@ -60,6 +57,22 @@
                 
         function createPlot(element, data, title, _width, _height, _margins)
         {
+            function calculateMargins()
+            {
+                if (_margins.length == 1)
+                {
+                    margin = {top: _margins[0], right: _margins[0], bottom: _margins[0], left: _margins[0]};
+                }
+                else if (_margins.length == 2)
+                {
+                    margin = {top: _margins[0], right: _margins[1], bottom: _margins[0], left: _margins[1]};
+                }
+                else
+                {
+                    margin = {top: _margins[0], right: _margins[1], bottom: _margins[2], left: _margins[3]};
+                }
+            }
+
 
             function createScalesAndAxes()
             {
@@ -127,6 +140,18 @@
                     .attr("text-anchor", "middle")                
                     .text(data.variables.y.name+" ("+data.variables.y.units+")")
                     .attr("class", "y axis label");
+            }
+
+            function renderAxes()
+            {
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "y axis")
+                    .call(yAxis);
             }
 
             function zoomed() 
@@ -209,18 +234,7 @@
             var clipId = 'clip'+Math.ceil(Math.random()*10000);               
 
             var margin = null;
-            if (_margins.length == 1)
-            {
-                margin = {top: _margins[0], right: _margins[0], bottom: _margins[0], left: _margins[0]};
-            }
-            else if (_margins.length == 2)
-            {
-                margin = {top: _margins[0], right: _margins[1], bottom: _margins[0], left: _margins[1]};
-            }
-            else
-            {
-                margin = {top: _margins[0], right: _margins[1], bottom: _margins[2], left: _margins[3]};
-            }
+            calculateMargins();            
             
             var width = _width - margin.left - margin.right;
             var height = _height - margin.top - margin.bottom;    
@@ -233,15 +247,7 @@
 
             renderTitleAndLabels();
             renderPlotBackground();            
-
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis);            
+            renderAxes();            
 
             renderPlotElements();          
         }
