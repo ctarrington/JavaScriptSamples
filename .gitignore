@@ -4,3 +4,7 @@ node_modules/
 
 mongoose-3.0.exe
 /nodeconf2014/
+
+.vagrant/
+
+*.txt~*
