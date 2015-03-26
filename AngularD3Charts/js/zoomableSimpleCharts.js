@@ -31,21 +31,19 @@
         return padding;
     }
 
-    function findFriendlyInterval(data, index, params)
+    function findFriendlyInterval(data, index, alwaysShowZero)
     {
-        params = params || {};
-
         var min = findExtremeValue(data, index, d3.min);            
         var max = findExtremeValue(data, index, d3.max);
-
-        if (params.alwaysShowZero)
-        {
-            min = Math.min(0, min);
-        }
 
         var padding = findIntervalPadding(min, max);            
         min -= padding;
         max += padding;
+
+        if (alwaysShowZero)
+        {
+            min = Math.min(0, min);
+        }        
 
         return { min: min, max: max} ;
     }    
@@ -61,7 +59,7 @@
     
     angular.module('simpleCharts').directive('simpleLineChart', function () {
                 
-        function createPlot(element, data, title, _width, _height, _margins)
+        function createPlot(element, data, title, _width, _height, _margins, alwaysShowZero)
         {      
             function formatPointTitle(d)
             {
@@ -108,7 +106,7 @@
                 }
 
 
-                var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: false} );
+                var yInterval = findFriendlyInterval(data, 1, alwaysShowZero);
                 yScale = d3.scale.linear()
                     .domain([yInterval.min, yInterval.max])
                     .range([height, 0]);        
@@ -311,12 +309,14 @@
             renderPlotElements();          
         }
 
-        function render(element, data, title, width, height, margin)
+        function render(element, data, title, width, height, margin, alwaysShowZero)
         {
             width = width || 500;
             height = height || 500;
             margin = margin || "30 10 40 50";
             margin = ""+margin;
+
+            alwaysShowZero = alwaysShowZero || false;
 
             var margins = margin.split(' ');
             for (var ctr=0; ctr<margins.length;ctr++)
@@ -329,7 +329,7 @@
             var children = elementSelector.selectAll('*');
             children.remove();
 
-            var plot = createPlot(element, data, title, width, height, margins);
+            var plot = createPlot(element, data, title, width, height, margins, alwaysShowZero);
         }
 
         return {
@@ -338,7 +338,7 @@
                 data: '='
             },
             link: function(scope, element, attrs) {            
-                render(element, scope.data, attrs.title, attrs.width, attrs.height, attrs.margin);
+                render(element, scope.data, attrs.title, attrs.width, attrs.height, attrs.margin, attrs.alwaysshowzero);
             }
 
           };
