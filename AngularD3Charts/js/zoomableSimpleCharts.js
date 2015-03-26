@@ -50,13 +50,27 @@
         return { min: min, max: max} ;
     }    
 
+    function formatAsDate(d)
+    {
+        var asMoment = moment.utc(d);
+        return asMoment.format('YYYY/MM/DD HH:mm:ss');
+    }
+
     angular.module('simpleCharts', []);
 
     
     angular.module('simpleCharts').directive('simpleLineChart', function () {
                 
         function createPlot(element, data, title, _width, _height, _margins)
-        {
+        {      
+            function formatPointTitle(d)
+            {
+                var xFormatted = (xAxisIsDate) ? formatAsDate(d[0]) : d[0];
+                var yFormatted = (yAxisIsDate) ? formatAsDate(d[1]) : d[1];
+                
+                return '(' +xFormatted+ ', ' +yFormatted+ ')';
+            }
+
             function calculateMargins()
             {
                 if (_margins.length == 1)
@@ -86,8 +100,15 @@
                     .ticks(5)
                     .tickSize(-height);
 
+                if (xAxisIsDate)
+                {
+                    xAxis.tickFormat(function(d) {
+                        return formatAsDate(d);                        
+                    });
+                }
 
-                var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: true} );
+
+                var yInterval = findFriendlyInterval(data, 1, {alwaysShowZero: false} );
                 yScale = d3.scale.linear()
                     .domain([yInterval.min, yInterval.max])
                     .range([height, 0]);        
@@ -96,6 +117,14 @@
                     .orient("left")
                     .ticks(5)
                     .tickSize(-width);
+
+                if (yAxisIsDate)
+                {
+                    yAxis.tickFormat(function(d) {
+                        var asMoment = moment.utc(d);
+                        return asMoment.format('YYYY/MM/DD HH:mm:ss');
+                    });
+                }
             }
 
             function createZoomablePlot()
@@ -144,20 +173,47 @@
 
             function renderAxes()
             {
+                
                 svg.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + height + ")")
                     .call(xAxis);
+                
 
                 svg.append("g")
                     .attr("class", "y axis")
                     .call(yAxis);
+
+                refreshAxes();
+            }
+
+            function refreshAxes()
+            {                
+                if (xAxisIsDate)
+                {
+                    svg.select(".x.axis")
+                        .call(xAxis)
+                        .selectAll("text")  
+                            .style("text-anchor", "end")
+                            .attr("dx", "-10px")
+                            .attr("dy", "10px")
+                            .attr("transform", function(d) {
+                                return "rotate(-45)" 
+                                });
+                }
+                else
+                {
+                    svg.select(".x.axis")
+                        .call(xAxis);
+                }
+
+                svg.select(".y.axis").call(yAxis);
+
             }
 
             function zoomed() 
             {
-              svg.select(".x.axis").call(xAxis);
-              svg.select(".y.axis").call(yAxis);
+              refreshAxes();
               renderPlotElements();
             }
 
@@ -187,7 +243,7 @@
                         .attr("class", "dot _" + seriesCtr)
                         .attr("clip-path", "url(#"+clipId+")")                        
                         .append("title")
-                        .text(function(d) { return '(' +d[0]+ ', '+d[1] +')'; });
+                        .text(formatPointTitle);
 
                     svg.selectAll("circle._" + seriesCtr)
                         .data(data.seriesList[seriesCtr])
@@ -230,6 +286,9 @@
                 renderPoints();    
                 renderLines();  
             }
+
+            var xAxisIsDate = (data.variables.x.units.indexOf('Date') !== -1 || data.variables.x.units.indexOf('UTC') !== -1);
+            var yAxisIsDate = (data.variables.y.units.indexOf('Date') !== -1 || data.variables.y.units.indexOf('UTC') !== -1);
 
             var clipId = 'clip'+Math.ceil(Math.random()*10000);               
 
