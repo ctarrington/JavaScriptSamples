@@ -88,10 +88,22 @@
 
             function createScalesAndAxes()
             {
+
                 var xInterval = findFriendlyInterval(data, 0);
-                xScale = d3.scale.linear()
-                    .domain([xInterval.min, xInterval.max])
-                    .range([0, width]);
+
+                if (xAxisIsDate)
+                {
+                    xScale = d3.time.scale.utc()
+                        .domain([xInterval.min, xInterval.max])
+                        .range([0, width]);
+                }
+                else
+                {
+                    xScale = d3.scale.linear()
+                        .domain([xInterval.min, xInterval.max])
+                        .range([0, width]);
+                }
+
                 xAxis = d3.svg.axis()
                     .scale(xScale)
                     .orient("bottom")
@@ -107,9 +119,20 @@
 
 
                 var yInterval = findFriendlyInterval(data, 1, alwaysShowZero);
-                yScale = d3.scale.linear()
-                    .domain([yInterval.min, yInterval.max])
-                    .range([height, 0]);        
+
+                if (yAxisIsDate)
+                {
+                    yScale = d3.time.scale.utc()
+                        .domain([yInterval.min, yInterval.max])
+                        .range([height, 0]);
+                }
+                else
+                {
+                    yScale = d3.scale.linear()
+                        .domain([yInterval.min, yInterval.max])
+                        .range([height, 0]);
+                }
+                        
                 yAxis = d3.svg.axis()
                     .scale(yScale)
                     .orient("left")

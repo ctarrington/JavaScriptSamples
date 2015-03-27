@@ -59,13 +59,11 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
     $scope.dateOnY = { variables: dateOnYVariables, seriesList: [dateOnYPoints] };
 
 
-    var dateOnXLine = createFuzzyLine(0, 4, 4);
-    var dateOnXPoints = dateOnXLine.getPoints(0, 1 , 10);
+    var dateOnXPoints = [];
 
-    var startDay = moment.utc();
     for (var ctr=0; ctr < 10; ctr++)
     {
-        dateOnXPoints[ctr][0] = startDay.add(1, 'days').valueOf();
+        dateOnXPoints[ctr] = [ dateOnYPoints[ctr][1], dateOnYPoints[ctr][0] ];
     }
 
     var dateOnXVariables = {
@@ -73,6 +71,31 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
         y: {name: 'Stuff', units: 'Widgets'}
     };
     $scope.dateOnX = { variables: dateOnXVariables, seriesList: [dateOnXPoints] };
+
+
+
+
+
+    var dateOnBothLine = createFuzzyLine(0, 4, 4);
+    var dateOnBothPoints = [];
+
+    var actualDay = moment.utc();
+    var scheduledDay = moment.utc();
+    for (var ctr=0; ctr < 10; ctr++)
+    {        
+        scheduledDay.add(1, 'days');
+        
+        var noise = Math.random()*3 - 1;  // bias to be late
+        actualDay.add((ctr+noise)*24*60, 'minutes');
+
+        dateOnBothPoints[ctr] = [scheduledDay.valueOf(), actualDay.valueOf()];
+    }
+
+    var dateOnBothVariables = {
+        x: {name: 'Scheduled Day', units: 'UTC'},
+        y: {name: 'Actual Day', units: 'UTC'}
+    };
+    $scope.dateOnBoth = { variables: dateOnBothVariables, seriesList: [dateOnBothPoints] };
 
 
 
