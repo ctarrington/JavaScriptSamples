@@ -16,6 +16,15 @@ text.title {
     font: 18px sans-serif;
 }
 
+text.button {
+    font: 14px sans-serif;
+    cursor: pointer;
+}
+
+text.button:hover {
+    font-weight: bold;
+}
+
 .axis .grid-line{
     stroke: black;
     shape-rendering: crispEdges;

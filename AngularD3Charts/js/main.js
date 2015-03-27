@@ -50,7 +50,7 @@ angular.module('main').controller('MainController', ['$scope', function($scope) 
     var straightUp = [[0,0],[0,1],[0,2],[0,3]];
     $scope.allUp = { variables: longSalesVariables, seriesList: [straightUp] };
 
-    var dateOnYLine = createFuzzyLine(moment.utc().valueOf(), DAY_IN_MILLISECONDS, 0.75*DAY_IN_MILLISECONDS);
+    var dateOnYLine = createFuzzyLine(moment.utc().valueOf(), DAY_IN_MILLISECONDS, 0.5*DAY_IN_MILLISECONDS);
     var dateOnYPoints = dateOnYLine.getPoints(2, 1, 10);
     var dateOnYVariables = {
         x: {name: 'Stuff', units: 'Widgets'},

@@ -150,7 +150,7 @@
 
             function createZoomablePlot()
             {
-                var zoom = d3.behavior.zoom()
+                zoom = d3.behavior.zoom()
                     .x(xScale)
                     .y(yScale)
                     .scaleExtent([0.7,35])
@@ -192,6 +192,17 @@
                     .attr("class", "y axis label");
             }
 
+            function renderResetButton()
+            {
+                outerSvg.append("g")
+                    .attr("transform", "translate("+(_width-margin.right-80)+", "+(_height-3)+")")
+                    .append("text")                
+                    .attr("text-anchor", "left")
+                    .attr("class","reset button")                
+                    .text("Reset Zoom")
+                    .on('click', resetZoom);
+            }
+
             function renderAxes()
             {
                 
@@ -230,6 +241,13 @@
 
                 svg.select(".y.axis").call(yAxis);
 
+            }
+
+            function resetZoom()
+            {
+                zoom.scale(1);
+                zoom.translate([0,0]);
+                zoomed();
             }
 
             function zoomed() 
@@ -322,12 +340,13 @@
             var xScale, xAxis, yScale, yAxis;
             createScalesAndAxes();            
 
-            var outerSvg, svg;
+            var outerSvg, svg, zoom;
             createZoomablePlot();            
 
             renderTitleAndLabels();
             renderPlotBackground();            
-            renderAxes();            
+            renderAxes();   
+            renderResetButton();         
 
             renderPlotElements();          
         }
@@ -352,7 +371,7 @@
             var children = elementSelector.selectAll('*');
             children.remove();
 
-            var plot = createPlot(element, data, title, width, height, margins, alwaysShowZero);
+            var plot = createPlot(element, data, title, width, height, margins, alwaysShowZero);            
         }
 
         return {
@@ -360,8 +379,8 @@
             scope: {
                 data: '='
             },
-            link: function(scope, element, attrs) {            
-                render(element, scope.data, attrs.title, attrs.width, attrs.height, attrs.margin, attrs.alwaysshowzero);
+            link: function(scope, element, attrs) {
+                render(element, scope.data, attrs.title, attrs.width, attrs.height, attrs.margin, attrs.alwaysshowzero);                
             }
 
           };
