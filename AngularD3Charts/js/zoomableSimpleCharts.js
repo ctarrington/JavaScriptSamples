@@ -194,8 +194,32 @@
 
             function renderResetButton()
             {
-                outerSvg.append("g")
-                    .attr("transform", "translate("+(_width-margin.right-80)+", "+(_height-3)+")")
+                var buttonY = _height-14;
+                var padding = 4;
+
+                var resetText = outerSvg.append("g")
+                    .attr("transform", "translate("+(_width-margin.right-80)+", "+(buttonY+padding)+")")
+                    .append("text")                
+                    .attr("text-anchor", "left")
+                    .attr("class","reset button dummy")                
+                    .text("Reset Zoom")
+                    .on('click', resetZoom);
+
+                var bbox = resetText[0][0].getBBox();                
+                var button_width = bbox.width+2*padding;
+                var button_height = bbox.height+2*padding;
+
+
+                var buttonBackground = outerSvg.append("g")
+                    .attr("transform", "translate("+(_width-margin.right-80-padding)+", "+(buttonY-3*padding)+")")
+                    .append("rect")                                    
+                    .attr("class","reset button")                                                        
+                    .attr('width', button_width)
+                    .attr('height', button_height)
+                    .on('click', resetZoom);
+
+                resetText = outerSvg.append("g")
+                    .attr("transform", "translate("+(_width-margin.right-80)+", "+(buttonY+padding)+")")
                     .append("text")                
                     .attr("text-anchor", "left")
                     .attr("class","reset button")                
@@ -355,7 +379,7 @@
         {
             width = width || 500;
             height = height || 500;
-            margin = margin || "30 10 40 50";
+            margin = margin || "30 10 45 50";
             margin = ""+margin;
 
             alwaysShowZero = alwaysShowZero || false;
