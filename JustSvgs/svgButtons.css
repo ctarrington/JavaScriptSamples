@@ -1,0 +1,11 @@
+button#hiButton {
+	background-image: url('file:///home/ct/repos/github/JavaScriptSamples/JustSvgs/hi.svg');
+	background-size: 200px 150px;
+	width: 200px;
+	height: 150px;
+	-webkit-transition: transform 0.4s;
+}
+
+button#hiButton:active {
+	-webkit-transform: scale(0.6, 0.6);
+}

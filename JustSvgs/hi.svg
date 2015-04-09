@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <defs>
+  <linearGradient y1="0.457031" x1="0.170593" id="svg_2">
+   <stop offset="0" stop-color="#000000"/>
+   <stop offset="1" stop-color="#ffffff"/>
+  </linearGradient>
+  <linearGradient y1="0.664063" x1="0.354187" id="svg_3">
+   <stop offset="0" stop-color="#f74242"/>
+   <stop offset="1" stop-color="#08bdbd"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <text stroke="#000000" transform="matrix(4.274969100952148,0,0,4.307692527770996,-315.4716329276562,-509.3846492767334) " xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_1" y="179.410714" x="146.193251" stroke-width="0" fill="url(#svg_3)">HI</text>
+ </g>
+</svg>
