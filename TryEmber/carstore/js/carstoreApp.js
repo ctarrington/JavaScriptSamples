@@ -12,7 +12,6 @@ App.Car = DS.Model.extend({
 
 App.Router.map(function() {
 	this.resource('cars', function() {
-		this.route('new');
 		this.route('details', { path: '/:id'});	
 	});
 });
@@ -25,13 +24,10 @@ App.IndexRoute = Ember.Route.extend({
 
 App.CarsRoute = Ember.Route.extend({
 	model: function() {
-		return this.store.find('car');
-	}
-});
-
-App.CarsNewRoute = Ember.Route.extend({
-	model: function() {
-		return Ember.Object.create({});
+		return {
+			carList: this.store.find('car'),
+			tempCar: Ember.Object.create({})
+		};
 	}
 });
 
@@ -40,30 +36,24 @@ App.CarsController = Ember.ObjectController.extend({
 	actions: {
 		delete: function(car) {
 			car.destroyRecord();
-		}
-	}
-});
-
-App.CarsNewController = Ember.ObjectController.extend({
-	error: "",
-	actions: {
-		newCar: function() {
-			var car = this.get('content');
-
-			if ( (typeof car.get('make') === 'undefined') ||
-			      typeof car.get('carModel') === 'undefined')
+		},
+		newCar: function() {		
+			var tempCar = this.get('tempCar');	
+			if ( (typeof tempCar.get('make') === 'undefined') ||
+			      typeof tempCar.get('carModel') === 'undefined')
 			{
 				this.set('error', 'Please populate all required fields');
 				return;
 			}
 
 			var newCar = this.store.createRecord('car');
-			newCar.set('make', car.get('make'));
-			newCar.set('carModel', car.get('carModel'));
+			newCar.set('make', tempCar.get('make'));
+			newCar.set('carModel', tempCar.get('carModel'));
 			newCar.save();
 
 			this.set('error', '');
-			this.transitionToRoute('cars.details', car);
+			this.set('tempCar', Ember.Object.create({}) );
+			
 		}
 	}
 });

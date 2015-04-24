@@ -12,10 +12,9 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="cars">
-  {{#link-to "cars.new"}}New Car{{/link-to}}
 
-    {{#if content.length}}
-      {{#each car in content}}
+    {{#if carList.length}}
+      {{#each car in carList}}
         <p>
         <span>{{car.make}}</span>
         <span>{{car.carModel}}</span>
@@ -27,14 +26,12 @@
     {{/if}}
 
     {{outlet}}
-  </script>
 
-  <script type="text/x-handlebars" data-template-name="cars/new">
-  {{error}}
+    {{error}}
 
-  {{input type="text" id="make" value=make placeholder="Enter the make" }}
-  {{input type="text" id="carModel" value=carModel placeholder="Enter the model" }}
-  <button {{action "newCar"}}>New Car</button>
+    {{input type="text" id="make" value=tempCar.make placeholder="Enter the make" }}
+    {{input type="text" id="carModel" value=tempCar.carModel placeholder="Enter the model" }}
+    <button {{action "newCar"}}>New Car</button>
   </script>
 
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
