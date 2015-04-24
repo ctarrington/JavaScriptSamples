@@ -7,16 +7,34 @@
 <body>
 
   <script type="text/x-handlebars">
-    <h2>Welcome to Ember.js</h2>
+    <h2>Car Store</h2>
     {{outlet}}
   </script>
 
-  <script type="text/x-handlebars" data-template-name="index">
-    <ul>
-    {{#each item in model}}
-      <li>{{item}}</li>
-    {{/each}}
-    </ul>
+  <script type="text/x-handlebars" data-template-name="cars">
+  {{#link-to "cars.new"}}New Car{{/link-to}}
+
+    {{#if content.length}}
+      {{#each car in content}}
+        <p>
+        <span>{{car.make}}</span>
+        <span>{{car.carModel}}</span>
+        <button {{action "delete" car }} >Delete</button>
+        </p>
+      {{/each}}
+    {{else}}
+      <div>Please add some cars!</div>
+    {{/if}}
+
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="cars/new">
+  {{error}}
+
+  {{input type="text" id="make" value=make placeholder="Enter the make" }}
+  {{input type="text" id="carModel" value=carModel placeholder="Enter the model" }}
+  <button {{action "newCar"}}>New Car</button>
   </script>
 
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
@@ -24,6 +42,8 @@
   <script src="/bower_components/ember/ember-template-compiler.js"></script>
   <script src="/bower_components/ember/ember.debug.js"></script>
   <script src="/bower_components/ember-data/ember-data.js"></script>
+  <script src="/bower_components/ember-localstorage-adapter/localstorage_adapter.js"></script>
   <script src="/js/carstoreApp.js"></script>
+
 </body>
 </html>
