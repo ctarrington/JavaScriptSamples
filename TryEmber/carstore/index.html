@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Car Store</title>
+  <title>Car Store</title> 
 </head>
 <body>
 
@@ -12,26 +12,29 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="cars">
-
-    {{#if carList.length}}
-      {{#each car in carList}}
-        <p>
+    {{#each car in carList}}
+      {{#unless car.isDirty}}
+      <p>
         <span>{{car.make}}</span>
         <span>{{car.carModel}}</span>
+        {{#link-to "car" car}}Edit{{/link-to}}
         <button {{action "delete" car }} >Delete</button>
-        </p>
-      {{/each}}
-    {{else}}
-      <div>Please add some cars!</div>
-    {{/if}}
+      </p>
+      {{/unless}}
+    {{/each}}
+    {{#link-to "create"}}Create Car{{/link-to}}
+  </script>
 
-    {{outlet}}
+  <script type="text/x-handlebars" data-template-name="car">
+    <div>{{make}}</div>
+    <div>{{carModel}}</div>
+    {{#link-to "cars"}}List{{/link-to}}
+  </script>
 
-    {{error}}
-
-    {{input type="text" id="make" value=tempCar.make placeholder="Enter the make" }}
-    {{input type="text" id="carModel" value=tempCar.carModel placeholder="Enter the model" }}
-    <button {{action "newCar"}}>New Car</button>
+  <script type="text/x-handlebars" data-template-name="create">
+    {{input type="text" id="make" value=make placeholder="Enter the make" }}
+    {{input type="text" id="carModel" value=carModel placeholder="Enter the model" }}
+    <button {{action "submit" this }} >Submit</button>
   </script>
 
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
