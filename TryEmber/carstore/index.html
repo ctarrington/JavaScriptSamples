@@ -3,26 +3,33 @@
 <head>
   <meta charset="utf-8">
   <title>Car Store</title> 
+  <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
 
   <script type="text/x-handlebars">
-    <h2>Car Store</h2>
-    {{outlet}}
+    <div class="container">
+      <h2>Car Store</h2>
+      {{outlet}}
+    </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="cars">
-    {{#each car in carList}}
-      {{#unless car.isDirty}}
-      <p>
-        <span>{{car.make}}</span>
-        <span>{{car.carModel}}</span>
-        {{#link-to "car" car}}Edit{{/link-to}}
-        <button {{action "delete" car }} >Delete</button>
-      </p>
-      {{/unless}}
-    {{/each}}
-    {{#link-to "create"}}Create Car{{/link-to}}
+        
+      {{#each car in carList}}
+        {{#unless car.isDirty}}
+          <div class="row">
+            <div class="col-md-2">{{car.make}}</div>
+            <div class="col-md-2">{{car.carModel}}</div>
+            <div class="col-md-1">{{#link-to "car" car}}Edit{{/link-to}}</div>
+            <div class="col-md-2"><button {{action "delete" car }}>Delete</button></div>
+          </div>
+        {{/unless}}
+      {{/each}}      
+    
+    <div class="row">
+      <div class="col-md-2">{{#link-to "create"}}Create Car{{/link-to}}</div>
+    </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="car">
