@@ -8,3 +8,5 @@ mongoose-3.0.exe
 .vagrant/
 
 *.txt~*
+
+*.log
