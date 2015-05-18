@@ -1,6 +1,6 @@
 var db = require('./db').db()
     , passport = require('passport')
-    , bcrypt = require('bcrypt');
+    , bcrypt = require('bcryptjs');
 
 exports.registerUser = function(req, res) {
     req.checkBody('username', 'No valid username is given').notEmpty().len(3, 40);

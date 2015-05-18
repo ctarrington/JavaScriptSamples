@@ -3,7 +3,7 @@ var oauth2orize = require('oauth2orize')
     , db = require('./db').db()
     , crypto = require('crypto')
     , utils = require("./utils")
-    , bcrypt = require('bcrypt');
+    , bcrypt = require('bcryptjs');
 
 // create OAuth 2.0 server
 var server = oauth2orize.createServer();
