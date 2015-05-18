@@ -6,6 +6,8 @@ var express = require('express')
     , bodyParser = require('body-parser')
     , expressValidator = require('express-validator')
     , auth = require("./auth")
+    , mongojs = require('mongojs')
+    , db = require('./db').db();
 
 // Express configuration
 var app = express();
@@ -14,25 +16,40 @@ app.use(expressValidator());
 
 app.use(passport.initialize());
 
-var things = [{value: "apple"},
-			  {value: "cherry"}
-];
-
 app.post('/data/things', function(req, res, next) {
 	var thing = req.body;
-	things.push(thing);
-  	res.send("OK");
+	db.collection('simpleThings').insert(thing, function(err, obj) {
+		if (err) {
+			res.send("FAILURE");
+		}
+		else {
+			res.send("OK");
+		}
+	});
 });
 
 
 app.get('/data/things', passport.authenticate('accessToken', { session: false }), function (req, res) {
-    res.send(things);
+    db.collection('simpleThings').find(function(err, things) {
+		if (err) {
+			res.send("FAILURE");
+		}
+		else {
+			res.send(things);
+		}
+	});
 });
 
-app.get('/data/things/:index', function(req, res, next) {
-	var index = req.params.index;
-	var thing = things[index];
-  	res.send(thing);
+app.get('/data/things/:id', function(req, res, next) {
+	var id = req.params.id;
+	db.collection('simpleThings').findOne({_id:mongojs.ObjectId(id)}, function(err, thing) {
+		if (err) {
+			res.send("FAILURE");
+		}
+		else {
+			res.send(thing);
+		}
+	});
 });
 
 
