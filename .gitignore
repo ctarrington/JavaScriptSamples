@@ -10,3 +10,4 @@ mongoose-3.0.exe
 *.txt~*
 
 *.log
+*.iml
