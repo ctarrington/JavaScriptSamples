@@ -1,0 +1,13 @@
+div#container {
+    position: absolute;
+}
+
+div.cell {
+    position: absolute;
+    background-color: #d4eaf2;
+    border: solid thin black;
+}
+
+div.cell.alive {
+    background-color: #1431d3;
+}
