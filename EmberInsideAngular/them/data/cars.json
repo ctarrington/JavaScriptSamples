@@ -1,0 +1,14 @@
+[
+  {
+    "age": 3,
+    "id": "honda1",
+    "name": "Honda Accord",
+    "snippet": "Blue Honda. Nice condition."
+  },
+  {
+    "age": 21,
+    "id": "dodge1",
+    "name": "Dodge Dart",
+    "snippet": "Red Dart. Classic."
+  }
+]
