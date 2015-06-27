@@ -1,11 +1,56 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>US</title>
-
+<head>
+    <meta charset="utf-8">
+    <title>Candy Store</title>
+    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>US</h1>
+
+<script type="text/x-handlebars">
+    <div class="container">
+      <h2>Candy Store</h2>
+      {{outlet}}
+    </div>
+  </script>
+
+<script type="text/x-handlebars" data-template-name="candyList">
+        
+      {{#each candy in candyList}}
+        {{#unless candy.isDirty}}
+          <div class="row">
+            <div class="col-md-2">{{candy.name}}</div>
+            <div class="col-md-2">{{candy.size}}</div>
+            <div class="col-md-1">{{#link-to "candy" candy}}Edit{{/link-to}}</div>
+            <div class="col-md-2"><button {{action "delete" candy }}>Delete</button></div>
+          </div>
+        {{/unless}}
+      {{/each}}      
+    
+    <div class="row">
+      <div class="col-md-2">{{#link-to "create"}}Create Candy{{/link-to}}</div>
+    </div>
+  </script>
+
+<script type="text/x-handlebars" data-template-name="candy">
+    <div>{{name}}</div>
+    <div>{{size}}</div>
+    {{#link-to "candyList"}}List{{/link-to}}
+  </script>
+
+<script type="text/x-handlebars" data-template-name="create">
+    {{input type="text" id="name" value=name placeholder="Enter the name" }}
+    {{input type="text" id="size" value=size placeholder="Enter the size" }}
+    <button {{action "submit" this }} >Submit</button>
+  </script>
+
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/handlebars/handlebars.js"></script>
+<script src="/bower_components/ember/ember-template-compiler.js"></script>
+<script src="/bower_components/ember/ember.debug.js"></script>
+<script src="/bower_components/ember-data/ember-data.js"></script>
+<script src="/bower_components/ember-localstorage-adapter/localstorage_adapter.js"></script>
+<script src="/js/candystoreApp.js"></script>
+
 </body>
 </html>
