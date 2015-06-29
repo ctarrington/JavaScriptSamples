@@ -4,12 +4,6 @@ App = Ember.Application.create({
     rootElement : "#candy-application-root"
 });
 
-App.deferReadiness();
-window.initializeCandyStore = function(opts) {
-    App.advanceReadiness();
-};
-
-
 App.Router.reopen({
     location: 'none'
 });
@@ -44,7 +38,7 @@ var createRaw = '\
 <button {{action "submit" this }} >Submit</button>\
 ';
 
-Ember.TEMPLATES["application"] = Ember.Handlebars.compile('<div class="container"><h2>Candy Store</h2>{{outlet}}</div>');
+Ember.TEMPLATES["application"] = Ember.Handlebars.compile('<div class="container"><h2>Candy Store - Powered by Ember</h2>{{outlet}}</div>');
 Ember.TEMPLATES["candyList"] = Ember.Handlebars.compile(candyListRaw);
 Ember.TEMPLATES["candy"] = Ember.Handlebars.compile(candyRaw);
 Ember.TEMPLATES["create"] = Ember.Handlebars.compile(createRaw);
@@ -74,7 +68,7 @@ App.CandyListRoute = Ember.Route.extend({
     model: function() {
         var dbg = 1;
         return {
-            candyList: this.store.find('candy')
+            candyList: this.store.find('candy'),
         };
     },
     actions: {
