@@ -30,4 +30,6 @@ carControllers.controller('CarListCtrl', ['$scope', '$http',
 carControllers.controller('CarDetailCtrl', ['$scope', '$routeParams',
     function($scope, $routeParams) {
         $scope.carId = $routeParams.carId;
+
+        initializeCandyStore();
     }]);
