@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="themApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>US and THEM from a Single Origin</title>
+
+    <link rel="stylesheet" type="text/css" href="us/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <script src="them/lib/angular.min.js" ></script>
+    <script src="them/lib/angular-route.min.js" ></script>
+    <script src="them/js/app.js"></script>
+
+    <script src="us/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="us/bower_components/handlebars/handlebars.js"></script>
+    <script src="us/bower_components/ember/ember-template-compiler.js"></script>
+    <script src="us/bower_components/ember/ember.debug.js"></script>
+    <script src="us/bower_components/ember-data/ember-data.js"></script>
+    <script src="us/bower_components/ember-localstorage-adapter/localstorage_adapter.js"></script>
+    <script src="/us/js/candystoreApp.js"></script>
+
+</head>
+<body>
+    <h1>Them</h1>
+    <div ng-view></div>
+
+    <div id="candy-application-root"></div>
+
+</body>
+</html>
