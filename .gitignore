@@ -1,6 +1,7 @@
 .idea/
 bower_components/
 node_modules/
+dist/
 
 mongoose-3.0.exe
 /nodeconf2014/
