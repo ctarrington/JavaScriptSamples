@@ -3,28 +3,25 @@ describe("Destructuring", function() {
 
     it("should support unpacking an array with defaults", function() {
         var [thing, foo = 1, bar] = [,, 3];
+        expect(thing).not.toBeDefined();
         expect(foo).toBe(1);
         expect(bar).toBe(3);
     });
-
-});
-
-describe("Destructuring", function() {
 
     it("should support unpacking an object", function() {
         function getName()
         {
             return {
-                fname: 'Fred',
+                firstName: 'Fred',
                 lname: 'Flintstone',
                 contact: {phone: '410-121-1111', pager: '121-121-3333', snailMail:'1 Main Street'}
             };
         }
 
         var {
-            fname: firstName,
-            lname: lastName,
-            contact: {phone: phoneNumber, pager: pagerNumber }
+            firstName,   // matches exactly so no need to repeat
+            lname: lastName,  // translate
+            contact: {phone: phoneNumber, pager: pagerNumber }   // flatten and rename
             } = getName();
 
         expect(firstName).toBe('Fred');
