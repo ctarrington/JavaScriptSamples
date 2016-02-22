@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Directives - Shared Controller</title>
+    <script type="text/javascript" src="../lib/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="../lib/angular.min.js"></script>
+    <script type="text/javascript" src="../lib/angular-route.min.js"></script>
+    <script type="text/javascript" src="../lib/angular-resource.min.js"></script>
+    <script type="text/javascript" src='./src/dwsc.js'></script>
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+</head>
+
+<body ng-app="cardsWithSharedController">
+    <h1>Directives - Shared Controller</h1>
+
+    <div>
+        <dsc-card-list ng-transclude>
+            <div>{{selectedCardIndex}}</div>
+            <dsc-card ng-repeat="card in cards" />
+        </dsc-card-list>
+    </div>
+
+
+</body>
+</html>
