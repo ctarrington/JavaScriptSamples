@@ -1,0 +1,5 @@
+{
+  "ambientDependencies": {
+    "babylon": "registry:dt/babylon#2.3.0+20160204022938"
+  }
+}
