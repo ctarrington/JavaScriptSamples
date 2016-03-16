@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
         light.groundColor = new BABYLON.Color3(0.25, 0.25, 0.25);
         light.intensity = 0.5;
         
-        var ground = BABYLON.Mesh.CreateGround('ground', 20, 20, 2, scene);
+        var ground = BABYLON.Mesh.CreateGround('ground', 40, 40, 2, scene);
         
         var largeCylinder = BABYLON.Mesh.CreateCylinder('largeCylinder', 10, 5, 5.2, 8, 8, scene);
         largeCylinder.position = new BABYLON.Vector3(7, 5, -7);
