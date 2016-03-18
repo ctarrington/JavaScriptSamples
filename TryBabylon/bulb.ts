@@ -14,18 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
         camera.attachControl(canvas, true, true);
 
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1,1,1), scene);
-        light.diffuse = new BABYLON.Color3(1, 1, 1);
-        light.specular = new BABYLON.Color3(1, 1, 1);
-        light.groundColor = new BABYLON.Color3(0.25, 0.25, 0.25);
-        light.intensity = 0.5;
-        
-        var ground = BABYLON.Mesh.CreateGround('ground', 40, 40, 2, scene);
-        
-        var largeCylinder = BABYLON.Mesh.CreateCylinder('largeCylinder', 10, 5, 5.2, 8, 8, scene);
-        largeCylinder.position = new BABYLON.Vector3(7, 5, -7);
-        
-        var smallCylinder = BABYLON.Mesh.CreateCylinder('smallCylinder', 5, 3, 4.2, 8, 8, scene);
-        smallCylinder.position = new BABYLON.Vector3(2, 2.5, 2);
+        light.diffuse = new BABYLON.Color3(1,1,1);
+        light.specular = new BABYLON.Color3(1,1,1);
+        light.groundColor = new BABYLON.Color3(1,1,1);
+        light.intensity = 0.3;
 
         var threadsMaterial = new BABYLON.StandardMaterial('threadsMaterial', scene);
         var threadsTexture = new BABYLON.Texture('assets/threads.jpg', scene);
@@ -40,14 +32,22 @@ window.addEventListener('DOMContentLoaded', () => {
         bulbMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
         bulbMaterial.alpha = 0.8;
         
-        var filamentLight = new BABYLON.PointLight('filamentLight', new BABYLON.Vector3(0, 1.2, 0), scene);
+        var ground = BABYLON.Mesh.CreateGround('ground', 40, 40, 2, scene);
+        
+        var largeCylinder = BABYLON.Mesh.CreateCylinder('largeCylinder', 10, 5, 5.2, 8, 8, scene);
+        largeCylinder.position = new BABYLON.Vector3(7, 5, -7);
+        
+        var smallCylinder = BABYLON.Mesh.CreateCylinder('smallCylinder', 5, 3, 4.2, 8, 8, scene);
+        smallCylinder.position = new BABYLON.Vector3(2, 2.5, 2);
+        
+        var filamentPosition = new BABYLON.Vector3(0, 1.2, 0);
+        var filamentLight = new BABYLON.PointLight('filamentLight', filamentPosition, scene);
         filamentLight.diffuse = new BABYLON.Color3(1, 0, 0);
         filamentLight.specular = new BABYLON.Color3(1, 1, 1);
+        filamentLight.intensity = 0.5;
         
-        var shadowGenerator = new BABYLON.ShadowGenerator(1024, filamentLight);
-	    shadowGenerator.getShadowMap().renderList.push(smallCylinder);
-	    largeCylinder.receiveShadows = true;
-        
+        var filamentProxy = BABYLON.Mesh.CreateSphere('filamentProxy', 4, 0.3, scene);
+        filamentProxy.position = filamentPosition;     
         
         var base = BABYLON.Mesh.CreateCylinder('base', 1.2, 1.2, 0.9, 20, 8, scene);
         base.position = new BABYLON.Vector3(0, 0, 0);
@@ -62,12 +62,21 @@ window.addEventListener('DOMContentLoaded', () => {
         nib.position = new BABYLON.Vector3(0, -0.5, 0);
         
         var lightBulb = BABYLON.Mesh.CreateBox('lightBulb', 1, scene);
-        lightBulb.position = new BABYLON.Vector3(-6, 2, 10);
+        lightBulb.position = new BABYLON.Vector3(0, 7.6, 20);
         lightBulb.isVisible = false;
         base.parent = lightBulb;
         bulb.parent = lightBulb;
         nib.parent = lightBulb;
         filamentLight.parent = lightBulb;
+        filamentProxy.parent = lightBulb;
+        
+        var shadowGenerator = new BABYLON.ShadowGenerator(1024, filamentLight);
+        shadowGenerator.useVarianceShadowMap = false;
+        var shadowCasters = shadowGenerator.getShadowMap().renderList;
+        shadowCasters.push(largeCylinder);
+        shadowCasters.push(smallCylinder);
+        //largeCylinder.receiveShadows = true;
+        ground.receiveShadows = true;
 
         // return the created scene
         return scene;
