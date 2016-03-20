@@ -51,15 +51,13 @@ window.addEventListener('DOMContentLoaded', () => {
         smallYellowCylinder.position = new BABYLON.Vector3(2, 2.5, 2);
         smallYellowCylinder.material = yellowMaterial;
         
-        var filamentPosition = new BABYLON.Vector3(0, 3.6, 16);
-        
-        var filamentLight = new BABYLON.PointLight('filamentLight', filamentPosition, scene);
+        var filamentLight = new BABYLON.PointLight('filamentLight', new BABYLON.Vector3(0, 3.6, 16), scene);
         filamentLight.diffuse = new BABYLON.Color3(1, 1, 1);
         filamentLight.specular = new BABYLON.Color3(1, 1, 1);
         filamentLight.intensity = 0.4;
         
         var filamentProxy = BABYLON.Mesh.CreateSphere('filamentProxy', 4, 0.3, scene);
-        filamentProxy.position = filamentPosition;     
+        filamentProxy.parent = filamentLight;     
         filamentProxy.material = glowingMaterial;
         
         var shadowGenerator = new BABYLON.ShadowGenerator(1024, filamentLight);
