@@ -113,15 +113,17 @@ window.addEventListener('DOMContentLoaded', () => {
         bulb.actionManager = new BABYLON.ActionManager(scene);
         bulb.actionManager.registerAction(bulbAction);
         
-        var animation = new BABYLON.Animation('animationForBulb', 'position.x', 10, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+        var animation = new BABYLON.Animation('animationForBulb', 'position', 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
         animation.setKeys([
-            {frame:0, value:-8},
-            {frame:100, value:8},
-            {frame: 200, value:-8}
+            {frame:0, value:   new BABYLON.Vector3(-14, 3, 15)},
+            {frame:100, value: new BABYLON.Vector3(-14, 3, -3)},
+            {frame: 200, value:new BABYLON.Vector3(14, 3, -3)},
+            {frame:300, value: new BABYLON.Vector3(14, 3, 15)},
+            {frame:400, value: new BABYLON.Vector3(-14, 3, 15)}
         ]);
         
         filamentLight.animations.push(animation);
-        scene.beginAnimation(filamentLight, 0, 200, true);
+        scene.beginAnimation(filamentLight, 0, 400, true);
 
         // return the created scene
         return scene;
