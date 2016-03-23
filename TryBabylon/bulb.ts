@@ -37,6 +37,15 @@ window.addEventListener('DOMContentLoaded', () => {
         blueMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
         blueMaterial.alpha = 1.0;
         
+        var bumpyWallTexture = new BABYLON.Texture('assets/wall-bump.png', scene);
+        
+        var treeTexture = new BABYLON.Texture('assets/tree-for-sphere.png', scene);
+        treeTexture.hasAlpha = true;
+       
+        blueMaterial.ambientTexture = treeTexture;
+        blueMaterial.bumpTexture = bumpyWallTexture;
+        
+        
         var yellowMaterial = new BABYLON.StandardMaterial('yellowMaterial', scene);
         yellowMaterial.diffuseColor = new BABYLON.Color3(0.8, 0.8, 0.2);
         yellowMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
