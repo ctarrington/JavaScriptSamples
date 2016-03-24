@@ -38,6 +38,8 @@ window.addEventListener('DOMContentLoaded', () => {
         blueMaterial.alpha = 1.0;
         
         var bumpyWallTexture = new BABYLON.Texture('assets/wall-bump.png', scene);
+        bumpyWallTexture.uScale = 5;
+        bumpyWallTexture.vScale = 8;
         
         var treeTexture = new BABYLON.Texture('assets/tree-for-sphere.png', scene);
         treeTexture.hasAlpha = true;
