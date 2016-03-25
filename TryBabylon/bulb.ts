@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
         light.diffuse = new BABYLON.Color3(1,1,1);
         light.specular = new BABYLON.Color3(1,1,1);
         light.groundColor = new BABYLON.Color3(1,1,1);
-        light.intensity = 0.3;
+        light.intensity = 0.2;
         
         var blueMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
         blueMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 1);
@@ -80,8 +80,17 @@ window.addEventListener('DOMContentLoaded', () => {
         lightBulb.getAnchor().animations.push(animation);
         scene.beginAnimation(lightBulb.getAnchor(), 0, 400, true);
         
-        new Axes(scene, 10);
-        scene.debugLayer.show();
+        var cornerBulb = new LightBulb(scene);
+        var cornerBulbPosition = cornerBulb.getAnchor().getAbsolutePosition();
+        cornerBulbPosition.x = -18;
+        cornerBulbPosition.y = 3;
+        cornerBulbPosition.z= 18;
+        cornerBulb.addShadowCaster(smallYellowCylinder);
+        cornerBulb.addShadowCaster(tallYellowCylinder);
+        cornerBulb.addShadowCaster(largeBlueBox);
+        
+        //new Axes(scene, 10);
+        //scene.debugLayer.show();
         
         // return the created scene
         return scene;
