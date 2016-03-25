@@ -40,34 +40,14 @@ window.addEventListener('DOMContentLoaded', () => {
         yellowMaterial.alpha = 1.0;
         
         var ground = BABYLON.Mesh.CreateGround('ground', 40, 40, 2, scene);
-        
-        var lightBulbPosition = new BABYLON.Vector3(-5, 1.6, 16);
-        
-        var hSpriteNb =  6;  // 6 sprites per raw
-        var vSpriteNb =  4;  // 4 sprite raws
-        var faceUV = new Array(6);
 
-        for (var i = 0; i < 6; i++) {
-            faceUV[i] = new BABYLON.Vector4(0, 0, 0.1, 0.1);
-        }
-        
-        faceUV[0] = new BABYLON.Vector4(0.0, 0.0, 0.75, 0.75);
-        faceUV[1] = new BABYLON.Vector4(0.25, 0.25, 1.0, 1.0);
-        faceUV[2] = new BABYLON.Vector4(0.4, 0.0, 0.7, 0.3);
-        
-        var options = {
-            width: 3,
-            height: 5,
-            depth: 1,
-            faceUV: faceUV
-        };
-
-        var largeBlueBox = BABYLON.MeshBuilder.CreateBox('largeBlueBox', options, scene);
+        var largeBlueBox = BABYLON.Mesh.CreateBox('largeBlueBox', 2, scene);
+        largeBlueBox.scaling = new BABYLON.Vector3(3,5,1);
         largeBlueBox.position = new BABYLON.Vector3(7, 5, -7);
         largeBlueBox.material = blueMaterial;
         
         var smallYellowCylinder = BABYLON.Mesh.CreateCylinder('smallYellowCylinder', 5, 3, 4.2, 32, 32, scene);
-        smallYellowCylinder.position = new BABYLON.Vector3(2, 2.5, 2);
+        smallYellowCylinder.position = new BABYLON.Vector3(2, 2.5, 6);
         smallYellowCylinder.material = yellowMaterial;
         
         smallYellowCylinder.receiveShadows = true;
@@ -75,7 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ground.receiveShadows = true;
         
         var tallYellowCylinder = BABYLON.Mesh.CreateCylinder('tallYellowCylinder', 10, 3, 4.2, 32, 32, scene);
-        tallYellowCylinder.position = new BABYLON.Vector3(-3, 5.5, 0);
+        tallYellowCylinder.position = new BABYLON.Vector3(-3, 5, 0);
         tallYellowCylinder.material = yellowMaterial;
         
         tallYellowCylinder.receiveShadows = true;
