@@ -18,19 +18,6 @@ window.addEventListener('DOMContentLoaded', () => {
         light.specular = new BABYLON.Color3(1,1,1);
         light.groundColor = new BABYLON.Color3(1,1,1);
         light.intensity = 0.3;
-
-        var threadsMaterial = new BABYLON.StandardMaterial('threadsMaterial', scene);
-        var threadsTexture = new BABYLON.Texture('assets/threads.jpg', scene);
-        threadsTexture.uScale = 1.0;
-        threadsTexture.vScale = 1.3;
-        threadsMaterial.diffuseTexture = threadsTexture;
-        threadsMaterial.bumpTexture = threadsTexture;
-        
-        var bulbMaterial = new BABYLON.StandardMaterial('bulbMaterial', scene);
-        bulbMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
-        bulbMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-        bulbMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
-        bulbMaterial.alpha = 0.5;
         
         var blueMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
         blueMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 1);
@@ -45,25 +32,37 @@ window.addEventListener('DOMContentLoaded', () => {
         treeTexture.hasAlpha = true;
        
         blueMaterial.ambientTexture = treeTexture;
-        blueMaterial.bumpTexture = bumpyWallTexture;
-        
+        blueMaterial.bumpTexture = bumpyWallTexture;        
         
         var yellowMaterial = new BABYLON.StandardMaterial('yellowMaterial', scene);
         yellowMaterial.diffuseColor = new BABYLON.Color3(0.8, 0.8, 0.2);
         yellowMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
         yellowMaterial.alpha = 1.0;
         
-        var glowingMaterial = new BABYLON.StandardMaterial('glowingMaterial', scene);
-        glowingMaterial.diffuseColor = new BABYLON.Color3(0.8, 0.8, 0.2);
-        glowingMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
-        glowingMaterial.emissiveColor = new BABYLON.Color3(0.8, 0.8, 0.2);
-        
         var ground = BABYLON.Mesh.CreateGround('ground', 40, 40, 2, scene);
         
         var lightBulbPosition = new BABYLON.Vector3(-5, 1.6, 16);
         
-        var largeBlueBox = BABYLON.Mesh.CreateBox('largeBlueBox', 2, scene);
-        largeBlueBox.scaling = new BABYLON.Vector3(3,5,1);
+        var hSpriteNb =  6;  // 6 sprites per raw
+        var vSpriteNb =  4;  // 4 sprite raws
+        var faceUV = new Array(6);
+
+        for (var i = 0; i < 6; i++) {
+            faceUV[i] = new BABYLON.Vector4(0, 0, 0.1, 0.1);
+        }
+        
+        faceUV[0] = new BABYLON.Vector4(0.0, 0.0, 0.75, 0.75);
+        faceUV[1] = new BABYLON.Vector4(0.25, 0.25, 1.0, 1.0);
+        faceUV[2] = new BABYLON.Vector4(0.4, 0.0, 0.7, 0.3);
+        
+        var options = {
+            width: 3,
+            height: 5,
+            depth: 1,
+            faceUV: faceUV
+        };
+
+        var largeBlueBox = BABYLON.MeshBuilder.CreateBox('largeBlueBox', options, scene);
         largeBlueBox.position = new BABYLON.Vector3(7, 5, -7);
         largeBlueBox.material = blueMaterial;
         
@@ -71,58 +70,23 @@ window.addEventListener('DOMContentLoaded', () => {
         smallYellowCylinder.position = new BABYLON.Vector3(2, 2.5, 2);
         smallYellowCylinder.material = yellowMaterial;
         
-        var filamentLight = new BABYLON.PointLight('filamentLight', new BABYLON.Vector3(-8, 3, 15), scene);
-        filamentLight.diffuse = new BABYLON.Color3(1, 1, 1);
-        filamentLight.specular = new BABYLON.Color3(1, 1, 1);
-        filamentLight.intensity = 0.2;
-        
-        var filamentProxy = BABYLON.Mesh.CreateSphere('filamentProxy', 4, 0.3, scene);  
-        filamentProxy.material = glowingMaterial;  
-        
-        var base = BABYLON.Mesh.CreateCylinder('base', 1.2, 1.2, 0.9, 20, 8, scene);
-        base.position = new BABYLON.Vector3(0, -1, 0);
-        
-        base.material = threadsMaterial;
-        
-        var bulb = BABYLON.Mesh.CreateSphere('bulb', 16, 1.9, scene);
-        bulb.position = new BABYLON.Vector3(0, 0, 0);
-        bulb.material = bulbMaterial;
-        bulb.isPickable = true;
-        
-        var nib = BABYLON.Mesh.CreateSphere('bulb', 16, 0.6, scene);
-        nib.position = new BABYLON.Vector3(0, -1.5, 0);
-        
-        filamentProxy.parent = filamentLight;
-        base.parent = filamentLight;
-        bulb.parent = filamentLight;
-        nib.parent = filamentLight;
-        
-        var shadowGenerator = new BABYLON.ShadowGenerator(1024, filamentLight);
-        shadowGenerator.usePoissonSampling = false;
-        shadowGenerator.useVarianceShadowMap = true;
-        shadowGenerator.useBlurVarianceShadowMap = false;
-        
-        var shadowCasters = shadowGenerator.getShadowMap().renderList;
-        shadowCasters.push(smallYellowCylinder, largeBlueBox, nib);
-        
         smallYellowCylinder.receiveShadows = true;
         largeBlueBox.receiveShadows = true;
         ground.receiveShadows = true;
         
-        function onBulbPicked():void {
-            var intensity = filamentLight.intensity+0.2;
-            if (intensity > 0.8) { intensity = 0.0; }
-            
-            filamentLight.intensity = intensity;
-            bulbMaterial.emissiveColor = new BABYLON.Color3(intensity/1.2, intensity/1.2, intensity/2);
-            bulbMaterial.alpha = (intensity+0.5)/2;
-            glowingMaterial.emissiveColor = new BABYLON.Color3(intensity/0.8, intensity/0.8, intensity/2);
-        }
-        onBulbPicked(); 
+        var tallYellowCylinder = BABYLON.Mesh.CreateCylinder('tallYellowCylinder', 10, 3, 4.2, 32, 32, scene);
+        tallYellowCylinder.position = new BABYLON.Vector3(-3, 5.5, 0);
+        tallYellowCylinder.material = yellowMaterial;
         
-        var bulbAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, onBulbPicked);
-        bulb.actionManager = new BABYLON.ActionManager(scene);
-        bulb.actionManager.registerAction(bulbAction);
+        tallYellowCylinder.receiveShadows = true;
+        smallYellowCylinder.receiveShadows = true;
+        largeBlueBox.receiveShadows = true;
+        ground.receiveShadows = true;
+        
+        var lightBulb = new LightBulb(scene);
+        lightBulb.addShadowCaster(smallYellowCylinder);
+        lightBulb.addShadowCaster(tallYellowCylinder);
+        lightBulb.addShadowCaster(largeBlueBox);
         
         var animation = new BABYLON.Animation('animationForBulb', 'position', 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
         animation.setKeys([
@@ -133,13 +97,14 @@ window.addEventListener('DOMContentLoaded', () => {
             {frame:400, value: new BABYLON.Vector3(-14, 3, 15)}
         ]);
         
-        filamentLight.animations.push(animation);
-        scene.beginAnimation(filamentLight, 0, 400, true);
-
+        lightBulb.getAnchor().animations.push(animation);
+        scene.beginAnimation(lightBulb.getAnchor(), 0, 400, true);
+        
         // return the created scene
         return scene;
     }
 
+    
     // call the createScene function
     var scene = createScene();
     
