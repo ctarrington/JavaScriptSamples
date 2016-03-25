@@ -80,6 +80,9 @@ window.addEventListener('DOMContentLoaded', () => {
         lightBulb.getAnchor().animations.push(animation);
         scene.beginAnimation(lightBulb.getAnchor(), 0, 400, true);
         
+        new Axes(scene, 10);
+        scene.debugLayer.show();
+        
         // return the created scene
         return scene;
     }
