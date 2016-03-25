@@ -11,9 +11,7 @@ class LightBulb {
     private nib: BABYLON.Mesh;
     private shadowCasters: BABYLON.AbstractMesh[];
     
-    
-    
-    constructor(scene: BABYLON.Scene) {
+    constructor(scene: BABYLON.Scene, position = new BABYLON.Vector3(0,0,0)) {
         this.scene = scene;
         
         this.threadsMaterial = new BABYLON.StandardMaterial('threadsMaterial', scene);
@@ -34,7 +32,7 @@ class LightBulb {
         this.glowingMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
         this.glowingMaterial.emissiveColor = new BABYLON.Color3(0.8, 0.8, 0.2);
         
-        this.filamentLight = new BABYLON.PointLight('filamentLight', new BABYLON.Vector3(-8, 3, 15), scene);
+        this.filamentLight = new BABYLON.PointLight('filamentLight', position, scene);
         this.filamentLight.diffuse = new BABYLON.Color3(1, 1, 1);
         this.filamentLight.specular = new BABYLON.Color3(1, 1, 1);
         this.filamentLight.intensity = 0.2;

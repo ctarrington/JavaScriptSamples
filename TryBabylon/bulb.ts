@@ -80,11 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
         lightBulb.getAnchor().animations.push(animation);
         scene.beginAnimation(lightBulb.getAnchor(), 0, 400, true);
         
-        var cornerBulb = new LightBulb(scene);
-        var cornerBulbPosition = cornerBulb.getAnchor().getAbsolutePosition();
-        cornerBulbPosition.x = -18;
-        cornerBulbPosition.y = 3;
-        cornerBulbPosition.z= 18;
+        var cornerBulb = new LightBulb(scene, new BABYLON.Vector3(-18, 3, 18));
         cornerBulb.addShadowCaster(smallYellowCylinder);
         cornerBulb.addShadowCaster(tallYellowCylinder);
         cornerBulb.addShadowCaster(largeBlueBox);
