@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
         yellowMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
         yellowMaterial.alpha = 1.0;
         
-        var ground = BABYLON.Mesh.CreateGround('ground', 40, 40, 2, scene);
+        var ground = BABYLON.Mesh.CreateGround('ground', 80, 80, 2, scene);
 
         var largeBlueBox = BABYLON.Mesh.CreateBox('largeBlueBox', 2, scene);
         largeBlueBox.scaling = new BABYLON.Vector3(3,5,1);

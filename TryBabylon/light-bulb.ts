@@ -65,20 +65,8 @@ class LightBulb {
         this.shadowCasters = shadowGenerator.getShadowMap().renderList;
         this.shadowCasters.push(this.nib);
         
-        function bulbPicked():void {
-            var intensity = this.filamentLight.intensity+0.2;
-            if (intensity > 0.8) { intensity = 0.0; }
-            
-            this.filamentLight.intensity = intensity;
-            this.bulbMaterial.emissiveColor = new BABYLON.Color3(intensity/1.2, intensity/1.2, intensity/2);
-            this.bulbMaterial.alpha = (intensity+0.5)/2;
-            this.glowingMaterial.emissiveColor = new BABYLON.Color3(intensity/0.8, intensity/0.8, intensity/2);
-        }
-        
-        var onBulbPicked = bulbPicked.bind(this); 
-        onBulbPicked();
-        
-        var bulbAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, onBulbPicked);
+        this.incrementIntensity();
+        var bulbAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => { this.incrementIntensity() } );
         this.bulb.actionManager = new BABYLON.ActionManager(scene);
         this.bulb.actionManager.registerAction(bulbAction);
     }
@@ -97,5 +85,14 @@ class LightBulb {
         return [this.base, this.nib];
     }
     
+    private incrementIntensity() {
+        var intensity = this.filamentLight.intensity+0.2;
+        if (intensity > 0.8) { intensity = 0.0; }
+        
+        this.filamentLight.intensity = intensity;
+        this.bulbMaterial.emissiveColor = new BABYLON.Color3(intensity/1.2, intensity/1.2, intensity/2);
+        this.bulbMaterial.alpha = (intensity+0.5)/2;
+        this.glowingMaterial.emissiveColor = new BABYLON.Color3(intensity/0.8, intensity/0.8, intensity/2);
+    }
     
 }
