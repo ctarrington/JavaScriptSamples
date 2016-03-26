@@ -28,7 +28,7 @@ class Axes {
         
         for (var ctr=-this.number; ctr <= this.number; ctr++)
         {
-            var point = BABYLON.Mesh.CreateSphere(`x-${ctr}`, 8, size, scene);
+            var point = BABYLON.Mesh.CreateSphere(`x:  ${ctr}`, 8, size, scene);
             point.position = new BABYLON.Vector3(ctr, 0, 0);
             point.material = xMaterial;
             

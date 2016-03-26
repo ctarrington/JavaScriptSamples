@@ -64,9 +64,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ground.receiveShadows = true;
         
         var lightBulb = new LightBulb(scene);
-        lightBulb.addShadowCaster(smallYellowCylinder);
-        lightBulb.addShadowCaster(tallYellowCylinder);
-        lightBulb.addShadowCaster(largeBlueBox);
+        lightBulb.addShadowCasters([smallYellowCylinder, tallYellowCylinder,largeBlueBox]);
         
         var animation = new BABYLON.Animation('animationForBulb', 'position', 30, BABYLON.Animation.ANIMATIONTYPE_VECTOR3, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
         animation.setKeys([
@@ -80,10 +78,9 @@ window.addEventListener('DOMContentLoaded', () => {
         lightBulb.getAnchor().animations.push(animation);
         scene.beginAnimation(lightBulb.getAnchor(), 0, 400, true);
         
-        var cornerBulb = new LightBulb(scene, new BABYLON.Vector3(-18, 3, 18));
-        cornerBulb.addShadowCaster(smallYellowCylinder);
-        cornerBulb.addShadowCaster(tallYellowCylinder);
-        cornerBulb.addShadowCaster(largeBlueBox);
+        var cornerBulb = new LightBulb(scene, new BABYLON.Vector3(-17, 5, 17));
+        cornerBulb.addShadowCasters([smallYellowCylinder, tallYellowCylinder, largeBlueBox]);
+        cornerBulb.addShadowCasters(lightBulb.getShadowCasters());
         
         //new Axes(scene, 10);
         //scene.debugLayer.show();

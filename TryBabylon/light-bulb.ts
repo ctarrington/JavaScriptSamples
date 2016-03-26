@@ -1,17 +1,17 @@
 class LightBulb {
     
-    private scene: BABYLON.Scene;
-    private threadsMaterial: BABYLON.StandardMaterial;
-    private bulbMaterial: BABYLON.StandardMaterial;
-    private glowingMaterial: BABYLON.StandardMaterial;
-    private filamentLight: BABYLON.PointLight;
-    private filamentProxy: BABYLON.Mesh; 
-    private base: BABYLON.Mesh;
-    private bulb: BABYLON.Mesh;
-    private nib: BABYLON.Mesh;
-    private shadowCasters: BABYLON.AbstractMesh[];
+    private scene : BABYLON.Scene;
+    private threadsMaterial : BABYLON.StandardMaterial;
+    private bulbMaterial : BABYLON.StandardMaterial;
+    private glowingMaterial : BABYLON.StandardMaterial;
+    private filamentLight : BABYLON.PointLight;
+    private filamentProxy : BABYLON.Mesh; 
+    private base : BABYLON.Mesh;
+    private bulb : BABYLON.Mesh;
+    private nib : BABYLON.Mesh;
+    private shadowCasters : BABYLON.AbstractMesh[];
     
-    constructor(scene: BABYLON.Scene, position = new BABYLON.Vector3(0,0,0)) {
+    constructor(scene: BABYLON.Scene, lightPosition = new BABYLON.Vector3(0,0,0)) {
         this.scene = scene;
         
         this.threadsMaterial = new BABYLON.StandardMaterial('threadsMaterial', scene);
@@ -32,7 +32,7 @@ class LightBulb {
         this.glowingMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
         this.glowingMaterial.emissiveColor = new BABYLON.Color3(0.8, 0.8, 0.2);
         
-        this.filamentLight = new BABYLON.PointLight('filamentLight', position, scene);
+        this.filamentLight = new BABYLON.PointLight('filamentLight', lightPosition, scene);
         this.filamentLight.diffuse = new BABYLON.Color3(1, 1, 1);
         this.filamentLight.specular = new BABYLON.Color3(1, 1, 1);
         this.filamentLight.intensity = 0.2;
@@ -56,8 +56,6 @@ class LightBulb {
         this.base.parent = this.filamentLight;
         this.bulb.parent = this.filamentLight;
         this.nib.parent = this.filamentLight; 
-        
-        this.filamentLight.position = new BABYLON.Vector3(10, 5, 10);
         
         var shadowGenerator = new BABYLON.ShadowGenerator(1024, this.filamentLight);
         shadowGenerator.usePoissonSampling = false;
@@ -85,12 +83,18 @@ class LightBulb {
         this.bulb.actionManager.registerAction(bulbAction);
     }
     
-    getAnchor(): BABYLON.Light {
+    getAnchor() : BABYLON.Light {
         return this.filamentLight;
     }
     
-    addShadowCaster(item: BABYLON.AbstractMesh) :void {
-        this.shadowCasters.push(item);
+    addShadowCasters(items : BABYLON.AbstractMesh[]) : void {
+        for (var ctr=0; ctr<items.length;ctr++) {
+            this.shadowCasters.push(items[ctr]);
+        }
+    }
+    
+    getShadowCasters() : BABYLON.AbstractMesh[] {
+        return [this.base, this.nib];
     }
     
     
