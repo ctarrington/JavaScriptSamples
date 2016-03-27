@@ -87,8 +87,7 @@ window.addEventListener('DOMContentLoaded', () => {
         
         // return the created scene
         return scene;
-    }
-
+    };
     
     // call the createScene function
     var scene = createScene();

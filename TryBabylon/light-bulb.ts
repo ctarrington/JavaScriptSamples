@@ -66,7 +66,7 @@ class LightBulb {
         this.shadowCasters.push(this.nib);
         
         this.incrementIntensity();
-        var bulbAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => { this.incrementIntensity() } );
+        var bulbAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => { this.incrementIntensity(); } );
         this.bulb.actionManager = new BABYLON.ActionManager(scene);
         this.bulb.actionManager.registerAction(bulbAction);
     }

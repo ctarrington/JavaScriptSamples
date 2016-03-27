@@ -1,12 +1,12 @@
 class Axes {
     
     private scene: BABYLON.Scene;
-    private number: Number;
+    private radius: Number;
     private size: Number;
     
-    constructor(scene: BABYLON.Scene, number = 5, size = 0.2) {
+    constructor(scene: BABYLON.Scene, radius = 5, size = 0.2) {
         this.scene = scene;
-        this.number = number;
+        this.radius = radius;
         this.size = size;
         
         var alpha = 0.7;
@@ -26,7 +26,7 @@ class Axes {
         zMaterial.specularColor = BABYLON.Color3.Blue();
         zMaterial.alpha = alpha;
         
-        for (var ctr=-this.number; ctr <= this.number; ctr++)
+        for (var ctr=-this.radius; ctr <= this.radius; ctr++)
         {
             var point = BABYLON.Mesh.CreateSphere(`x:  ${ctr}`, 8, size, scene);
             point.position = new BABYLON.Vector3(ctr, 0, 0);

@@ -1,5 +1,24 @@
 {
     "rules": {
-        "quotemark": [true, "single"]
+        "quotemark": [true, "single", "avoid-escape"],
+        "class-name": true,
+        "curly": true,
+        "no-duplicate-key": true,
+        "no-duplicate-variable": true,
+        "no-eval": true,
+        "radix": true,
+        "semicolon": ["always"],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        ],
+        "variable-name": [
+            true,
+            "check-format",
+            "ban-keywords"
+        ]
     }
 }
