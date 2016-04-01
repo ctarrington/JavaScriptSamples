@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
         light.diffuse = new BABYLON.Color3(1,1,1);
         light.specular = new BABYLON.Color3(1,1,1);
         light.groundColor = new BABYLON.Color3(1,1,1);
-        light.intensity = 0.3;
+        light.intensity = 0.4;
         
         var bulbMaterial = new BABYLON.StandardMaterial('bulbMaterial', scene);
         bulbMaterial.diffuseColor = new BABYLON.Color3(1, 0.3, 0.3);
@@ -46,23 +46,53 @@ window.addEventListener('DOMContentLoaded', () => {
             new BABYLON.Color4(0,1,1,1)  // cyan bottom
         ];
         
-        var boxOptions = {
+        var colorBoxOptions = {
             width: 5,
             height: 9,
             depth:3,
             faceColors: faceColors
         };
-        var largeBox = BABYLON.MeshBuilder.CreateBox('largeBox', boxOptions, scene);
-        largeBox.position = new BABYLON.Vector3(6, 3, -7);
         
-        var smallYellowCylinder = BABYLON.Mesh.CreateCylinder('smallYellowCylinder', 5, 3, 4.2, 8, 8, scene);
-        smallYellowCylinder.position = new BABYLON.Vector3(2, 2.5, 2);
+        var colorsBox = BABYLON.MeshBuilder.CreateBox('colorsBox', colorBoxOptions, scene);
+        colorsBox.position = new BABYLON.Vector3(8, 3, -1);
+        
+        var faceUV = [
+            new BABYLON.Vector4(0.2,0.2, 0.8,0.8),  // front
+            new BABYLON.Vector4(0.1, 0.1,0.2, 0.2), // back
+            new BABYLON.Vector4(0.1, 0.1,0.2, 0.2), // left
+            new BABYLON.Vector4(0.1, 0.1,0.2, 0.2), // right
+            new BABYLON.Vector4(0.1, 0.1,0.2, 0.2), // top
+            new BABYLON.Vector4(0.1, 0.1,0.2, 0.2)  // bottom
+        ];
+        
+        var textureBoxOptions = {
+            width: 5,
+            height: 9,
+            depth:3,
+            faceUV: faceUV
+        };
+        
+        var treeTexture = new BABYLON.Texture('assets/tree-for-sphere.png', scene);
+        treeTexture.hasAlpha = true;
+        
+        var blueMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
+        blueMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 1);
+        blueMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
+        blueMaterial.alpha = 1.0;
+        blueMaterial.ambientTexture = treeTexture;
+        
+        var texturesBox = BABYLON.MeshBuilder.CreateBox('texturesBox', textureBoxOptions, scene);
+        texturesBox.position = new BABYLON.Vector3(2, 3, -5);
+        texturesBox.material = blueMaterial;
+        
+        var smallYellowCylinder = BABYLON.Mesh.CreateCylinder('smallYellowCylinder', 5, 3, 4.2, 16, 16, scene);
+        smallYellowCylinder.position = new BABYLON.Vector3(2, 2.5, 10);
         smallYellowCylinder.material = yellowMaterial;
         
-        var filamentLight = new BABYLON.PointLight('filamentLight', new BABYLON.Vector3(0, 3.6, 16), scene);
+        var filamentLight = new BABYLON.PointLight('filamentLight', new BABYLON.Vector3(0, 3.6, 20), scene);
         filamentLight.diffuse = new BABYLON.Color3(1, 1, 1);
         filamentLight.specular = new BABYLON.Color3(1, 1, 1);
-        filamentLight.intensity = 0.4;
+        filamentLight.intensity = 0.5;
         
         var filamentProxy = BABYLON.Mesh.CreateSphere('filamentProxy', 4, 0.3, scene);
         filamentProxy.parent = filamentLight;     
@@ -74,10 +104,11 @@ window.addEventListener('DOMContentLoaded', () => {
         shadowGenerator.useBlurVarianceShadowMap = true;
         
         var shadowCasters = shadowGenerator.getShadowMap().renderList;
-        shadowCasters.push(smallYellowCylinder, largeBox);
+        shadowCasters.push(smallYellowCylinder, colorsBox, texturesBox);
         
         ground.receiveShadows = true;
-        largeBox.receiveShadows = true;
+        colorsBox.receiveShadows = true;
+        texturesBox.receiveShadows = true;
 
         // return the created scene
         return scene;
