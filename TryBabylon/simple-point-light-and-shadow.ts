@@ -25,11 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
         bulbMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
         bulbMaterial.alpha = 0.8;
         
-        var blueMaterial = new BABYLON.StandardMaterial('blueMaterial', scene);
-        blueMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 1);
-        blueMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
-        blueMaterial.alpha = 1.0;
-        
         var yellowMaterial = new BABYLON.StandardMaterial('yellowMaterial', scene);
         yellowMaterial.diffuseColor = new BABYLON.Color3(0.8, 0.8, 0.2);
         yellowMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
@@ -42,10 +37,23 @@ window.addEventListener('DOMContentLoaded', () => {
         
         var ground = BABYLON.Mesh.CreateGround('ground', 40, 40, 2, scene);
         
-        var largeBlueBox = BABYLON.Mesh.CreateBox('largeBlueBox', 2, scene);
-        largeBlueBox.scaling = new BABYLON.Vector3(3,5,1);
-        largeBlueBox.position = new BABYLON.Vector3(7, 5, -7);
-        largeBlueBox.material = blueMaterial;
+        var faceColors = [
+            new BABYLON.Color4(1,0,0,1), // red front
+            new BABYLON.Color4(0,1,0,1), // green back
+            new BABYLON.Color4(0,0,1,1), // blue left
+            new BABYLON.Color4(1,0,1,1), // purple right
+            new BABYLON.Color4(1,1,0,1), // yellow top
+            new BABYLON.Color4(0,1,1,1)  // cyan bottom
+        ];
+        
+        var boxOptions = {
+            width: 5,
+            height: 9,
+            depth:3,
+            faceColors: faceColors
+        };
+        var largeBox = BABYLON.MeshBuilder.CreateBox('largeBox', boxOptions, scene);
+        largeBox.position = new BABYLON.Vector3(6, 3, -7);
         
         var smallYellowCylinder = BABYLON.Mesh.CreateCylinder('smallYellowCylinder', 5, 3, 4.2, 8, 8, scene);
         smallYellowCylinder.position = new BABYLON.Vector3(2, 2.5, 2);
@@ -66,10 +74,10 @@ window.addEventListener('DOMContentLoaded', () => {
         shadowGenerator.useBlurVarianceShadowMap = true;
         
         var shadowCasters = shadowGenerator.getShadowMap().renderList;
-        shadowCasters.push(smallYellowCylinder, largeBlueBox);
+        shadowCasters.push(smallYellowCylinder, largeBox);
         
-        largeBlueBox.receiveShadows = true;
         ground.receiveShadows = true;
+        largeBox.receiveShadows = true;
 
         // return the created scene
         return scene;
