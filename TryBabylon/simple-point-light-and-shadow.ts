@@ -69,7 +69,8 @@ window.addEventListener('DOMContentLoaded', () => {
             width: 5,
             height: 9,
             depth:3,
-            faceUV: faceUV
+            faceUV: faceUV,
+            faceColors: faceColors
         };
         
         var treeTexture = new BABYLON.Texture('assets/tree-for-sphere.png', scene);
