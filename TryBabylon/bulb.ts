@@ -39,6 +39,12 @@ window.addEventListener('DOMContentLoaded', () => {
         yellowMaterial.specularColor = new BABYLON.Color3(1, 0.8, 0.8);
         yellowMaterial.alpha = 1.0;
         
+        var groundMaterial = new BABYLON.StandardMaterial('groundMaterial', scene);
+        groundMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.6, 0.1);
+        groundMaterial.specularColor = new BABYLON.Color3(0.1, 0.8, 0.1);
+        groundMaterial.alpha = 1.0;
+        groundMaterial.backFaceCulling = false;
+        
         var ground = BABYLON.Mesh.CreateGround('ground', 80, 80, 2, scene);
 
         var largeBlueBox = BABYLON.Mesh.CreateBox('largeBlueBox', 2, scene);
@@ -53,6 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
         smallYellowCylinder.receiveShadows = true;
         largeBlueBox.receiveShadows = true;
         ground.receiveShadows = true;
+        ground.material = groundMaterial;
         
         var tallYellowCylinder = BABYLON.Mesh.CreateCylinder('tallYellowCylinder', 10, 3, 4.2, 32, 32, scene);
         tallYellowCylinder.position = new BABYLON.Vector3(-3, 5, 0);
