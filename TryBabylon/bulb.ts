@@ -44,6 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
         groundMaterial.specularColor = new BABYLON.Color3(0.1, 0.8, 0.1);
         groundMaterial.alpha = 1.0;
         groundMaterial.backFaceCulling = false;
+        groundMaterial.bumpTexture = bumpyWallTexture;
         
         var ground = BABYLON.Mesh.CreateGround('ground', 80, 80, 2, scene);
 
