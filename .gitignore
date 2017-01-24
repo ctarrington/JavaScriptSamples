@@ -12,3 +12,4 @@ mongoose-3.0.exe
 
 *.log
 *.iml
+.DS_Store
