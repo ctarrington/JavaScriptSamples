@@ -8,12 +8,21 @@ function nameSort(person1, person2) {
 }
 
 function getDescription(person) {
-  return `Hi my name is ${person.name}, my age is ${person.age}`;
+  return `${person.name} - ${person.age}`;
 }
 
 function update() {
-  var tr = d3.transition()
+  const slowTransition = d3.transition()
       .duration(1100);
+
+  const fastTransition = d3.transition()
+      .duration(200);
+
+  const SMALL_FONT = '10px';
+  const NORMAL_FONT = '14px';
+  const HUGE_FONT = '20px';
+
+
 
   // join new with existing
   const peopleDiv = d3.select("body").selectAll('div')
@@ -24,9 +33,9 @@ function update() {
 
   // take out the dead
   peopleDiv.exit()
-    .style('font-weight', 'bold')
     .style('color', 'red')
-    .transition(tr)
+    .style('font-weight', 'bold')
+    .transition(slowTransition)
     .remove();
 
   // update the survivors
@@ -39,9 +48,11 @@ function update() {
   peopleDiv.enter().append("div")
       .text(getDescription)
       .style('font-weight', 'bold')
+      .style('font-size', SMALL_FONT)
       .style('color', 'green')
-      .transition(tr)
+      .transition(slowTransition)
       .style('font-weight', 'normal')
+      .style('font-size', NORMAL_FONT)
       .style('color', 'blue');
 }
 
