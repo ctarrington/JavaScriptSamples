@@ -15,7 +15,6 @@ function collectDrop(connect, monitor) {
     connectDropTarget: connect.dropTarget(),
   };
 
-  console.log('BlueBasket collected', collected);
   return collected;
 }
 

@@ -26,7 +26,7 @@ class App extends Component {
     };
   }
 
-  add (baskets, color, item) {
+  add(baskets, color, item) {
     baskets[color].apples.push(item);
   }
 
