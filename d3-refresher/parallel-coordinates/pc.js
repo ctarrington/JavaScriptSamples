@@ -19,9 +19,12 @@ const available = {
 const width = available.width - margins.left - margins.right;
 const height = available.height - margins.top - margins.bottom;
 
+var nextGreaterFive = d3.scaleQuantize().domain([0,100]).range(d3.range(5,110,5))
+
 const xScale = d3.scaleBand().domain(dimensions).rangeRound([0, width]).paddingInner(0.05).paddingOuter(0.1);
 
-const yScale = d3.scaleLinear().domain([0,10]).rangeRound([height, 0]);
+let maxValue = 15.2;
+const yScale = d3.scaleLinear().domain([0,nextGreaterFive(maxValue)]).rangeRound([height, 0]);
 
 const chartG = d3.selectAll('svg')
   .attr('width', `${available.width}`)
