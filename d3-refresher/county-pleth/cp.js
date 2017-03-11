@@ -1,51 +1,19 @@
-var svg = d3.select("svg"),
+const svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-var unemployment = d3.map();
+const unemployment = d3.map();
 
-var path = d3.geoPath();
+const path = d3.geoPath();
 
-var x = d3.scaleLinear()
-    .domain([1, 10])
-    .rangeRound([600, 860]);
-
-var color = d3.scaleThreshold()
+const colorScale = d3.scaleThreshold()
     .domain(d3.range(2, 10))
     .range(d3.schemeBlues[9]);
 
-var g = svg.append("g")
-    .attr("class", "key")
-    .attr("transform", "translate(0,40)");
+const mapG = svg.append("g")
+    .attr("class", "map");
 
-g.selectAll("rect")
-  .data(color.range().map(function(d) {
-      d = color.invertExtent(d);
-      if (d[0] == null) d[0] = x.domain()[0];
-      if (d[1] == null) d[1] = x.domain()[1];
-      return d;
-    }))
-  .enter().append("rect")
-    .attr("height", 8)
-    .attr("x", function(d) { return x(d[0]); })
-    .attr("width", function(d) { return x(d[1]) - x(d[0]); })
-    .attr("fill", function(d) { return color(d[0]); });
-
-g.append("text")
-    .attr("class", "caption")
-    .attr("x", x.range()[0])
-    .attr("y", -6)
-    .attr("fill", "#000")
-    .attr("text-anchor", "start")
-    .attr("font-weight", "bold")
-    .text("Unemployment rate");
-
-g.call(d3.axisBottom(x)
-    .tickSize(13)
-    .tickFormat(function(x, i) { return i ? x : x + "%"; })
-    .tickValues(color.domain()))
-  .select(".domain")
-    .remove();
+addLegend(svg, colorScale);
 
 d3.queue()
     .defer(d3.json, "https://d3js.org/us-10m.v1.json")
@@ -59,6 +27,7 @@ function ensure(theObject, key, defaultValue) {
 }
 
 function ready(error, us) {
+
   if (error) throw error;
 
   const unemploymentByState = {};
@@ -76,18 +45,25 @@ function ready(error, us) {
     unemploymentByState[key] = unemploymentByState[key]/countyCountsByState[key];
   });
 
+  const zoom = d3.zoom()
+      .scaleExtent([1, 40])
+      .on("zoom", zoomed);
 
-
-  svg.append("g")
-      .attr("class", "county")
-    .selectAll("path")
+  const countiesG = mapG.append("g")
+      .attr("class", "counties")
+    .selectAll("path.county")
     .data(topojson.feature(us, us.objects.counties).features)
     .enter().append("path")
+      .attr('class', 'county')
       .attr("d", path)
       .attr("fill", function(d) {
-        return color(unemployment['$'+d.id]);
-      })
-      ;
+        return colorScale(unemployment['$'+d.id]);
+      });
 
+  mapG.call(zoom);
+
+  function zoomed() {
+    mapG.attr("transform", d3.event.transform);
+  }
 
 }
