@@ -79,13 +79,13 @@ function ready(error, us) {
 
 
   svg.append("g")
-      .attr("class", "states")
+      .attr("class", "county")
     .selectAll("path")
-    .data(topojson.feature(us, us.objects.states).features)
+    .data(topojson.feature(us, us.objects.counties).features)
     .enter().append("path")
       .attr("d", path)
       .attr("fill", function(d) {
-        return color(unemploymentByState['$'+d.id]);
+        return color(unemployment['$'+d.id]);
       })
       ;
 
