@@ -2,7 +2,6 @@ const filteredRange = require('./filteredRange');
 
 function divisors(value) {
   return filteredRange(1, value, 1, n => value % n === 0);
-  return results;
 }
 
 function sumOfDivisors(value) {
@@ -17,6 +16,8 @@ function isAbundant(value) {
 function abundantNumbersBelow(value) {
   return filteredRange(1, value, 1, n => isAbundant(n));
 }
+
+
 
 module.exports = {
   divisors,
