@@ -21,11 +21,3 @@ test('sum of all positive numbers below 25 which cannot be written as the sum of
   pairs.forEach(p => sieve.remove(p[0] + p[1]));
   expect(sieve.sum()).toEqual(300-24);
 });
-
-// test('sum of all positive numbers which cannot be written as the sum of two abundant numbers.', () => {
-//   const abundants = abundantNumbersBelow(28124);
-//   const pairs = createPairs(abundants);
-//   const sieve = createSieveBelow(28124);
-//   pairs.forEach(p => sieve.remove(p[0] + p[1]));
-//   expect(sieve.sum()).toEqual(4179871);
-// });

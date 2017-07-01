@@ -1,18 +1,24 @@
+const { createBitset } = require('./bitset');
+
 const createSieveBelow = (cap) => {
-  const privateMap = {};
-  for (let i = 1; i < cap; i++) {
-    privateMap[i] = null;
-  }
+  const privateBitset = createBitset(cap);
 
   const sieve = {
     remove(value) {
-      delete privateMap[value];
+      if (value < cap) {
+        privateBitset.unset(value);
+      }
     },
 
     sum() {
-      return Object.keys(privateMap).reduce((accumulator, value) => {
-        return accumulator + parseInt(value, 10);
-      }, 0);
+      let sum = 0;
+      for (let i = 1; i < cap; i++) {
+        if (privateBitset.check(i)) {
+          sum += i;
+        }
+      }
+
+      return sum;
     },
   };
 
