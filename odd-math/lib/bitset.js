@@ -1,22 +1,45 @@
+const maxNumber = Math.pow(2,32) - 1;
+const bitsPerNumber = 31;
+
+function calculatePosition(index) {
+  return {
+    numberIndex: Math.floor(index / bitsPerNumber),
+    offset: index % bitsPerNumber,
+    mask: Math.pow(2, index % bitsPerNumber)
+  };
+}
+
+function calculateOffset(index) {
+  return ;
+}
+
 const createBitset = (size) => {
-  let index = size;
   const privateArray = [];
-  while(index--) {
-    privateArray[index] = true;
+  const requiredNumbers = Math.ceil(size / bitsPerNumber);
+
+  for (let i = 0; i < requiredNumbers; i++) {
+    privateArray[i] = maxNumber;
   }
 
   const bitset = {
     unset(index) {
       if (index >= size) { throw new RangeError(); }
-      privateArray[index] = false;
+      const { numberIndex, offset, mask } = calculatePosition(index);
+      const ensureOn = privateArray[numberIndex] | mask;
+      const ensureOff = ensureOn ^ mask;
+      privateArray[numberIndex] = ensureOff;
     },
     set(index) {
       if (index >= size) { throw new RangeError(); }
-      privateArray[index] = true;
+      const { numberIndex, offset, mask } = calculatePosition(index);
+      const ensureOn = privateArray[numberIndex] | mask;
+      privateArray[numberIndex] = ensureOn;
     },
     check(index) {
       if (index >= size) { throw new RangeError(); }
-      return privateArray[index];
+      const { numberIndex, offset, mask } = calculatePosition(index);
+      const masked = privateArray[numberIndex] & mask;
+      return masked !== 0;
     }
   };
 
