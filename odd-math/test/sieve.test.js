@@ -1,7 +1,8 @@
 const { createSieveBelow } = require('../src/sieve');
 
-test('sieve for the odds', () => {
+test('sieve for the odds with multiple removals', () => {
   const sieve = createSieveBelow(6);
+  sieve.remove(2);
   sieve.remove(2);
   sieve.remove(4);
   sieve.remove(1000);
@@ -16,5 +17,21 @@ test('large sieve', () => {
 
   const rawSum = (cap - 1)  * cap / 2;
   const sumAfterRemovals = rawSum - 212 - 43;
-  expect(sieve.sum()).toEqual(sumAfterRemovals);/*?.*/
+  expect(sieve.sum()).toEqual(sumAfterRemovals); /*?.*/
+});
+
+test('large sieve with multiple removals', () => {
+  const cap = 1000 * 1000;
+  const sieve = createSieveBelow(cap);
+  sieve.remove(212);
+  sieve.remove(212);
+  sieve.remove(212);
+  sieve.remove(43);
+  sieve.remove(43);
+  sieve.remove(43);
+  sieve.remove(43);
+
+  const rawSum = (cap - 1)  * cap / 2;
+  const sumAfterRemovals = rawSum - 212 - 43;
+  expect(sieve.sum()).toEqual(sumAfterRemovals); /*?.*/
 });
