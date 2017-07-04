@@ -1,4 +1,4 @@
-const { createPairs } = require('./pairs');
+const { createPairs } = require('../src/pairs');
 
 test('find pairs', () => {
   const results = createPairs([1, 2, 3]);

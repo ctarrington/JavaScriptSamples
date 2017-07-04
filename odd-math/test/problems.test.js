@@ -3,11 +3,11 @@ const {
   sumOfDivisors,
   isAbundant,
   abundantNumbersBelow,
-} = require('./properDivisors');
+} = require('../src/properDivisors');
 
-const { createPairs } = require('./pairs');
+const { createPairs } = require('../src/pairs');
 
-const { createSieveBelow } = require('./sieve');
+const { createSieveBelow } = require('../src/sieve');
 
 // 23 Non-abundant sums
 test('sum of all positive numbers below 25 which cannot be written as the sum of two abundant numbers.', () => {

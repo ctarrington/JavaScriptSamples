@@ -1,4 +1,4 @@
-wallconst maxNumber = Math.pow(2,32) - 1;
+const maxNumber = Math.pow(2,32) - 1;
 const bitsPerNumber = 31;
 
 function calculatePosition(index) {

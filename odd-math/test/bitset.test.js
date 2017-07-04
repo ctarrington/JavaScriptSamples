@@ -1,4 +1,4 @@
-const { createBitset } = require('./bitset');
+const { createBitset } = require('../src/bitset');
 
 test('small bitset', () => {
   const bitset = createBitset(4);
@@ -20,6 +20,8 @@ test('small bitset', () => {
 test('out of range bitset', () => {
   const bitset = createBitset(4);
   expect(() => { bitset.check(4); }).toThrow();
+  expect(() => { bitset.set(4); }).toThrow();
+  expect(() => { bitset.unset(4); }).toThrow();
 });
 
 test('large bitset', () => {
@@ -36,5 +38,4 @@ test('large bitset', () => {
   bitset.set(28122);
   expect(bitset.check(28121)).toBe(true);
   expect(bitset.check(28122)).toBe(true);
-  expect(bitset.check(28123)).toBe(true);
 });
