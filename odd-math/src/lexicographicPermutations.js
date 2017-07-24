@@ -22,7 +22,6 @@ const lexicographicPermutations = (context, progress) => {
       progress.count++;
       if (progress.count === desiredCount) {
         progress.done = true;
-        console.log('winner newContext', progress);
         return;
       }
     } else {
