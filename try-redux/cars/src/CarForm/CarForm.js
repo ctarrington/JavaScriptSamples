@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addCar } from '../actions';
 
 class CarForm extends Component {
   constructor(props) {
@@ -21,7 +23,7 @@ class CarForm extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { make, model } = this.state;
-    this.props.onSubmit({ make, model });
+    this.props.dispatch(addCar(make, model));
     this.setState({ make: '', model: '' });
   }
 
@@ -43,4 +45,4 @@ class CarForm extends Component {
   }
 }
 
-export { CarForm };
+export default connect()(CarForm);

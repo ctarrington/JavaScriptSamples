@@ -1,2 +1,2 @@
-import { CarForm } from './CarForm';
+import CarForm from './CarForm';
 export { CarForm };
