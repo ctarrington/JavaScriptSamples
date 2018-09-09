@@ -1,0 +1,3 @@
+JSON rows vs columns
+~ 95 vs 55
+No noticable increase in advantage as row count increases, presumably because the compression substitutes for key names
