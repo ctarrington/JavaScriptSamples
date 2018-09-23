@@ -1,7 +1,7 @@
 import faker from 'faker';
 
-const swap = function(words: string[], a: number, b: number) {
-  [words[a], words[b]] = [words[b], words[a]];
+const swap = function(things: object[], a: number, b: number) {
+  [things[a], things[b]] = [things[b], things[a]];
 };
 
 const getNames = function() {
