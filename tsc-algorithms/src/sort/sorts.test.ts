@@ -1,10 +1,8 @@
-import {getNames, getRandomNames} from './util';
-import {Comparator, Sort} from './sort-util';
+import {getPeople, getRandomPeople} from './util';
+import {Comparator, Person, Sort} from './sort-util';
 import {insertionSort} from './insertion-sort';
 
-const expected = getNames().sort().join(',');
-
-const nameComparator : Comparator = (left: {name:string}, right:{name:string}) => {
+const nameComparator : Comparator = (left: Person, right:Person) : number => {
   if (left['name'] < right['name']) {
     return -1;
   }
@@ -16,20 +14,22 @@ const nameComparator : Comparator = (left: {name:string}, right:{name:string}) =
   return 0;
 }
 
-function expected_vs_actual(names: object[], sort: Sort) {
-  const expected = [...names].sort().join(',');
+const expected = getPeople().sort(nameComparator).join(',');
 
-  sort(names, nameComparator);
-  expect(names.join(',')).toBe(expected);
+function expected_vs_actual(things: Person[], sort: Sort) {
+  const expected = [...things].sort().join(',');
+
+  sort(things, nameComparator);
+  expect(things.join(',')).toBe(expected);
 }
 
 test('insertion sort on short list', () => {
-  const people = getNames().map((name) => {return {name}; });
+  const people = getPeople();
   expected_vs_actual(people, insertionSort);
 });
 
 test('insertion sort on random list', () => {
-  const people = getRandomNames(30).map((name) => {return {name}; });
+  const people = getRandomPeople(30);
   expected_vs_actual(people, insertionSort);
 });
 

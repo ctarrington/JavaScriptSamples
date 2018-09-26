@@ -3,7 +3,12 @@ interface Comparator {
 }
 
 interface Sort {
-  (words: object[], comparator: Comparator): void
+  (things: object[], comparator: Comparator): void
 }
 
-export {Comparator, Sort};
+interface Person {
+  name: string;
+  height: number;
+}
+
+export {Comparator, Person, Sort};

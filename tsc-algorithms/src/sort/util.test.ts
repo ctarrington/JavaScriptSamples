@@ -1,4 +1,4 @@
-import { swap, getNames } from './util';
+import { swap } from './util';
 
 test('swap', () => {
   const things = [{name:'fred'}, {name:'wilma'}, {name:'betty'}];
