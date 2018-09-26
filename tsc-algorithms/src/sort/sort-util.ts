@@ -1,9 +1,9 @@
-interface Comparator {
-  (left: object, right:object) : number
+interface Comparator<T> {
+  (left: T, right:T) : number
 }
 
 interface Sort {
-  (things: object[], comparator: Comparator): void
+  (things: object[], comparator: Comparator<any>): void
 }
 
 interface Person {

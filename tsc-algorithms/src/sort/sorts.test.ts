@@ -2,7 +2,7 @@ import {getPeople, getRandomPeople} from './util';
 import {Comparator, Person, Sort} from './sort-util';
 import {insertionSort} from './insertion-sort';
 
-const nameComparator : Comparator = (left: Person, right:Person) : number => {
+const nameComparator : Comparator<Person> = (left: Person, right:Person) : number => {
   if (left['name'] < right['name']) {
     return -1;
   }
@@ -12,15 +12,13 @@ const nameComparator : Comparator = (left: Person, right:Person) : number => {
   }
 
   return 0;
-}
-
-const expected = getPeople().sort(nameComparator).join(',');
+};
 
 function expected_vs_actual(things: Person[], sort: Sort) {
-  const expected = [...things].sort().join(',');
+  const expected = JSON.stringify([...things].sort(nameComparator));
 
   sort(things, nameComparator);
-  expect(things.join(',')).toBe(expected);
+  expect(JSON.stringify(things)).toBe(expected);
 }
 
 test('insertion sort on short list', () => {
@@ -29,7 +27,7 @@ test('insertion sort on short list', () => {
 });
 
 test('insertion sort on random list', () => {
-  const people = getRandomPeople(30);
+  const people = getRandomPeople(50);
   expected_vs_actual(people, insertionSort);
 });
 
