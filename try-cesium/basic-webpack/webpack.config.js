@@ -21,7 +21,7 @@ module.exports = {
     // Needed to compile multiline strings in Cesium
     sourcePrefix: '',
   },
-  amd: {
+    amd: {
     // Enable webpack-friendly use of require in Cesium
     toUrlUndefined: true
   },
