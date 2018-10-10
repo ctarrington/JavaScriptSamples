@@ -19,6 +19,18 @@ const dotEntity = viewer.entities.add({
     billboard: dot,
 });
 
+const line = {
+    material : Cesium.Material.fromType(Cesium.Material.PolylineGlowType, {
+        glowPower : 0.25,
+        color : new Cesium.Color(1.0, 0.5, 0.0, 1.0)
+    }),
+    positions: Cesium.Cartesian3.fromDegreesArray([-100, 35, -70, 35]),
+    width: 2.0,
+};
+
+const polylines = viewer.scene.primitives.add(new Cesium.PolylineCollection());
+const polyline = polylines.add(line);
+
 setInterval(()=>{
     const newPosition = Cesium.Cartesian3.fromDegrees(baseWest+Math.random(), baseNorth+Math.random());
     dotEntity.position.setValue(newPosition);
