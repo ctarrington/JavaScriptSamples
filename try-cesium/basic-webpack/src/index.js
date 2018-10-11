@@ -14,9 +14,21 @@ const dot = {
   height: 25,
 };
 
+const halo = {
+  image: './assets/images/empty-circle.svg',
+  color: Cesium.Color.RED,
+  width: 50,
+  height: 50,
+};
+
 const dotEntity = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(baseWest, baseNorth),
     billboard: dot,
+});
+
+const haloEntity = viewer.entities.add({
+  position: Cesium.Cartesian3.fromDegrees(baseWest, baseNorth),
+  billboard: halo,
 });
 
 const line = {
@@ -28,12 +40,24 @@ const line = {
     width: 2.0,
 };
 
+const position = [baseWest, baseNorth];
+let deltaLon = 0;
+let deltaLat = 0;
+
 const polylines = viewer.scene.primitives.add(new Cesium.PolylineCollection());
 const polyline = polylines.add(line);
 
 setInterval(()=>{
-    const newPosition = Cesium.Cartesian3.fromDegrees(baseWest+Math.random(), baseNorth+Math.random());
+    if (Math.random() > 0.9) {
+      deltaLon = (Math.random()-0.5)/5;
+      deltaLat = (Math.random()-0.5)/5;
+    }
+
+    position[0] += deltaLon;
+    position[1] += deltaLat;
+    const newPosition = Cesium.Cartesian3.fromDegrees(position[0], position[1]);
     dotEntity.position.setValue(newPosition);
+    haloEntity.position.setValue(newPosition);
 }, 200);
 
 
