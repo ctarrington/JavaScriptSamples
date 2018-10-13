@@ -16,7 +16,7 @@ const dot = {
 
 const halo = {
   image: './assets/images/empty-circle.svg',
-  color: Cesium.Color.RED,
+  color: Cesium.Color.YELLOW,
   width: 50,
   height: 50,
 };

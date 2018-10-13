@@ -12,7 +12,7 @@ const cesiumWorkers = '../Build/Cesium/Workers';
 module.exports = {
   context: __dirname,
   entry: {
-    app: './src/index.js'
+    app: './src/index.ts'
   },
   output: {
     filename: '[name].js',
@@ -37,6 +37,11 @@ module.exports = {
   },
   module: {
     rules: [{
+      test:/\.tsx?$/,
+      use: 'ts-loader',
+      exclude: /node_modules/
+    },
+      {
       test: /\.css$/,
       use: [ 'style-loader', 'css-loader' ]
     }, {
