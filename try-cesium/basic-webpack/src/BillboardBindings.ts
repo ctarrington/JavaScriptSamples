@@ -40,22 +40,23 @@ export class BillboardBindings {
     }
 
     update(models:any[]):void {
-        const evicted = {...this.avatarMap};
+        const evicted = (<any>Object).assign({}, this.avatarMap);
 
         for (let model of models) {
             const key = this.keyFunction(model);
-            const billboard = {
-                image: this.resolveImage(model),
-                color: this.resolveColor(model),
-                width: this.resolveWidth(model),
-                height: this.resolveHeight(model),
-            };
+            const existingAvatar = this.avatarMap[key];
+            if (existingAvatar) {
+                existingAvatar.update(model);
+                delete evicted[key];
+            } else {
+                const avatar = this.createAvatar(model);
+                this.avatarMap[key] = avatar;
+            }
+        }
 
-            const points = this.resolvePosition(model);
-            const billboardEntity = this.target.add({
-                position: Cesium.Cartesian3.fromDegrees(...points),
-                billboard,
-            })
+        for (let key of Object.keys(evicted)) {
+            this.avatarMap[key].remove();
+            delete this.avatarMap[key];
         }
     }
 
@@ -82,5 +83,37 @@ export class BillboardBindings {
     position(positionProvider:PositionProvider):BillboardBindings {
         this.resolvePosition = passOrWrap('object', positionProvider);
         return this;
+    }
+
+    private createAvatar(model:any) {
+        const billboard = {
+            image: this.resolveImage(model),
+            color: this.resolveColor(model),
+            width: this.resolveWidth(model),
+            height: this.resolveHeight(model),
+        };
+
+        const points = this.resolvePosition(model);
+        const billboardEntity = this.target.add({
+            position: Cesium.Cartesian3.fromDegrees(...points),
+            billboard,
+        });
+
+        const update = (model:any) => {
+            const points = this.resolvePosition(model);
+            const cesiumPoints = Cesium.Cartesian3.fromDegrees(...points);
+            billboardEntity.position.setValue(cesiumPoints);
+
+            billboardEntity.billboard.image.setValue(this.resolveImage(model));
+            billboardEntity.billboard.color.setValue(this.resolveColor(model));
+            billboardEntity.billboard.width.setValue(this.resolveWidth(model));
+            billboardEntity.billboard.height.setValue(this.resolveHeight(model));
+        };
+
+        const remove = () => {
+            this.target.remove(billboardEntity);
+        };
+
+        return {remove, update};
     }
 }
