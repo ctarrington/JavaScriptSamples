@@ -79,8 +79,6 @@ const ufoStaticBinding = new BillboardBindings(viewer.entities, (model) => ''+mo
     .height(25)
     .position( [-30, 0]);
 
-ufoStaticBinding.update(ufos);
-
 setInterval(()=>{
     for (let ufo of ufos) {
         ufo.position.lon += ufo.deltaPosition.lon;
@@ -94,8 +92,8 @@ setInterval(()=>{
         }
     }
 
-
     ufoBinding.update(ufos.filter(u => !u.stealthMode));
+    ufoStaticBinding.update(ufos);
 }, 100);
 
 
