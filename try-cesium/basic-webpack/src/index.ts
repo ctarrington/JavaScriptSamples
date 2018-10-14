@@ -1,5 +1,7 @@
 
 import Cesium from 'cesium/Cesium';
+import {BillboardBindings} from './BillboardBindings';
+
 require('cesium/Widgets/widgets.css');
 
 const baseWest = -115;
@@ -47,18 +49,34 @@ let deltaLat = 0;
 const polylines = viewer.scene.primitives.add(new Cesium.PolylineCollection());
 const polyline = polylines.add(line);
 
-setInterval(()=>{
-    if (Math.random() > 0.9) {
-      deltaLon = (Math.random()-0.5)/5;
-      deltaLat = (Math.random()-0.5)/5;
-    }
+const ufos = [{
+   id: 1,
+   position: {lon: -70, lat: 40},
+   deltaPosition: {lon: 0.1, lat: 0.1},
+},
+    {id: 2,
+    position: {lon: -72, lat: 42},
+deltaPosition: {lon: 0.1, lat: 0.1},
+    }];
 
-    position[0] += deltaLon;
-    position[1] += deltaLat;
-    const newPosition = Cesium.Cartesian3.fromDegrees(position[0], position[1]);
-    dotEntity.position.setValue(newPosition);
-    haloEntity.position.setValue(newPosition);
-}, 200);
+const ufoBinding = new BillboardBindings(viewer.entities, (model) => ''+model.id)
+    .image('./assets/images/empty-circle.svg')
+    .color(Cesium.Color.RED)
+    .width(50)
+    .height(50)
+    .position([-30, -80]);
+
+ufoBinding.update(ufos);
+
+/*
+Test
+ - simple creation and static attributes
+ - all dynamic attributes
+ - add, remove, keep models
+ - altitude
+
+
+ */
 
 
 

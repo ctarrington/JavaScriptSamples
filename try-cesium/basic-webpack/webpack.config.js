@@ -34,7 +34,8 @@ module.exports = {
     alias: {
       // Cesium module name
       cesium: path.resolve(__dirname, cesiumSource)
-    }
+    },
+      extensions: ['.ts', '.js', '.json']
   },
   module: {
     rules: [{
