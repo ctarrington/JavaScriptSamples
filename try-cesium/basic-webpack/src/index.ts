@@ -41,7 +41,7 @@ const ufoBinding = new BillboardBindings(viewer, (model) => ''+model.id)
 
 const historyBinding = new PolylineBindings(viewer, (m) => ''+m.id)
   .color(colorProvider)
-  .width(4)
+  .width((m)=>m.size/10)
   .positions( (m) => m.history);
 
 
@@ -55,7 +55,10 @@ setInterval(()=>{
             ufo.deltaPosition.lon += (Math.random()-0.5)/5;
             ufo.deltaPosition.lat += (Math.random()-0.5)/5;
             ufo.size = Math.random()*45+5;
-            ufo.stealthMode = (Math.random()>0.9);
+        }
+
+        if (Math.random()>0.98) {
+            ufo.stealthMode = !ufo.stealthMode;
         }
     }
 

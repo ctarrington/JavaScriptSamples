@@ -33,10 +33,7 @@ export class PolylineBindings extends CesiumBindings {
       polyline : {
         positions : Cesium.Cartesian3.fromDegreesArray(this.resolvePositions(model)),
         width : this.resolveWidth(model),
-        material : new Cesium.PolylineGlowMaterialProperty({
-          color : this.resolveColor(model),
-          glowPower : 0.25
-        })
+        material : new Cesium.ColorMaterialProperty(this.resolveColor(model))
       }
     });
 
