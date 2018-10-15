@@ -1,63 +1,18 @@
 import Cesium from 'cesium/Cesium';
 
-type StringResolver = (model:any) => string;
-type StringProvider = string | StringResolver;
+import {CesiumBindings, passOrWrap, KeyFunction, StringProvider, StringResolver, ColorProvider, ColorResolver, NumberProvider, NumberResolver, PositionProvider, PositionResolver} from './CesiumBindings';
 
-type NumberResolver = (model:any) => number;
-type NumberProvider = number | NumberResolver;
-
-type ColorResolver = (model:any) => object;
-type ColorProvider = object | ColorResolver;
-
-type Position = [number, number];
-type PositionResolver = (model:any) => Position;
-type PositionProvider = Position | PositionResolver;
-
-type KeyFunction = (model:any) => string;
-
-function passOrWrap(type:string, provider:any) {
-    if (typeof provider === type) {
-        return (model:any) => provider;
-    }
-
-    return provider;
-}
-
-export class BillboardBindings {
+export class BillboardBindings extends CesiumBindings {
     target: any;
-    avatarMap: any;
-    keyFunction:KeyFunction;
     resolveImage: StringResolver;
     resolveColor: ColorResolver;
     resolveWidth: NumberResolver;
     resolveHeight: NumberResolver;
     resolvePosition: PositionResolver;
 
-    constructor(target:any, keyFunction: KeyFunction) {
-        this.target = target;
-        this.keyFunction = keyFunction;
-        this.avatarMap = {};
-    }
-
-    update(models:any[]):void {
-        const evicted = (<any>Object).assign({}, this.avatarMap);
-
-        for (let model of models) {
-            const key = this.keyFunction(model);
-            const existingAvatar = this.avatarMap[key];
-            if (existingAvatar) {
-                existingAvatar.update(model);
-                delete evicted[key];
-            } else {
-                const avatar = this.createAvatar(model);
-                this.avatarMap[key] = avatar;
-            }
-        }
-
-        for (let key of Object.keys(evicted)) {
-            this.avatarMap[key].remove();
-            delete this.avatarMap[key];
-        }
+    constructor(viewer:any, keyFunction: KeyFunction) {
+        super(keyFunction);
+        this.target = viewer.entities;
     }
 
     image(imageProvider:StringProvider):BillboardBindings {
@@ -85,7 +40,7 @@ export class BillboardBindings {
         return this;
     }
 
-    private createAvatar(model:any) {
+    createAvatar(model:any) {
         const billboard = {
             image: this.resolveImage(model),
             color: this.resolveColor(model),
