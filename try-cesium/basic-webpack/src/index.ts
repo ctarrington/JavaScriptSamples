@@ -1,10 +1,10 @@
 
 import Cesium from 'cesium/Cesium';
-import {Positions} from './CesiumBindings';
 import {BillboardBindings} from './BillboardBindings';
 import {PolylineBindings} from './PolylineBindings';
 
 require('cesium/Widgets/widgets.css');
+require('./main.css');
 
 const baseWest = -115;
 const baseNorth = 40;
@@ -71,13 +71,9 @@ setInterval(()=>{
 
 /*
 Test
- - simple creation and static attributes
- - all dynamic attributes
- - add, remove, keep models
- - altitude
-
- - polylines
-
+ - use whole div  X
+ - altitude in billboard
+ - altitude in polyline
 
 
  */
