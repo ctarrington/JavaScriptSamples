@@ -1,3 +1,9 @@
+export type Avatar = {
+  remove:()=>void,
+  update: (model:any)=>void,
+  id:string
+};
+
 export type StringProvider = string | StringResolver;
 export type NumberResolver = (model:any) => number;
 
@@ -27,11 +33,13 @@ export function passOrWrap(type:string, provider:any) {
 
 export abstract class CesiumBindings {
   avatarMap: any;
+  modelMap: any;
   keyFunction:KeyFunction;
 
   constructor(keyFunction: KeyFunction) {
     this.keyFunction = keyFunction;
     this.avatarMap = {};
+    this.modelMap = {};
   }
 
   update(models:any[]):void {
@@ -42,10 +50,12 @@ export abstract class CesiumBindings {
       const existingAvatar = this.avatarMap[key];
       if (existingAvatar) {
         existingAvatar.update(model);
+        this.modelMap[existingAvatar.id] = model;
         delete evicted[key];
       } else {
         const avatar = this.createAvatar(model);
         this.avatarMap[key] = avatar;
+        this.modelMap[avatar.id] = model;
       }
     }
 
@@ -55,7 +65,20 @@ export abstract class CesiumBindings {
     }
   }
 
+  findModel(primitive:any):any {
+    if (!primitive || !primitive.id) {
+      return null;
+    }
 
-  abstract createAvatar(model:any):void;
+    return this.modelMap[primitive.id.id];
+  }
+
+  updateOne(model:any):void {
+    const key = this.keyFunction(model);
+    const existingAvatar = this.avatarMap[key];
+    existingAvatar.update(model);
+  }
+  
+  abstract createAvatar(model:any):Avatar;
 }
 

@@ -69,6 +69,6 @@ export class BillboardBindings extends CesiumBindings {
             this.target.remove(billboardEntity);
         };
 
-        return {remove, update};
+        return {remove, update, id:billboardEntity.id.id};
     }
 }
