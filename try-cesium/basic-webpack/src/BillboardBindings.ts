@@ -54,7 +54,7 @@ export class BillboardBindings extends CesiumBindings {
             billboard,
         });
 
-        const update = (model:any) => {
+        const update = (model: any) => {
             const points = this.resolvePosition(model);
             const cesiumPoints = Cesium.Cartesian3.fromDegrees(...points);
             billboardEntity.position.setValue(cesiumPoints);
@@ -69,6 +69,10 @@ export class BillboardBindings extends CesiumBindings {
             this.target.remove(billboardEntity);
         };
 
-        return {remove, update, id:billboardEntity.id.id};
+        const primitiveId = () => {
+            return billboardEntity.id;
+        }
+
+        return {remove, update, primitiveId};
     }
 }

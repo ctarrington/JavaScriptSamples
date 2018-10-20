@@ -1,7 +1,7 @@
 export type Avatar = {
   remove:()=>void,
   update: (model:any)=>void,
-  id:string
+  primitiveId:()=>string
 };
 
 export type StringProvider = string | StringResolver;
@@ -50,12 +50,13 @@ export abstract class CesiumBindings {
       const existingAvatar = this.avatarMap[key];
       if (existingAvatar) {
         existingAvatar.update(model);
-        this.modelMap[existingAvatar.id] = model;
+        this.modelMap[existingAvatar.primitiveId()] = model;
         delete evicted[key];
       } else {
         const avatar = this.createAvatar(model);
         this.avatarMap[key] = avatar;
-        this.modelMap[avatar.id] = model;
+        this.modelMap[avatar.primitiveId()] = model;
+
       }
     }
 

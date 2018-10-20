@@ -50,6 +50,10 @@ export class PolylineBindings extends CesiumBindings {
       this.target.remove(polylineEntity);
     };
 
-    return {remove, update, id:polylineEntity.id.id};
+    const primitiveId = () => {
+      return polylineEntity.id;
+    }
+
+    return {remove, update, primitiveId};
   }
 }

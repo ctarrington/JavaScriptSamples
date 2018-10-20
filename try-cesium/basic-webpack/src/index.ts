@@ -28,9 +28,9 @@ const ufos = [{
 
 }];
 
-const colorProvider = (m) => m.id % 2 === 0 ? Cesium.Color.RED : Cesium.Color.BLUE;
+const colorProvider = (m:any) => m.id % 2 === 0 ? Cesium.Color.RED : Cesium.Color.BLUE;
 
-const ufoBinding = new BillboardBindings(viewer, (model) => ''+model.id)
+const ufoBindings = new BillboardBindings(viewer, (model) => ''+model.id)
     .image(() => Math.random()>0.7 ? './assets/images/dot.svg' : './assets/images/empty-circle.svg')
     .color(colorProvider)
     .width((m) => m.size)
@@ -54,18 +54,24 @@ setInterval(()=>{
         if (Math.random() > 0.8) {
             ufo.deltaPosition.lon += (Math.random()-0.5)/5;
             ufo.deltaPosition.lat += (Math.random()-0.5)/5;
-            ufo.size = Math.random()*45+5;
-        }
-
-        if (Math.random()>0.98) {
-            ufo.stealthMode = !ufo.stealthMode;
+            ufo.size = Math.random()*45+20;
         }
     }
 
-    ufoBinding.update(ufos.filter(u => !u.stealthMode));
+    ufoBindings.update(ufos.filter(u => !u.stealthMode));
     historyBinding.update(ufos.filter(u => !u.stealthMode));
-
 }, 100);
+
+const clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+clickHandler.setInputAction(function(click:any) {
+    const pickedObject = viewer.scene.pick(click.position,30,30);
+    let pickedModel = ufoBindings.findModel(pickedObject);
+    if (!pickedModel) {
+        pickedModel = historyBinding.findModel(pickedObject);
+    }
+    console.log('pickedModel', pickedModel);
+
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
 
 
