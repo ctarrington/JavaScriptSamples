@@ -29,7 +29,7 @@ export class PolylineBindings extends CesiumBindings {
   }
 
   createAvatar(model:any) {
-    var polylineEntity = this.target.add({
+    const polylineEntity = this.target.add({
       polyline : {
         positions : Cesium.Cartesian3.fromDegreesArray(this.resolvePositions(model)),
         width : this.resolveWidth(model),

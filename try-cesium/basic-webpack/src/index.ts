@@ -11,22 +11,22 @@ const baseNorth = 40;
 
 const viewer = new Cesium.Viewer('cesiumContainer');
 
-const ufos = [{
-    id: 1,
-    position: {lon: -70, lat: 40},
-    deltaPosition: {lon: 0.1, lat: 0.1},
-    size: 40,
-    stealthMode: false,
-    history:[],
-}, {
-    id: 2,
-    position: {lon: -72, lat: 42},
-    deltaPosition: {lon: 0.1, lat: 0.1},
-    size: 20,
-    stealthMode: false,
-    history:[],
+let id = 0;
 
-}];
+const createUFO = () => {
+    const ufo = {
+        id: id++,
+        position: {lon: -70, lat: 45},
+        deltaPosition: {lon: 0.1, lat: 0.1},
+        size: 40,
+        stealthMode: false,
+        history:[],
+    };
+
+    return ufo;
+};
+
+const ufos = [];
 
 const colorProvider = (m:any) => m.id % 2 === 0 ? Cesium.Color.RED : Cesium.Color.BLUE;
 
@@ -46,6 +46,10 @@ const historyBinding = new PolylineBindings(viewer, (m) => ''+m.id)
 
 
 setInterval(()=>{
+    if (Math.random() > 0.95 && ufos.length < 5) {
+        ufos.push(createUFO());
+    }
+
     for (let ufo of ufos) {
         ufo.history = ufo.history.concat([ufo.position.lon, ufo.position.lat]);
         ufo.position.lon += ufo.deltaPosition.lon;
@@ -55,6 +59,10 @@ setInterval(()=>{
             ufo.deltaPosition.lon += (Math.random()-0.5)/5;
             ufo.deltaPosition.lat += (Math.random()-0.5)/5;
             ufo.size = Math.random()*45+20;
+        }
+
+        if (Math.random()>0.98) {
+            ufo.stealthMode = !ufo.stealthMode;
         }
     }
 
