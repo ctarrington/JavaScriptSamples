@@ -21,6 +21,7 @@ class App extends Component {
       controls: false,
       autoplay: true,
       preload: 'auto',
+      muted: true,
     };
 
     this.player = videojs(this.videoNode, options, () => {
@@ -47,8 +48,9 @@ class App extends Component {
           const {width, height} = this.canvas;
           ctx.drawImage(realVideoElement, 0, 0, width, height);
 
-          ctx.font = '80px sans-serif';
-          ctx.fillText(`${this.player.currentTime()} seconds`, 20, 100);
+          ctx.font = '20px sans-serif';
+          ctx.fillStyle = 'red';
+          ctx.fillText(`${this.player.currentTime()} seconds`, 20, 2*height/3);
         }
 
       }, 33);
@@ -70,8 +72,9 @@ class App extends Component {
       <div>
         <div data-vjs-player>
           <video ref={ node => this.videoNode = node } className="video-js">
-            <source src="./assets/test.webm" type="video/webm" />
-              Nothing to see here
+            <source src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL" />
+            { /*<source src="./assets/test.webm" type="video/webm" /> */ }
+            Nothing to see here
           </video>
         </div>
         <canvas ref={ node => this.canvas = node } className="overlay" />
