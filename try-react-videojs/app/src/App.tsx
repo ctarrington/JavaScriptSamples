@@ -72,7 +72,7 @@ class App extends Component {
       <div>
         <div data-vjs-player>
           <video ref={ node => this.videoNode = node } className="video-js">
-            <source src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL" />
+            <source src="./assets/index.m3u8" type="application/x-mpegURL" />
             { /*<source src="./assets/test.webm" type="video/webm" /> */ }
             Nothing to see here
           </video>
