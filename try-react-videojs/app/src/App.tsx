@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import videojs from 'video.js'
+import videojs from 'video.js';
+const videojsOptions = {
+  autoplay: true,
+  controls: false,
+  preload: 'auto',
+  muted: true,
+};
 
 class App extends Component {
   player: videojs.Player | null;
@@ -16,16 +22,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // instantiate Video.js
-    const options = {
-      controls: false,
-      autoplay: true,
-      preload: 'auto',
-      muted: true,
-    };
-
-    this.player = videojs(this.videoNode, options, () => {
+    this.player = videojs(this.videoNode, videojsOptions, () => {
       console.log('onPlayerReady');
+
+      if (this.player) {
+        console.log('player is available adding track listener');
+
+        this.player.textTracks().on('addtrack', (evt) => {
+          console.log('addtrack cb:', evt);
+        });
+      } else {
+        console.log('no player is available');
+      }
+
 
       setInterval(() => {
         if (this.canvas && this.player) {
@@ -48,9 +57,9 @@ class App extends Component {
           const {width, height} = this.canvas;
           ctx.drawImage(realVideoElement, 0, 0, width, height);
 
-          ctx.font = '20px sans-serif';
+          ctx.font = '40px sans-serif';
           ctx.fillStyle = 'red';
-          ctx.fillText(`${this.player.currentTime()} seconds`, 20, 2*height/3);
+          ctx.fillText(`${this.player.currentTime()} seconds out of ${this.player.bufferedEnd()}`, 20, 2*height/3);
         }
 
       }, 33);
