@@ -1,4 +1,5 @@
-import Accumulator from "./Accumulator";
+import Accumulator from './Accumulator';
+import {concatenateBuffers} from './util';
 
 
 test('basic', (done) => {
@@ -115,4 +116,34 @@ test('long runs', (done) => {
   accumulator.add(new Uint32Array([0xDADABEEF, 5*4, 100, 222, 333, 444, 555, 0xDADABEEF, 8, 101]).buffer);
   accumulator.add(new Uint32Array([777, 0xDADABEEF, 12, 102]).buffer);
   accumulator.add(new Uint32Array([777, 888, 0xDADABEEF, 8, 103, 777]).buffer);
+});
+
+test('long run of junk between data', (done) => {
+  let doneCtr = 0;
+  const accumulator = new Accumulator((data) => {
+    const view = new Uint32Array(data);
+    expect(view[0]).toBe(100+doneCtr);
+
+    doneCtr++;
+    if (doneCtr == 2) {
+      done();
+    }
+  });
+
+  accumulator.add(new Uint32Array([0xDADABEEF, 5*4, 100, 222, 333, 444, 555, 771, 778, 779]).buffer);
+  accumulator.add(new Uint32Array([777, 778, 717, 702, 703]).buffer);
+  accumulator.add(new Uint32Array([777, 888, 0xDADABEEF, 8, 101, 777]).buffer);
+});
+
+test('basic eights', (done) => {
+  const accumulator = new Accumulator((data) => {
+    const view = new Uint8Array(data);
+    expect(view[3]).toBe(103);
+    done();
+  });
+
+  const header = new Uint32Array([0xDADABEEF, 4]);
+  const payload = new Uint8Array([100, 101, 102, 103, 104, 0, 0, 0]);
+  const buffer = concatenateBuffers(header.buffer, payload.buffer);
+  accumulator.add(buffer);
 });
