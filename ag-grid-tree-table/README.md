@@ -10,8 +10,11 @@ npm run dev
 -[x] edit a cell 
 -[x] save to local storage
 -[x] load from local storage
--[ ] add a top row with no parent
--[ ] add a row from context with parents preserved
+-[x] factor out table
+-[x] add a row from external action with no parents 
+-[ ] need to ensure unique name
+-[ ] don't show name twice on table? 
+-[ ] add a row from external action with selected parents preserved
 -[ ] add a group from context with parents preserved
 -[ ] filters
 -[ ] control visibility at group level

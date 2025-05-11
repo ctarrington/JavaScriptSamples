@@ -1,108 +1,45 @@
 import './App.css';
+import CarTable from './CarTable.tsx';
 
-import { AgGridReact } from 'ag-grid-react';
+import type { Car } from './models';
 
-import type { ColDef } from 'ag-grid-community';
-
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
-
-import { TreeDataModule } from 'ag-grid-enterprise';
 import { useCallback, useEffect, useState } from 'react';
 
-// Register all Community features
-ModuleRegistry.registerModules([AllCommunityModule, TreeDataModule]);
-type Car = {
-    parents: string[];
-    name: string;
-    make: string;
-    model: string;
-    price: number;
-    electric: boolean;
-};
-
-const defaultRowData = [
-    {
-        parents: ['foo', 'bar'],
-        name: 'Freddy',
-        make: 'Ford',
-        model: 'Explorer',
-        price: 64950,
-        electric: false,
-    },
-    {
-        parents: ['foo', 'bar'],
-        name: 'Ben',
-        make: 'Ford',
-        model: 'F-150',
-        price: 33850,
-        electric: false,
-    },
-    {
-        parents: ['foo', 'bar'],
-        name: 'Rex',
-        make: 'Toyota',
-        model: 'Corolla',
-        price: 29600,
-        electric: false,
-    },
-    {
-        parents: ['foo', 'boo'],
-        name: 'Dusty',
-        make: 'Toyota',
-        model: 'Camry',
-        price: 39600,
-        electric: true,
-    },
-];
-
-const getRowDataFromLocalStorage = () => {
-    const localRowData = JSON.parse(localStorage.getItem('carRowData') ?? '[]');
-    return localRowData.length > 0 ? localRowData : defaultRowData;
-};
-
+/* very contrived, but intentionally having external context drive the creation of new data */
 function App() {
-    // Row Data: The data to be displayed.
-    const [rowData, setRowData] = useState<Car[]>(getRowDataFromLocalStorage());
+    const [newCar, setNewCar] = useState<Car | null>(null);
+    const [make, setMake] = useState<string>('');
 
-    // Column Definitions: Defines the columns to be displayed.
-    const colDefs: ColDef[] = [
-        { field: 'make', editable: true },
-        { field: 'model', editable: true },
-        { field: 'price', editable: true },
-        { field: 'electric', editable: true },
-    ];
-
-    const getDataPath = useCallback((car: Car) => {
-        return [...car.parents, car.name];
+    const clearNewCar = useCallback(() => {
+        setNewCar(null);
     }, []);
 
-    const onCellEditingStopped = useCallback(() => {
-        setRowData([...rowData]);
-    }, rowData);
-
     useEffect(() => {
-        localStorage.setItem('carRowData', JSON.stringify(rowData));
-    }, [rowData]);
-
+        if (make !== '') {
+            setNewCar({
+                make,
+                model: 'enter model',
+                name: 'new car' + Math.round(1000 * Math.random()),
+                electric: false,
+                parents: [],
+                price: 0,
+            });
+        } else {
+            setNewCar(null);
+        }
+    }, [make]);
     return (
-        <>
+        <div>
+            <CarTable newCar={newCar} clearNewCar={clearNewCar} />
             <div>
-                <div style={{ height: 500 }}>
-                    <AgGridReact
-                        treeData={true}
-                        getDataPath={getDataPath}
-                        rowData={rowData}
-                        columnDefs={colDefs}
-                        groupDefaultExpanded={-1}
-                        autoGroupColumnDef={{
-                            cellRendererParams: { suppressCount: true },
-                        }}
-                        onCellEditingStopped={onCellEditingStopped}
-                    />
-                </div>
-                <div>{JSON.stringify(rowData)}</div>
+                <h2>New Car</h2>
+                <input
+                    value={make}
+                    placeholder="Make..."
+                    onChange={(e) => setMake(e.target.value)}
+                />
             </div>
-        </>
+        </div>
     );
 }
 
