@@ -2,7 +2,7 @@ import './App.css';
 
 import { AgGridReact } from 'ag-grid-react';
 
-import type { ColDef } from 'ag-grid-community';
+import { type ColDef, RowDragModule, RowNode } from 'ag-grid-community';
 
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
@@ -11,7 +11,11 @@ import { useCallback, useEffect, useState } from 'react';
 import type { Car } from './models.ts';
 
 // Register all Community features
-ModuleRegistry.registerModules([AllCommunityModule, TreeDataModule]);
+ModuleRegistry.registerModules([
+    AllCommunityModule,
+    RowDragModule,
+    TreeDataModule,
+]);
 
 const defaultRowData = [
     {
@@ -84,6 +88,41 @@ function CarTable({ newCar, clearNewCar }: CarTableProps) {
         }
     }, [rowData, newCar]);
 
+    function extractParents(rowNode: RowNode, parents: string[]): string[] {
+        if (rowNode.level === 0) {
+            return [rowNode.groupValue, ...parents];
+        } else if (rowNode.parent) {
+            return extractParents(rowNode.parent, [
+                rowNode.groupValue,
+                ...parents,
+            ]);
+        } else {
+            return parents;
+        }
+    }
+
+    function getParents(rowNode: RowNode): string[] {
+        if (rowNode.group) {
+            return extractParents(rowNode, []);
+        }
+
+        return rowNode.data?.parents;
+    }
+
+    const onRowDragOrDrop = useCallback((event: any) => {
+        console.log('onRowDragOrDrop', event);
+        const overNode: RowNode = event.overNode;
+        const dropTargetParents = getParents(overNode);
+        if (dropTargetParents) {
+            const modifiedRowData = [...rowData];
+            const index = event.node?.sourceRowIndex;
+            if (index > -1) {
+                modifiedRowData[index].parents = dropTargetParents;
+                setRowData(modifiedRowData);
+            }
+        }
+    }, []);
+
     useEffect(() => {
         localStorage.setItem('carRowData', JSON.stringify(rowData));
     }, [rowData]);
@@ -99,10 +138,12 @@ function CarTable({ newCar, clearNewCar }: CarTableProps) {
                         columnDefs={colDefs}
                         groupDefaultExpanded={-1}
                         autoGroupColumnDef={{
+                            rowDrag: true,
                             cellRendererParams: { suppressCount: true },
                         }}
                         pinnedBottomRowData={[newCar]}
                         onCellEditingStopped={onCellEditingStopped}
+                        onRowDragEnd={onRowDragOrDrop}
                     />
                 </div>
                 <h2>Row Data JSON</h2>
