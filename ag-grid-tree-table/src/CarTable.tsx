@@ -3,13 +3,14 @@ import './App.css';
 import { AgGridReact } from 'ag-grid-react';
 
 import {
+    AllCommunityModule,
     type ColDef,
+    ModuleRegistry,
     type RowDragEndEvent,
     RowDragModule,
     RowNode,
+    type ValueSetterParams,
 } from 'ag-grid-community';
-
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { TreeDataModule } from 'ag-grid-enterprise';
 import { useCallback, useEffect, useState } from 'react';
@@ -38,6 +39,30 @@ function getParents(rowNode: RowNode): string[] {
     }
 
     return rowNode?.data?.parents;
+}
+
+function updateParents(
+    rowData: Car[],
+    parents: string[],
+    newParents: string[]
+): Car[] {
+    return rowData.map((row: Car) => {
+        const newRow = { ...row };
+        if (
+            parents.every(
+                (value: string, index: number) => value === row.parents[index]
+            )
+        ) {
+            newRow.parents = newRow.parents.map((_value, index) => {
+                if (index < newParents.length) {
+                    return newParents[index];
+                } else {
+                    return newRow.parents[index];
+                }
+            });
+        }
+        return newRow;
+    });
 }
 
 const defaultRowData = [
@@ -111,6 +136,29 @@ function CarTable({ newCar, clearNewCar }: CarTableProps) {
         }
     }, [rowData, newCar, clearNewCar]);
 
+    const onGroupEdit = useCallback(
+        (params: ValueSetterParams<Car>) => {
+            if (params.newValue.length < 0 || !params.node?.group) {
+                return false;
+            }
+
+            const editedNode = params.node as RowNode;
+
+            const parents = getParents(editedNode);
+
+            const newParents = [...parents];
+            const lastIndex = parents.length - 1;
+            newParents[lastIndex] = params.newValue;
+
+            console.log('group edit', params, parents, newParents);
+
+            const modifiedRowData = updateParents(rowData, parents, newParents);
+            setRowData(modifiedRowData);
+            return true;
+        },
+        [rowData]
+    );
+
     const onRowDragOrDrop = useCallback(
         (event: RowDragEndEvent) => {
             if (!event.overNode) {
@@ -125,6 +173,8 @@ function CarTable({ newCar, clearNewCar }: CarTableProps) {
                 if (index > -1) {
                     modifiedRowData[index].parents = dropTargetParents;
                     setRowData(modifiedRowData);
+                } else {
+                    // todo: handle group moved
                 }
             }
         },
@@ -148,10 +198,13 @@ function CarTable({ newCar, clearNewCar }: CarTableProps) {
                         autoGroupColumnDef={{
                             rowDrag: true,
                             cellRendererParams: { suppressCount: true },
+                            editable: true,
+                            valueSetter: onGroupEdit,
                         }}
                         pinnedBottomRowData={[newCar]}
                         onCellEditingStopped={onCellEditingStopped}
                         onRowDragEnd={onRowDragOrDrop}
+                        enableGroupEdit={true}
                     />
                 </div>
             </div>

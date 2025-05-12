@@ -13,9 +13,12 @@ npm run dev
 -[x] factor out table
 -[x] add a row from external action with no parents 
 -[x] reorganize with DnD
--[x] DnD folder into folder
+-[ ] DnD folder into folder
 -[ ] DnD folder out of folder
--[ ] Show empty folders?
+-----------------------------------
+try nested records
+-----------------------------------
+-[ ] better name than parents? groups? 
 -[ ] need to ensure unique names for folders and names
 -[ ] don't show name twice on table? 
 -[ ] add an empty group from context with parents preserved

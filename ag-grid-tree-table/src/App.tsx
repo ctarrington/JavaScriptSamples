@@ -22,7 +22,7 @@ function App() {
                 model: 'enter model',
                 name: 'new car' + Math.round(1000 * Math.random()),
                 electric: false,
-                parents: [],
+                parents: ['new folder' + Math.round(1000 * Math.random())],
                 price: 0,
             });
         } else {
