@@ -12,6 +12,7 @@ function App() {
 
     const clearNewCar = useCallback(() => {
         setNewCar(null);
+        setMake('');
     }, []);
 
     useEffect(() => {
