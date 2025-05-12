@@ -13,10 +13,10 @@ npm run dev
 -[x] factor out table
 -[x] add a row from external action with no parents 
 -[x] reorganize with DnD
--[ ] DnD folder into folder
+-[x] DnD folder into folder
 -[ ] DnD folder out of folder
--[ ] make DnD more obvious, show where it is going?
--[ ] need to ensure unique name
+-[ ] Show empty folders?
+-[ ] need to ensure unique names for folders and names
 -[ ] don't show name twice on table? 
 -[ ] add an empty group from context with parents preserved
 -[ ] add an empty group at top level
@@ -24,6 +24,7 @@ npm run dev
 -[ ] filters
 -[ ] control visibility at group level
 -[ ] control visibility at individual level
+-[ ] make DnD more obvious, show where it is going?
 -[ ] refactor and clean up
 
 

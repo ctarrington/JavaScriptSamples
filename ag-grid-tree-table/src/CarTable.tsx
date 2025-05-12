@@ -2,7 +2,12 @@ import './App.css';
 
 import { AgGridReact } from 'ag-grid-react';
 
-import { type ColDef, RowDragModule, RowNode } from 'ag-grid-community';
+import {
+    type ColDef,
+    type RowDragEndEvent,
+    RowDragModule,
+    RowNode,
+} from 'ag-grid-community';
 
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
@@ -16,6 +21,24 @@ ModuleRegistry.registerModules([
     RowDragModule,
     TreeDataModule,
 ]);
+
+function extractParents(rowNode: RowNode, parents: string[]): string[] {
+    if (rowNode.level === 0) {
+        return [rowNode.groupValue, ...parents];
+    } else if (rowNode.parent) {
+        return extractParents(rowNode.parent, [rowNode.groupValue, ...parents]);
+    } else {
+        return parents;
+    }
+}
+
+function getParents(rowNode: RowNode): string[] {
+    if (rowNode?.group) {
+        return extractParents(rowNode, []);
+    }
+
+    return rowNode?.data?.parents;
+}
 
 const defaultRowData = [
     {
@@ -86,42 +109,27 @@ function CarTable({ newCar, clearNewCar }: CarTableProps) {
         } else {
             setRowData([...rowData]);
         }
-    }, [rowData, newCar]);
+    }, [rowData, newCar, clearNewCar]);
 
-    function extractParents(rowNode: RowNode, parents: string[]): string[] {
-        if (rowNode.level === 0) {
-            return [rowNode.groupValue, ...parents];
-        } else if (rowNode.parent) {
-            return extractParents(rowNode.parent, [
-                rowNode.groupValue,
-                ...parents,
-            ]);
-        } else {
-            return parents;
-        }
-    }
-
-    function getParents(rowNode: RowNode): string[] {
-        if (rowNode.group) {
-            return extractParents(rowNode, []);
-        }
-
-        return rowNode.data?.parents;
-    }
-
-    const onRowDragOrDrop = useCallback((event: any) => {
-        console.log('onRowDragOrDrop', event);
-        const overNode: RowNode = event.overNode;
-        const dropTargetParents = getParents(overNode);
-        if (dropTargetParents) {
-            const modifiedRowData = [...rowData];
-            const index = event.node?.sourceRowIndex;
-            if (index > -1) {
-                modifiedRowData[index].parents = dropTargetParents;
-                setRowData(modifiedRowData);
+    const onRowDragOrDrop = useCallback(
+        (event: RowDragEndEvent) => {
+            if (!event.overNode) {
+                return;
             }
-        }
-    }, []);
+
+            const overNode = event.overNode as RowNode;
+            const dropTargetParents = getParents(overNode);
+            if (dropTargetParents) {
+                const modifiedRowData = [...rowData];
+                const index = event.node?.sourceRowIndex;
+                if (index > -1) {
+                    modifiedRowData[index].parents = dropTargetParents;
+                    setRowData(modifiedRowData);
+                }
+            }
+        },
+        [rowData]
+    );
 
     useEffect(() => {
         localStorage.setItem('carRowData', JSON.stringify(rowData));
@@ -146,10 +154,6 @@ function CarTable({ newCar, clearNewCar }: CarTableProps) {
                         onRowDragEnd={onRowDragOrDrop}
                     />
                 </div>
-                <h2>Row Data JSON</h2>
-                <div>{JSON.stringify(rowData)}</div>
-                <h2>New Car JSON</h2>
-                <div>{JSON.stringify(newCar)}</div>
             </div>
         </>
     );
