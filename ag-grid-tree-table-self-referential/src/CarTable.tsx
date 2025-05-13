@@ -15,7 +15,7 @@ import {
 } from 'ag-grid-community';
 
 import { TreeDataModule } from 'ag-grid-enterprise';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import type { Car, Child, Folder } from './models.ts';
 
 // Register all Community features
@@ -109,7 +109,7 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
             newRowData.parentId = newParentId;
             updateRow(newRowData);
         },
-        [updateRow]
+        [rowData, updateRow]
     );
 
     // Column Definitions: Defines the columns to be displayed.
@@ -117,10 +117,6 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
         { field: 'make', editable: true, valueSetter: childValueSetter },
         { field: 'model', editable: true, valueSetter: childValueSetter },
     ];
-
-    useEffect(() => {
-        localStorage.setItem('nestedCarRowData', JSON.stringify(rowData));
-    }, [rowData]);
 
     return (
         <>

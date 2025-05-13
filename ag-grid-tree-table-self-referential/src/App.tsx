@@ -1,6 +1,6 @@
 import './App.css';
 import CarTable from './CarTable.tsx';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { Car, Child, Folder } from './models.ts';
 
 const defaultRowData = [
@@ -32,9 +32,23 @@ const defaultRowData = [
     },
 ];
 
+function getInitialData() {
+    const existingData = JSON.parse(
+        localStorage.getItem('selfReferentialCarRowData') ?? '[]'
+    );
+    return existingData.length > 0 ? existingData : defaultRowData;
+}
+
 function App() {
     const [maxId, setMaxId] = useState<number>(7);
-    const [rowData, setRowData] = useState<Child[]>(defaultRowData);
+    const [rowData, setRowData] = useState<Child[]>(getInitialData());
+
+    useEffect(() => {
+        localStorage.setItem(
+            'selfReferentialCarRowData',
+            JSON.stringify(rowData)
+        );
+    }, [rowData]);
 
     const createCar = useCallback(() => {
         const newRow: Car = {
@@ -74,7 +88,6 @@ function App() {
             <CarTable rowData={rowData} updateRow={updateRow} />
             <button onClick={createCar}>Create Car</button>
             <button onClick={createFolder}>Create Folder</button>
-            <div>{JSON.stringify(rowData, null, 2)}</div>
         </div>
     );
 }

@@ -17,9 +17,13 @@ npm run dev
 -[x] DnD folder into unrelated folder
 -[x] DnD prevent folder into descendant folder
 -[x] add an empty group at top-level
+-[x] save to local storage
+-[x] load from local storage
 -------------
--[ ] save to local storage
--[ ] load from local storage
+-[ ] on add, scroll to highlight? or pin new to bottom?
+-[ ] need type so you can't just add whatever
+-[ ] delete Car icon? context menu?
+-[ ] delete folder and children icon? context menu?
 -[ ] filters
 -[ ] control visibility at group level
 -[ ] control visibility at individual level
