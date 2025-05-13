@@ -52,15 +52,15 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
     const folderValueSetter: ValueSetterFunc<Folder> = useCallback(
         (params: ValueSetterParams<Folder>) => {
             console.log('folderValueSetter', params);
-            const { data: newRow, colDef, newValue } = params;
-            if (colDef.headerName !== 'Name') {
+            const { api, node, data: newRow, colDef, newValue } = params;
+            if (colDef.headerName !== 'Name' || !node) {
                 return false;
             }
 
             newRow.name = newValue;
-            console.log('newRow', newRow);
             updateRow(newRow);
 
+            api.setRowNodeExpanded(node, true);
             return true;
         },
         [updateRow]

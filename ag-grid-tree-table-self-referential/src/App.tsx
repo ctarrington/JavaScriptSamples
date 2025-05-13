@@ -1,7 +1,7 @@
 import './App.css';
 import CarTable from './CarTable.tsx';
 import { useCallback, useState } from 'react';
-import type { Child } from './models.ts';
+import type { Car, Child } from './models.ts';
 
 const defaultRowData = [
     { id: '1', name: 'Top' },
@@ -17,10 +17,34 @@ const defaultRowData = [
         model: 'Coralla',
         parentId: '2',
     },
+    { id: '4', name: 'Bottom' },
+    {
+        id: '5',
+        name: 'Other Cars',
+        parentId: '4',
+    },
+    {
+        id: '6',
+        name: 'car6',
+        make: 'Dodge',
+        model: 'Dart',
+        parentId: '5',
+    },
 ];
 
 function App() {
+    const [maxId, setMaxId] = useState<number>(4);
     const [rowData, setRowData] = useState<Child[]>(defaultRowData);
+    const createCar = useCallback(() => {
+        const newRow: Car = {
+            id: '' + maxId,
+            name: 'Name...',
+            make: 'Make...',
+            model: 'Model...',
+        };
+        setMaxId(maxId + 1);
+        setRowData([...rowData, newRow]);
+    }, [maxId, rowData]);
     const updateRow = useCallback(
         (newRow: Child) => {
             console.log(newRow);
@@ -29,8 +53,6 @@ function App() {
                 const modifiedRowData = [...rowData];
                 modifiedRowData[matchIndex] = newRow;
                 setRowData(modifiedRowData);
-            } else {
-                setRowData([...rowData, newRow]);
             }
         },
         [rowData]
@@ -39,6 +61,7 @@ function App() {
     return (
         <div>
             <CarTable rowData={rowData} updateRow={updateRow} />
+            <button onClick={createCar}>Create Car</button>
             <div>{JSON.stringify(rowData, null, 2)}</div>
         </div>
     );
