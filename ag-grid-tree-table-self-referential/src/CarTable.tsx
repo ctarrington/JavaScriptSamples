@@ -7,11 +7,15 @@ import {
     type ColDef,
     ModuleRegistry,
     RowDragModule,
+    type ValueGetterFunc,
+    type ValueGetterParams,
+    type ValueSetterFunc,
+    type ValueSetterParams,
 } from 'ag-grid-community';
 
 import { TreeDataModule } from 'ag-grid-enterprise';
-import { useEffect, useState } from 'react';
-import type { Child } from './models.ts';
+import { useCallback, useEffect } from 'react';
+import type { Car, Child, Folder } from './models.ts';
 
 // Register all Community features
 ModuleRegistry.registerModules([
@@ -20,28 +24,60 @@ ModuleRegistry.registerModules([
     TreeDataModule,
 ]);
 
-// https://www.ag-grid.com/javascript-data-grid/tree-data-self-referential/
+// see https://www.ag-grid.com/javascript-data-grid/tree-data-self-referential/
 
-const defaultRowData = [
-    { name: 'Top' },
-    {
-        name: 'Compact Cars',
-        parentId: 'Top',
-    },
-    {
-        name: 'car3',
-        make: 'Toyota',
-        model: 'Coralla',
-        parentId: 'Compact Cars',
-    },
-];
+interface CarTableProps {
+    rowData: Child[];
+    updateRow: (row: Child) => void;
+}
 
-function CarTable() {
-    // Row Data: The data to be displayed.
-    const [rowData] = useState<Child[]>(defaultRowData);
+function CarTable({ rowData, updateRow }: CarTableProps) {
+    // see https://www.ag-grid.com/react-data-grid/value-setters/
+    const childValueSetter: ValueSetterFunc<Car> = useCallback(
+        (params: ValueSetterParams<Car>) => {
+            const { data: newRow, colDef, newValue } = params;
+            if (!colDef.field) {
+                return false;
+            }
+
+            newRow[colDef.field] = newValue;
+            console.log('newRow', newRow);
+            updateRow(newRow);
+
+            return true;
+        },
+        [updateRow]
+    );
+
+    const folderValueSetter: ValueSetterFunc<Folder> = useCallback(
+        (params: ValueSetterParams<Folder>) => {
+            console.log('folderValueSetter', params);
+            const { data: newRow, colDef, newValue } = params;
+            if (colDef.headerName !== 'Name') {
+                return false;
+            }
+
+            newRow.name = newValue;
+            console.log('newRow', newRow);
+            updateRow(newRow);
+
+            return true;
+        },
+        [updateRow]
+    );
+
+    const folderValueGetter: ValueGetterFunc<Folder> = useCallback(
+        (params: ValueGetterParams<Folder>) => {
+            return params.data?.name ?? 'what';
+        },
+        []
+    );
 
     // Column Definitions: Defines the columns to be displayed.
-    const colDefs: ColDef[] = [{ field: 'make' }, { field: 'model' }];
+    const colDefs: ColDef[] = [
+        { field: 'make', editable: true, valueSetter: childValueSetter },
+        { field: 'model', editable: true, valueSetter: childValueSetter },
+    ];
 
     useEffect(() => {
         localStorage.setItem('nestedCarRowData', JSON.stringify(rowData));
@@ -58,11 +94,14 @@ function CarTable() {
                         groupDefaultExpanded={-1}
                         autoGroupColumnDef={{
                             headerName: 'Name',
-                            field: 'name',
+                            editable: true,
                             cellRendererParams: { suppressCount: true },
+                            valueSetter: folderValueSetter,
+                            valueGetter: folderValueGetter,
                         }}
-                        getRowId={(params) => params.data.name}
+                        getRowId={(params) => params.data.id}
                         treeDataParentIdField="parentId"
+                        editType="fullRow"
                     />
                 </div>
             </div>

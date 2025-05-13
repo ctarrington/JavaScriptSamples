@@ -6,12 +6,14 @@ npm run dev
 ```
 
 # todo
--[ ] convert to nested records
--[ ] use state and show below
--[ ] edit a cell 
+-[x] convert to self-referential records
+-[x] use shared from App 
+-[x] edit a car cell 
+-[x] split the id up to visible and invisible bits
+-[x] edit a folder name cell
+-[ ] add a different type
 -[ ] save to local storage
 -[ ] load from local storage
--[ ] factor out table
 -[ ] add a row from external action with no parents 
 -[ ] reorganize with DnD
 -[ ] DnD folder into folder
