@@ -1,7 +1,7 @@
 import './App.css';
 import CarTable from './CarTable.tsx';
 import { useCallback, useState } from 'react';
-import type { Car, Child } from './models.ts';
+import type { Car, Child, Folder } from './models.ts';
 
 const defaultRowData = [
     { id: '1', name: 'Top' },
@@ -33,8 +33,9 @@ const defaultRowData = [
 ];
 
 function App() {
-    const [maxId, setMaxId] = useState<number>(4);
+    const [maxId, setMaxId] = useState<number>(7);
     const [rowData, setRowData] = useState<Child[]>(defaultRowData);
+
     const createCar = useCallback(() => {
         const newRow: Car = {
             id: '' + maxId,
@@ -45,6 +46,16 @@ function App() {
         setMaxId(maxId + 1);
         setRowData([...rowData, newRow]);
     }, [maxId, rowData]);
+
+    const createFolder = useCallback(() => {
+        const newRow: Folder = {
+            id: '' + maxId,
+            name: 'Name...',
+        };
+        setMaxId(maxId + 1);
+        setRowData([...rowData, newRow]);
+    }, [maxId, rowData]);
+
     const updateRow = useCallback(
         (newRow: Child) => {
             console.log(newRow);
@@ -62,6 +73,7 @@ function App() {
         <div>
             <CarTable rowData={rowData} updateRow={updateRow} />
             <button onClick={createCar}>Create Car</button>
+            <button onClick={createFolder}>Create Folder</button>
             <div>{JSON.stringify(rowData, null, 2)}</div>
         </div>
     );

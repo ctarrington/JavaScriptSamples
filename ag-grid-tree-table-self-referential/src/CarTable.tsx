@@ -6,6 +6,7 @@ import {
     AllCommunityModule,
     type ColDef,
     ModuleRegistry,
+    type RowDragEvent,
     RowDragModule,
     type ValueGetterFunc,
     type ValueGetterParams,
@@ -29,6 +30,17 @@ ModuleRegistry.registerModules([
 interface CarTableProps {
     rowData: Child[];
     updateRow: (row: Child) => void;
+}
+
+function getAncestors(rowData: Child[], id: string): string[] {
+    const child = rowData.find((row) => row.id === id);
+    if (!child) {
+        return [];
+    } else if (!child.parentId) {
+        return [id];
+    } else {
+        return [id, ...getAncestors(rowData, child.parentId)];
+    }
 }
 
 function CarTable({ rowData, updateRow }: CarTableProps) {
@@ -73,6 +85,33 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
         []
     );
 
+    const onRowDragEnd = useCallback(
+        (event: RowDragEvent) => {
+            console.log('rowDragEnd', event);
+            const { overNode, node } = event;
+
+            if (!overNode) {
+                return false;
+            }
+
+            const isFolder = !Object.keys(overNode.data).includes('make');
+            const newParentId = isFolder
+                ? overNode.data.id
+                : overNode.data.parentId;
+
+            // The new parent cannot have the node as an ancestor
+            const ancestorIds: string[] = getAncestors(rowData, newParentId);
+            if (ancestorIds.includes(node.data.id)) {
+                return false;
+            }
+
+            const newRowData = { ...node.data };
+            newRowData.parentId = newParentId;
+            updateRow(newRowData);
+        },
+        [updateRow]
+    );
+
     // Column Definitions: Defines the columns to be displayed.
     const colDefs: ColDef[] = [
         { field: 'make', editable: true, valueSetter: childValueSetter },
@@ -86,13 +125,14 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
     return (
         <>
             <div>
-                <div style={{ height: 500 }}>
+                <div style={{ height: 400 }}>
                     <AgGridReact
                         treeData={true}
                         rowData={rowData}
                         columnDefs={colDefs}
                         groupDefaultExpanded={-1}
                         autoGroupColumnDef={{
+                            rowDrag: true,
                             headerName: 'Name',
                             editable: true,
                             cellRendererParams: { suppressCount: true },
@@ -102,6 +142,7 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
                         getRowId={(params) => params.data.id}
                         treeDataParentIdField="parentId"
                         editType="fullRow"
+                        onRowDragEnd={onRowDragEnd}
                     />
                 </div>
             </div>

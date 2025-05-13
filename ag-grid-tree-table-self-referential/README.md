@@ -13,13 +13,11 @@ npm run dev
 -[x] edit a folder name cell
 -[x] add a row from external action with no parents
 -[x] keep row open on folder edit
-- -----------
--[ ] reorganize with DnD
--[ ] DnD folder into folder
--[ ] DnD folder out of folder
--[ ] add an empty group from context with parents preserved
--[ ] add an empty group at top level
--[ ] add a row from external action with selected parents preserved
+-[x] reorganize Car into folder with DnD
+-[x] DnD folder into unrelated folder
+-[x] DnD prevent folder into descendant folder
+-[x] add an empty group at top-level
+-------------
 -[ ] save to local storage
 -[ ] load from local storage
 -[ ] filters
