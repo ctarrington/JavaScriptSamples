@@ -20,8 +20,16 @@ npm run dev
 -[x] save to local storage
 -[x] load from local storage
 -------------
--[ ] on add, scroll to highlight? or pin new to bottom?
--[ ] need type so you can't just add whatever
+-[x] on add pin new to bottom
+-[x] refactor new logic, upsert
+-[ ] better way to get unique id. time?
+-[ ] test pretty well 
+-[ ] highlight new pinned rows somehow, bold?
+-[ ] add description and agLargeTextCellEditor
+-[ ] add from table?
+-[ ] save in progress to local storage
+-------------
+-[ ] need type so you can't just add whatever to a folder
 -[ ] delete Car icon? context menu?
 -[ ] delete folder and children icon? context menu?
 -[ ] filters

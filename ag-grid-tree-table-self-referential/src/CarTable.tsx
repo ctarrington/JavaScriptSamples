@@ -28,8 +28,9 @@ ModuleRegistry.registerModules([
 // see https://www.ag-grid.com/javascript-data-grid/tree-data-self-referential/
 
 interface CarTableProps {
-    rowData: Child[];
-    updateRow: (row: Child) => void;
+    rowData: Child[]; // existing row data
+    newRowData: Child[]; // new rows that need to be finished
+    upsertRow: (row: Child) => void;
 }
 
 function getAncestors(rowData: Child[], id: string): string[] {
@@ -43,7 +44,7 @@ function getAncestors(rowData: Child[], id: string): string[] {
     }
 }
 
-function CarTable({ rowData, updateRow }: CarTableProps) {
+function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
     // see https://www.ag-grid.com/react-data-grid/value-setters/
     const childValueSetter: ValueSetterFunc<Car> = useCallback(
         (params: ValueSetterParams<Car>) => {
@@ -54,11 +55,11 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
 
             newRow[colDef.field] = newValue;
             console.log('newRow', newRow);
-            updateRow(newRow);
+            upsertRow(newRow);
 
             return true;
         },
-        [updateRow]
+        [upsertRow]
     );
 
     const folderValueSetter: ValueSetterFunc<Folder> = useCallback(
@@ -70,12 +71,12 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
             }
 
             newRow.name = newValue;
-            updateRow(newRow);
+            upsertRow(newRow);
 
             api.setRowNodeExpanded(node, true);
             return true;
         },
-        [updateRow]
+        [upsertRow]
     );
 
     const folderValueGetter: ValueGetterFunc<Folder> = useCallback(
@@ -107,9 +108,9 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
 
             const newRowData = { ...node.data };
             newRowData.parentId = newParentId;
-            updateRow(newRowData);
+            upsertRow(newRowData);
         },
-        [rowData, updateRow]
+        [rowData, upsertRow]
     );
 
     // Column Definitions: Defines the columns to be displayed.
@@ -139,6 +140,7 @@ function CarTable({ rowData, updateRow }: CarTableProps) {
                         treeDataParentIdField="parentId"
                         editType="fullRow"
                         onRowDragEnd={onRowDragEnd}
+                        pinnedBottomRowData={newRowData}
                     />
                 </div>
             </div>

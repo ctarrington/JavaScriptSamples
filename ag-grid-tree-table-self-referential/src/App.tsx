@@ -39,9 +39,22 @@ function getInitialData() {
     return existingData.length > 0 ? existingData : defaultRowData;
 }
 
+function validRow(row: Child) {
+    if (!row.id || !row.name) {
+        return false;
+    }
+    if ('make' in row) {
+        return row.make.length > 0 && row.make !== 'Make...';
+    }
+
+    return true;
+}
+
 function App() {
     const [maxId, setMaxId] = useState<number>(7);
     const [rowData, setRowData] = useState<Child[]>(getInitialData());
+    const [newRowData, setNewRowData] = useState<Child[]>([]);
+    const [make, setMake] = useState<string>('');
 
     useEffect(() => {
         localStorage.setItem(
@@ -51,43 +64,69 @@ function App() {
     }, [rowData]);
 
     const createCar = useCallback(() => {
-        const newRow: Car = {
+        const newCar: Car = {
             id: '' + maxId,
             name: 'Name...',
-            make: 'Make...',
+            make: make ?? 'Make...',
             model: 'Model...',
         };
         setMaxId(maxId + 1);
-        setRowData([...rowData, newRow]);
-    }, [maxId, rowData]);
+        setNewRowData([...newRowData, newCar]);
+        setMake('');
+    }, [make, maxId, newRowData]);
 
     const createFolder = useCallback(() => {
-        const newRow: Folder = {
+        const newFolder: Folder = {
             id: '' + maxId,
             name: 'Name...',
         };
         setMaxId(maxId + 1);
-        setRowData([...rowData, newRow]);
-    }, [maxId, rowData]);
+        setNewRowData([...newRowData, newFolder]);
+    }, [maxId, newRowData]);
 
-    const updateRow = useCallback(
+    // edit or create
+    const upsertRow = useCallback(
         (newRow: Child) => {
             console.log(newRow);
-            const matchIndex = rowData.findIndex((row) => row.id === newRow.id);
-            if (matchIndex !== -1) {
+            const matchExistingIndex = rowData.findIndex(
+                (row) => row.id === newRow.id
+            );
+            const matchNewIndex = newRowData.findIndex(
+                (row) => row.id === newRow.id
+            );
+
+            if (matchNewIndex !== -1 && validRow(newRow)) {
+                setRowData([...rowData, newRow]);
+                const modifiedNewRowData = newRowData.filter(
+                    (row) => row.id !== newRow.id
+                );
+                setNewRowData(modifiedNewRowData);
+            } else if (matchExistingIndex !== -1) {
                 const modifiedRowData = [...rowData];
-                modifiedRowData[matchIndex] = newRow;
+                modifiedRowData[matchExistingIndex] = newRow;
                 setRowData(modifiedRowData);
             }
         },
-        [rowData]
+        [rowData, newRowData]
     );
 
     return (
         <div>
-            <CarTable rowData={rowData} updateRow={updateRow} />
+            <CarTable
+                rowData={rowData}
+                upsertRow={upsertRow}
+                newRowData={newRowData}
+            />
+            <input
+                value={make}
+                placeholder={'Make...'}
+                onChange={(e) => setMake(e.target.value)}
+            />
             <button onClick={createCar}>Create Car</button>
             <button onClick={createFolder}>Create Folder</button>
+            <div>
+                <div>{JSON.stringify(newRowData)}</div>
+            </div>
         </div>
     );
 }
