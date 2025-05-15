@@ -40,18 +40,30 @@ function getInitialData() {
 }
 
 function validRow(row: Child) {
-    if (!row.id || !row.name) {
+    if (
+        !row.id ||
+        row.id.length === 0 ||
+        !row.name ||
+        row.name.trim().length === 0 ||
+        row.name === 'Name...'
+    ) {
         return false;
     }
-    if ('make' in row) {
-        return row.make.length > 0 && row.make !== 'Make...';
+
+    if ('make' in row && 'model' in row) {
+        const car = row as Car;
+        return (
+            car.make.trim().length > 0 &&
+            row.make !== 'Make...' &&
+            row.model.trim().length > 0 &&
+            row.model !== 'Model...'
+        );
     }
 
     return true;
 }
 
 function App() {
-    const [maxId, setMaxId] = useState<number>(7);
     const [rowData, setRowData] = useState<Child[]>(getInitialData());
     const [newRowData, setNewRowData] = useState<Child[]>([]);
     const [make, setMake] = useState<string>('');
@@ -64,30 +76,30 @@ function App() {
     }, [rowData]);
 
     const createCar = useCallback(() => {
+        const newMake = make.trim().length === 0 ? 'Make...' : make;
         const newCar: Car = {
-            id: '' + maxId,
+            id: '' + Date.now(),
             name: 'Name...',
-            make: make ?? 'Make...',
+            make: newMake,
             model: 'Model...',
+            type: 'car',
         };
-        setMaxId(maxId + 1);
         setNewRowData([...newRowData, newCar]);
         setMake('');
-    }, [make, maxId, newRowData]);
+    }, [make, newRowData]);
 
     const createFolder = useCallback(() => {
         const newFolder: Folder = {
-            id: '' + maxId,
+            id: '' + Date.now(),
             name: 'Name...',
+            type: 'folder',
         };
-        setMaxId(maxId + 1);
         setNewRowData([...newRowData, newFolder]);
-    }, [maxId, newRowData]);
+    }, [newRowData]);
 
     // edit or create
     const upsertRow = useCallback(
         (newRow: Child) => {
-            console.log(newRow);
             const matchExistingIndex = rowData.findIndex(
                 (row) => row.id === newRow.id
             );

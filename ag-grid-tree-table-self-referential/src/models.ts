@@ -2,6 +2,7 @@ export type Folder = {
     id: string;
     name: string;
     parentId?: string;
+    type: string;
 };
 
 export type Car = {
@@ -10,6 +11,7 @@ export type Car = {
     make: string;
     model: string;
     parentId?: string;
+    type: string;
 };
 
 export type Child = Folder | Car;

@@ -5,6 +5,7 @@ import { AgGridReact } from 'ag-grid-react';
 import {
     AllCommunityModule,
     type ColDef,
+    type EditableCallbackParams,
     ModuleRegistry,
     type RowDragEvent,
     RowDragModule,
@@ -44,17 +45,24 @@ function getAncestors(rowData: Child[], id: string): string[] {
     }
 }
 
+const isEditableCar = (params: EditableCallbackParams<Child>) => {
+    return params?.data?.type === 'car';
+};
+
 function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
     // see https://www.ag-grid.com/react-data-grid/value-setters/
     const childValueSetter: ValueSetterFunc<Car> = useCallback(
         (params: ValueSetterParams<Car>) => {
             const { data: newRow, colDef, newValue } = params;
+            if (newRow.type !== 'car') {
+                return false;
+            }
+
             if (!colDef.field) {
                 return false;
             }
 
             newRow[colDef.field] = newValue;
-            console.log('newRow', newRow);
             upsertRow(newRow);
 
             return true;
@@ -64,7 +72,6 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
 
     const folderValueSetter: ValueSetterFunc<Folder> = useCallback(
         (params: ValueSetterParams<Folder>) => {
-            console.log('folderValueSetter', params);
             const { api, node, data: newRow, colDef, newValue } = params;
             if (colDef.headerName !== 'Name' || !node) {
                 return false;
@@ -88,7 +95,6 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
 
     const onRowDragEnd = useCallback(
         (event: RowDragEvent) => {
-            console.log('rowDragEnd', event);
             const { overNode, node } = event;
 
             if (!overNode) {
@@ -115,8 +121,16 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
 
     // Column Definitions: Defines the columns to be displayed.
     const colDefs: ColDef[] = [
-        { field: 'make', editable: true, valueSetter: childValueSetter },
-        { field: 'model', editable: true, valueSetter: childValueSetter },
+        {
+            field: 'make',
+            editable: isEditableCar,
+            valueSetter: childValueSetter,
+        },
+        {
+            field: 'model',
+            editable: isEditableCar,
+            valueSetter: childValueSetter,
+        },
     ];
 
     return (

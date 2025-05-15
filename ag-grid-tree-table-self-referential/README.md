@@ -22,8 +22,9 @@ npm run dev
 -------------
 -[x] on add pin new to bottom
 -[x] refactor new logic, upsert
--[ ] better way to get unique id. time?
--[ ] test pretty well 
+-[x] better way to get unique id with time
+-[x] test pretty well
+-------------
 -[ ] highlight new pinned rows somehow, bold?
 -[ ] add description and agLargeTextCellEditor
 -[ ] add from table?
