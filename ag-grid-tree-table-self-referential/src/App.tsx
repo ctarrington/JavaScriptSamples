@@ -3,69 +3,61 @@ import CarTable from './CarTable.tsx';
 import { useCallback, useEffect, useState } from 'react';
 import type { Car, Child, Folder } from './models.ts';
 
-const defaultRowData = [
-    { id: '1', name: 'Top' },
+const defaultRowData: Child[] = [
+    {
+        id: '1',
+        name: 'Sports Cars',
+        type: 'folder',
+        description: 'Sporty cars are fun',
+    },
     {
         id: '2',
-        name: 'Compact Cars',
+        name: 'car 2',
+        make: 'Ford',
+        model: 'Mustang',
         parentId: '1',
-    },
-    {
-        id: '3',
-        name: 'car3',
-        make: 'Toyota',
-        model: 'Coralla',
-        parentId: '2',
-    },
-    { id: '4', name: 'Bottom' },
-    {
-        id: '5',
-        name: 'Other Cars',
-        parentId: '4',
-    },
-    {
-        id: '6',
-        name: 'car6',
-        make: 'Dodge',
-        model: 'Dart',
-        parentId: '5',
+        type: 'car',
+        description: 'A fast car',
     },
 ];
 
-function getInitialData() {
-    const existingData = JSON.parse(
-        localStorage.getItem('selfReferentialCarRowData') ?? '[]'
-    );
+function getInitialData(key: string, defaultRowData: Child[]) {
+    const existingData = JSON.parse(localStorage.getItem(key) ?? '[]');
     return existingData.length > 0 ? existingData : defaultRowData;
 }
 
-function validRow(row: Child) {
-    if (
-        !row.id ||
-        row.id.length === 0 ||
-        !row.name ||
-        row.name.trim().length === 0 ||
-        row.name === 'Name...'
-    ) {
+function validField(key: string, row: Child) {
+    const value = row[key as keyof Child];
+    if (!value || value.length === 0) {
         return false;
     }
 
-    if ('make' in row && 'model' in row) {
-        const car = row as Car;
-        return (
-            car.make.trim().length > 0 &&
-            row.make !== 'Make...' &&
-            row.model.trim().length > 0 &&
-            row.model !== 'Model...'
-        );
+    return !(value.toLowerCase().startsWith(key) && value.endsWith('...'));
+}
+
+function validRow(row: Child) {
+    if (!row.id || row.id.length === 0) {
+        return false;
+    }
+
+    if (!validField('name', row) || !validField('description', row)) {
+        return false;
+    }
+
+    if (row.type === 'car') {
+        return validField('make', row) && validField('model', row);
     }
 
     return true;
 }
 
 function App() {
-    const [rowData, setRowData] = useState<Child[]>(getInitialData());
-    const [newRowData, setNewRowData] = useState<Child[]>([]);
+    const [rowData, setRowData] = useState<Child[]>(
+        getInitialData('selfReferentialCarRowData', defaultRowData)
+    );
+    const [newRowData, setNewRowData] = useState<Child[]>(
+        getInitialData('selfReferentialNewCarRowData', [])
+    );
     const [make, setMake] = useState<string>('');
 
     useEffect(() => {
@@ -75,6 +67,13 @@ function App() {
         );
     }, [rowData]);
 
+    useEffect(() => {
+        localStorage.setItem(
+            'selfReferentialNewCarRowData',
+            JSON.stringify(newRowData)
+        );
+    }, [newRowData]);
+
     const createCar = useCallback(() => {
         const newMake = make.trim().length === 0 ? 'Make...' : make;
         const newCar: Car = {
@@ -82,6 +81,7 @@ function App() {
             name: 'Name...',
             make: newMake,
             model: 'Model...',
+            description: 'Description...',
             type: 'car',
         };
         setNewRowData([...newRowData, newCar]);
@@ -92,6 +92,7 @@ function App() {
         const newFolder: Folder = {
             id: '' + Date.now(),
             name: 'Name...',
+            description: 'Description...',
             type: 'folder',
         };
         setNewRowData([...newRowData, newFolder]);
@@ -107,16 +108,27 @@ function App() {
                 (row) => row.id === newRow.id
             );
 
-            if (matchNewIndex !== -1 && validRow(newRow)) {
-                setRowData([...rowData, newRow]);
-                const modifiedNewRowData = newRowData.filter(
-                    (row) => row.id !== newRow.id
-                );
-                setNewRowData(modifiedNewRowData);
+            if (matchNewIndex !== -1) {
+                if (validRow(newRow)) {
+                    // The new row is valid
+                    setRowData([...rowData, newRow]);
+                    const modifiedNewRowData = newRowData.filter(
+                        (row) => row.id !== newRow.id
+                    );
+                    setNewRowData(modifiedNewRowData);
+                } else {
+                    // The new row needs to be updated
+                    const modifiedNewRowData = [...newRowData];
+                    modifiedNewRowData[matchNewIndex] = newRow;
+                    setNewRowData(modifiedNewRowData);
+                }
             } else if (matchExistingIndex !== -1) {
                 const modifiedRowData = [...rowData];
                 modifiedRowData[matchExistingIndex] = newRow;
                 setRowData(modifiedRowData);
+            } else {
+                // new row
+                setNewRowData([...newRowData, newRow]);
             }
         },
         [rowData, newRowData]
@@ -136,9 +148,6 @@ function App() {
             />
             <button onClick={createCar}>Create Car</button>
             <button onClick={createFolder}>Create Folder</button>
-            <div>
-                <div>{JSON.stringify(newRowData)}</div>
-            </div>
         </div>
     );
 }

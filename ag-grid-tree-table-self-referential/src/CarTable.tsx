@@ -6,7 +6,9 @@ import {
     AllCommunityModule,
     type ColDef,
     type EditableCallbackParams,
+    type IRowNode,
     ModuleRegistry,
+    type RowClassParams,
     type RowDragEvent,
     RowDragModule,
     type ValueGetterFunc,
@@ -17,7 +19,7 @@ import {
 
 import { TreeDataModule } from 'ag-grid-enterprise';
 import { useCallback } from 'react';
-import type { Car, Child, Folder } from './models.ts';
+import type { Car, Child } from './models.ts';
 
 // Register all Community features
 ModuleRegistry.registerModules([
@@ -35,13 +37,13 @@ interface CarTableProps {
 }
 
 function getAncestors(rowData: Child[], id: string): string[] {
-    const child = rowData.find((row) => row.id === id);
-    if (!child) {
+    const match = rowData.find((row) => row.id === id);
+    if (!match) {
         return [];
-    } else if (!child.parentId) {
+    } else if (!match.parentId) {
         return [id];
     } else {
-        return [id, ...getAncestors(rowData, child.parentId)];
+        return [id, ...getAncestors(rowData, match.parentId)];
     }
 }
 
@@ -49,15 +51,19 @@ const isEditableCar = (params: EditableCallbackParams<Child>) => {
     return params?.data?.type === 'car';
 };
 
+const isFolder = (params: IRowNode<Child>) => {
+    return params?.data?.type === 'folder';
+};
+
+const getRowStyle = (params: RowClassParams) => {
+    return params.node.rowPinned ? { fontWeight: 'bold' } : undefined;
+};
+
 function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
     // see https://www.ag-grid.com/react-data-grid/value-setters/
     const childValueSetter: ValueSetterFunc<Car> = useCallback(
         (params: ValueSetterParams<Car>) => {
             const { data: newRow, colDef, newValue } = params;
-            if (newRow.type !== 'car') {
-                return false;
-            }
-
             if (!colDef.field) {
                 return false;
             }
@@ -70,24 +76,28 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
         [upsertRow]
     );
 
-    const folderValueSetter: ValueSetterFunc<Folder> = useCallback(
-        (params: ValueSetterParams<Folder>) => {
+    const nameValueSetter: ValueSetterFunc<Child> = useCallback(
+        (params: ValueSetterParams<Child>) => {
             const { api, node, data: newRow, colDef, newValue } = params;
-            if (colDef.headerName !== 'Name' || !node) {
+
+            if (colDef.headerName !== 'Name') {
                 return false;
             }
 
             newRow.name = newValue;
             upsertRow(newRow);
 
-            api.setRowNodeExpanded(node, true);
+            if (node) {
+                api.setRowNodeExpanded(node, true);
+            }
+
             return true;
         },
         [upsertRow]
     );
 
-    const folderValueGetter: ValueGetterFunc<Folder> = useCallback(
-        (params: ValueGetterParams<Folder>) => {
+    const nameValueGetter: ValueGetterFunc<Child> = useCallback(
+        (params: ValueGetterParams<Child>) => {
             return params.data?.name ?? 'what';
         },
         []
@@ -101,8 +111,7 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
                 return false;
             }
 
-            const isFolder = !Object.keys(overNode.data).includes('make');
-            const newParentId = isFolder
+            const newParentId = isFolder(overNode)
                 ? overNode.data.id
                 : overNode.data.parentId;
 
@@ -131,6 +140,13 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
             editable: isEditableCar,
             valueSetter: childValueSetter,
         },
+        {
+            field: 'description',
+            editable: true,
+            valueSetter: childValueSetter,
+            cellEditor: 'agLargeTextCellEditor',
+            cellEditorPopup: true,
+        },
     ];
 
     return (
@@ -147,14 +163,14 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
                             headerName: 'Name',
                             editable: true,
                             cellRendererParams: { suppressCount: true },
-                            valueSetter: folderValueSetter,
-                            valueGetter: folderValueGetter,
+                            valueSetter: nameValueSetter,
+                            valueGetter: nameValueGetter,
                         }}
                         getRowId={(params) => params.data.id}
                         treeDataParentIdField="parentId"
-                        editType="fullRow"
                         onRowDragEnd={onRowDragEnd}
                         pinnedBottomRowData={newRowData}
+                        getRowStyle={getRowStyle}
                     />
                 </div>
             </div>

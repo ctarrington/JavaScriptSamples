@@ -23,21 +23,27 @@ npm run dev
 -[x] on add pin new to bottom
 -[x] refactor new logic, upsert
 -[x] better way to get unique id with time
+-------------
+-[x] highlight new pinned rows somehow, bold?
+-[x] add description 
+-[x] use agLargeTextCellEditor for description
+-[x] save in progress to local storage and app state
+-[x] fix cell editor for description
+-[x] clean up names
 -[x] test pretty well
+-[x] fix bug with upsert of new row
+-[x] fix the bug with a new row and description edited with tab
 -------------
--[ ] highlight new pinned rows somehow, bold?
--[ ] add description and agLargeTextCellEditor
--[ ] add from table?
--[ ] save in progress to local storage
--------------
--[ ] need type so you can't just add whatever to a folder
--[ ] delete Car icon? context menu?
--[ ] delete folder and children icon? context menu?
 -[ ] filters
+-[ ] delete Car icon? context menu?
+-[ ] base type
+-[ ] add from table?
+-[ ] delete folder and children icon? context menu?
 -[ ] control visibility at group level
 -[ ] control visibility at individual level
 -[ ] make DnD more obvious, show where it is going?
 -[ ] add a different type
+-[ ] scroll to the new row when it moves up
 -[ ] refactor and clean up
 
 
