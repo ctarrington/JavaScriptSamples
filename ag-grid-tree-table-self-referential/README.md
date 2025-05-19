@@ -19,11 +19,9 @@ npm run dev
 -[x] add an empty group at top-level
 -[x] save to local storage
 -[x] load from local storage
--------------
 -[x] on add pin new to bottom
 -[x] refactor new logic, upsert
 -[x] better way to get unique id with time
--------------
 -[x] highlight new pinned rows somehow, bold?
 -[x] add description 
 -[x] use agLargeTextCellEditor for description
@@ -35,9 +33,11 @@ npm run dev
 -[x] fix the bug with a new row and description edited with tab
 -------------
 -[ ] filters
+-------------
 -[ ] delete Car icon? context menu?
 -[ ] base type
 -[ ] add from table?
+-[ ] filter on name even though tree 
 -[ ] delete folder and children icon? context menu?
 -[ ] control visibility at group level
 -[ ] control visibility at individual level

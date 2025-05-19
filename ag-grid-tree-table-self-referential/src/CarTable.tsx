@@ -17,12 +17,13 @@ import {
     type ValueSetterParams,
 } from 'ag-grid-community';
 
-import { TreeDataModule } from 'ag-grid-enterprise';
+import { AdvancedFilterModule, TreeDataModule } from 'ag-grid-enterprise';
 import { useCallback } from 'react';
 import type { Car, Child } from './models.ts';
 
 // Register all Community features
 ModuleRegistry.registerModules([
+    AdvancedFilterModule,
     AllCommunityModule,
     RowDragModule,
     TreeDataModule,
@@ -132,16 +133,19 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
     const colDefs: ColDef[] = [
         {
             field: 'make',
+            filter: true,
             editable: isEditableCar,
             valueSetter: childValueSetter,
         },
         {
             field: 'model',
+            filter: true,
             editable: isEditableCar,
             valueSetter: childValueSetter,
         },
         {
             field: 'description',
+            filter: true,
             editable: true,
             valueSetter: childValueSetter,
             cellEditor: 'agLargeTextCellEditor',
@@ -165,12 +169,14 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
                             cellRendererParams: { suppressCount: true },
                             valueSetter: nameValueSetter,
                             valueGetter: nameValueGetter,
+                            filterValueGetter: nameValueGetter,
                         }}
                         getRowId={(params) => params.data.id}
                         treeDataParentIdField="parentId"
                         onRowDragEnd={onRowDragEnd}
                         pinnedBottomRowData={newRowData}
                         getRowStyle={getRowStyle}
+                        enableAdvancedFilter={true}
                     />
                 </div>
             </div>
