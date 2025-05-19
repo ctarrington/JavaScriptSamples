@@ -48,6 +48,14 @@ function getAncestors(rowData: Child[], id: string): string[] {
     }
 }
 
+function calculateNewParentId(overNode: IRowNode | undefined) {
+    if (!overNode) {
+        return undefined;
+    }
+
+    return isFolder(overNode) ? overNode.data.id : overNode.data.parentId;
+}
+
 const isEditableCar = (params: EditableCallbackParams<Child>) => {
     return params?.data?.type === 'car';
 };
@@ -88,13 +96,7 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
         (event: RowDragEvent) => {
             const { overNode, node } = event;
 
-            if (!overNode) {
-                return false;
-            }
-
-            const newParentId = isFolder(overNode)
-                ? overNode.data.id
-                : overNode.data.parentId;
+            const newParentId = calculateNewParentId(overNode);
 
             // The new parent cannot have the node as an ancestor
             const ancestorIds: string[] = getAncestors(rowData, newParentId);

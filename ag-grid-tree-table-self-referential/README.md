@@ -32,8 +32,8 @@ npm run dev
 -[x] fix bug with upsert of new row
 -[x] fix the bug with a new row and description edited with tab
 -------------
--[ ] filter on name also. id thing should just be type
--[ ] must be able to drag to the top level
+-[x] filter on name also. id thing should just be type
+-[x] must be able to drag to the top level
 -------------
 -[ ] delete Car icon? context menu?
 -[ ] base type
