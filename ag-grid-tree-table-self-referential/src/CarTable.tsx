@@ -77,29 +77,9 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
         [upsertRow]
     );
 
-    const nameValueSetter: ValueSetterFunc<Child> = useCallback(
-        (params: ValueSetterParams<Child>) => {
-            const { api, node, data: newRow, colDef, newValue } = params;
-
-            if (colDef.headerName !== 'Name') {
-                return false;
-            }
-
-            newRow.name = newValue;
-            upsertRow(newRow);
-
-            if (node) {
-                api.setRowNodeExpanded(node, true);
-            }
-
-            return true;
-        },
-        [upsertRow]
-    );
-
-    const nameValueGetter: ValueGetterFunc<Child> = useCallback(
+    const groupValueGetter: ValueGetterFunc<Child> = useCallback(
         (params: ValueGetterParams<Child>) => {
-            return params.data?.name ?? 'what';
+            return params.data?.type ?? 'what';
         },
         []
     );
@@ -131,6 +111,12 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
 
     // Column Definitions: Defines the columns to be displayed.
     const colDefs: ColDef[] = [
+        {
+            field: 'name',
+            filter: true,
+            editable: true,
+            valueSetter: childValueSetter,
+        },
         {
             field: 'make',
             filter: true,
@@ -164,12 +150,10 @@ function CarTable({ rowData, newRowData, upsertRow }: CarTableProps) {
                         groupDefaultExpanded={-1}
                         autoGroupColumnDef={{
                             rowDrag: true,
-                            headerName: 'Name',
-                            editable: true,
+                            headerName: '',
+                            editable: false,
                             cellRendererParams: { suppressCount: true },
-                            valueSetter: nameValueSetter,
-                            valueGetter: nameValueGetter,
-                            filterValueGetter: nameValueGetter,
+                            valueGetter: groupValueGetter,
                         }}
                         getRowId={(params) => params.data.id}
                         treeDataParentIdField="parentId"
